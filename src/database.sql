@@ -1,3 +1,8 @@
+-- noinspection SqlNoDataSourceInspectionForFile
+
+CREATE SCHEMA lbaw23115;
+SET search_path TO lbaw23115;
+
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS game_developer CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
@@ -14,6 +19,7 @@ DROP TABLE IF EXISTS faq CASCADE;
 DROP TABLE IF EXISTS votes CASCADE;
 DROP TABLE IF EXISTS likes;
 DROP TYPE IF EXISTS event_type;
+
 
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
