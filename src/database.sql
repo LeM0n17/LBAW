@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS user CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS game_developer CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
 DROP TABLE IF EXISTS event CASCADE;
@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS comment CASCADE;
 DROP TABLE IF EXISTS comment_like CASCADE;
 DROP TABLE IF EXISTS faq CASCADE;
 
-CREATE TABLE user(
+CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(20) NOT NULL,
@@ -22,13 +22,13 @@ CREATE TABLE user(
 CREATE TABLE game_developer(
     id SERIAL PRIMARY KEY,
     id_user INT NOT NULL UNIQUE,
-    FOREIGN KEY(id_user) REFERENCES user(id)
+    FOREIGN KEY(id_user) REFERENCES users(id)
 );
 
 CREATE TABLE admin(
     id SERIAL PRIMARY KEY,
     id_user INT NOT NULL UNIQUE,
-    FOREIGH KEY(id_user) REFERENCES user(id)
+    FOREIGN KEY(id_user) REFERENCES users(id)
 );
 
 CREATE TABLE event(
@@ -38,7 +38,7 @@ CREATE TABLE event(
     end_ DATE NOT NULL CHECK (end_ > start),
     name TEXT NOT NULL,
     description TEXT NOT NULL,
-    type CHECK type IN ('public', 'private', 'protected') NOT NULL,
+    type CHECK (type IN ('public', 'private', 'protected')) NOT NULL,
     FOREIGN KEY(id_host) REFERENCES game_developer(id)
 );
 
