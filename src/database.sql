@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS game_developer CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
 DROP TABLE IF EXISTS event CASCADE;
-DROP TABLE IF EXISTS participates CASCADE;
+DROP TABLE IF EXISTS participants CASCADE;
 DROP TABLE IF EXISTS tag CASCADE;
 DROP TABLE IF EXISTS event_tag CASCADE;
 DROP TABLE IF EXISTS poll CASCADE;
@@ -11,12 +11,15 @@ DROP TABLE IF EXISTS developer_option CASCADE;
 DROP TABLE IF EXISTS comment CASCADE;
 DROP TABLE IF EXISTS comment_like CASCADE;
 DROP TABLE IF EXISTS faq CASCADE;
+DROP TABLE IF EXISTS votes CASCADE;
+DROP TABLE IF EXISTS likes;
+DROP TYPE IF EXISTS event_type;
 
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(20) NOT NULL,
-    email VARCHAR(50) UNIQUE,
+    email VARCHAR(50) UNIQUE
 );
 
 CREATE TABLE game_developer(
@@ -31,6 +34,8 @@ CREATE TABLE admin(
     FOREIGN KEY(id_user) REFERENCES users(id)
 );
 
+CREATE TYPE event_type AS ENUM ('public', 'private', 'protected');
+
 CREATE TABLE event(
     id SERIAL PRIMARY KEY,
     id_host INT NOT NULL,
@@ -38,20 +43,20 @@ CREATE TABLE event(
     end_ DATE NOT NULL CHECK (end_ > start),
     name TEXT NOT NULL,
     description TEXT NOT NULL,
-    type CHECK (type IN ('public', 'private', 'protected')) NOT NULL,
+    types event_type NOT NULL,
     FOREIGN KEY(id_host) REFERENCES game_developer(id)
 );
 
-CREATE TABLE participates(
+CREATE TABLE participants(
     id_participant INT NOT NULL,
     id_event INT NOT NULL,
-    FOREIGN KEY(id_developer) REFERENCES game_developer(id),
+    FOREIGN KEY(id_participant) REFERENCES game_developer(id),
     FOREIGN KEY(id_event) REFERENCES event(id)
 );
 
 CREATE TABLE tag(
-    id SERIAL PRIMARY KEY;
-    name VARCHAR(20) NOT NULL,
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE event_tag(
@@ -94,7 +99,7 @@ CREATE TABLE comment(
 CREATE TABLE likes(
     id_comment INT,
     id_developer INT,
-    like BOOLEAN NOT NULL,
+    likes BOOLEAN NOT NULL,
     FOREIGN KEY(id_comment) REFERENCES comment(id),
     FOREIGN KEY(id_developer) REFERENCES game_developer(id)
 );
