@@ -38,5 +38,5 @@ Create Trigger if not exists VoteFilter
 Before Insert on votes
 For Each Row
 Begin
-    -- REMOVER OS VOTOS EM OPTIONS DO MESMO POLL QUE O INSERIDO
+    delete from votes where votes.id_developer = New.id_developer and votes.id_option in (select id_option from options where options.id_poll = New.id_poll);
 End;
