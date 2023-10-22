@@ -1,8 +1,3 @@
-pragma foreign_keys = ON;
-.mode columns
-.header on
-.nullvalue null
-
 Create Trigger if not exists ParticipationLimit
 Before Insert on participants
 For Each Row

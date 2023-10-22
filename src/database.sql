@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS game_developer CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
 DROP TABLE IF EXISTS event CASCADE;
-DROP TABLE IF EXISTS participants CASCADE;
+DROP TABLE IF EXISTS participates CASCADE;
 DROP TABLE IF EXISTS tag CASCADE;
 DROP TABLE IF EXISTS event_tag CASCADE;
 DROP TABLE IF EXISTS poll CASCADE;
@@ -62,7 +62,7 @@ CREATE TABLE event(
     FOREIGN KEY(id_host) REFERENCES game_developer(id) ON UPDATE CASCADE
 );
 
-CREATE TABLE participants(
+CREATE TABLE participates(
     id_participant INT NOT NULL,
     id_event INT NOT NULL,
     FOREIGN KEY(id_participant) REFERENCES game_developer(id) ON UPDATE CASCADE,
@@ -153,3 +153,53 @@ CREATE TABLE event_notification(
     FOREIGN KEY(id_notification) REFERENCES notification(id) ON UPDATE CASCADE,
     FOREIGN KEY(id_event) REFERENCES event(id) ON UPDATE CASCADE
 );
+
+-----------------------------------------
+-- INDEXES
+-----------------------------------------
+
+CREATE INDEX username ON users USING hash(username);
+
+CREATE INDEX event_participants ON participates USING hash(id_event);
+
+CREATE INDEX user_notifications ON notification USING btree(id_developer);
+CLUSTER notification USING user_notifications;
+
+-- Add column 'tsvectors' to 'event' to store computed tsvectors
+ALTER TABLE event
+ADD COLUMN tsvectors TSVECTOR;
+
+-- Create a function to automatically update tsvectors
+CREATE FUNCTION event_update_FTS() RETURNS TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        NEW.tsvectors = (
+            setweight(to_tsvector('simple', NEW.name), 'A') ||
+            setweight(to_tsvector('simple', NEW.description), 'B')
+        );
+    END IF;
+    IF TG_OP = 'UPDATE' THEN
+        IF (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
+            NEW.tsvectors = (
+                setweight(to_tsvector('simple', NEW.name), 'A') ||
+                setweight(to_tsvector('simple', NEW.description), 'B')
+            );
+        END IF;
+    END IF;
+    RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+-- Create a trigger before insert or update on 'events'
+CREATE TRIGGER event_update_FTS
+BEFORE INSERT OR UPDATE ON event
+EXECUTE PROCEDURE event_update_FTS();
+
+-- Create a GIN index for ts_vectors
+CREATE INDEX event_update_FTS ON event USING GIN(tsvectors);
+
+-----------------------------------------
+-- TRIGGERS
+-----------------------------------------
+
+
