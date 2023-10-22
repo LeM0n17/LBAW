@@ -20,6 +20,17 @@ DROP TABLE IF EXISTS votes CASCADE;
 DROP TABLE IF EXISTS likes;
 DROP TYPE IF EXISTS event_type;
 
+-----------------------------------------
+-- Types
+-----------------------------------------
+
+CREATE TYPE event_type AS ENUM ('public', 'private', 'protected');
+CREATE TYPE comment_notification_type AS ENUM ('reply', 'like');
+CREATE TYPE event_notification_type AS ENUM ('start', 'results', 'invitation');
+
+-----------------------------------------
+-- Tables
+-----------------------------------------
 
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
@@ -31,65 +42,63 @@ CREATE TABLE users(
 CREATE TABLE game_developer(
     id SERIAL PRIMARY KEY,
     id_user INT NOT NULL UNIQUE,
-    FOREIGN KEY(id_user) REFERENCES users(id)
+    FOREIGN KEY(id_user) REFERENCES users(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE admin(
     id SERIAL PRIMARY KEY,
     id_user INT NOT NULL UNIQUE,
-    FOREIGN KEY(id_user) REFERENCES users(id)
+    FOREIGN KEY(id_user) REFERENCES users(id) ON UPDATE CASCADE
 );
-
-CREATE TYPE event_type AS ENUM ('public', 'private', 'protected');
 
 CREATE TABLE event(
     id SERIAL PRIMARY KEY,
     id_host INT NOT NULL,
-    start DATE NOT NULL,
-    end_ DATE NOT NULL CHECK (end_ > start),
+    start TIMESTAMP NOT NULL,
+    end_ TIMESTAMP NOT NULL CHECK (end_ > start),
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     types event_type NOT NULL,
-    FOREIGN KEY(id_host) REFERENCES game_developer(id)
+    FOREIGN KEY(id_host) REFERENCES game_developer(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE participants(
     id_participant INT NOT NULL,
     id_event INT NOT NULL,
-    FOREIGN KEY(id_participant) REFERENCES game_developer(id),
-    FOREIGN KEY(id_event) REFERENCES event(id)
+    FOREIGN KEY(id_participant) REFERENCES game_developer(id) ON UPDATE CASCADE,
+    FOREIGN KEY(id_event) REFERENCES event(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE tag(
     id SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL
+    name VARCHAR(20) NOT NULL UNIQUE
 );
 
 CREATE TABLE event_tag(
     id_event INT,
     id_tag INT,
-    FOREIGN KEY(id_event) REFERENCES event(id),
-    FOREIGN KEY(id_tag) REFERENCES tag(id)
+    FOREIGN KEY(id_event) REFERENCES event(id) ON UPDATE CASCADE,
+    FOREIGN KEY(id_tag) REFERENCES tag(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE poll(
     id SERIAL PRIMARY KEY,
     id_event INT NOT NULL,
-    FOREIGN KEY(id_event) REFERENCES event(id)
+    FOREIGN KEY(id_event) REFERENCES event(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE option(
     id SERIAL PRIMARY KEY,
     id_poll INT NOT NULL,
     name VARCHAR(20) NOT NULL,
-    FOREIGN KEY(id_poll) REFERENCES poll(id)
+    FOREIGN KEY(id_poll) REFERENCES poll(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE votes(
     id_developer INT,
     id_option INT,
-    FOREIGN KEY(id_developer) REFERENCES game_developer(id),
-    FOREIGN KEY(id_option) REFERENCES option(id)
+    FOREIGN KEY(id_developer) REFERENCES game_developer(id) ON UPDATE CASCADE,
+    FOREIGN KEY(id_option) REFERENCES option(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE comment(
@@ -98,16 +107,17 @@ CREATE TABLE comment(
     id_event INT,
     content TEXT NOT NULL,
     time TIMESTAMP NOT NULL,
-    FOREIGN KEY(id_writer) REFERENCES game_developer(id),
-    FOREIGN KEY(id_event) REFERENCES event(id)
+    FOREIGN KEY(id_writer) REFERENCES game_developer(id) ON UPDATE CASCADE,
+    FOREIGN KEY(id_event) REFERENCES event(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE likes(
     id_comment INT,
     id_developer INT,
     likes BOOLEAN NOT NULL,
-    FOREIGN KEY(id_comment) REFERENCES comment(id),
-    FOREIGN KEY(id_developer) REFERENCES game_developer(id)
+    PRIMARY KEY (id_comment, id_developer),
+    FOREIGN KEY(id_comment) REFERENCES comment(id) ON UPDATE CASCADE,
+    FOREIGN KEY(id_developer) REFERENCES game_developer(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE faq(
@@ -115,5 +125,31 @@ CREATE TABLE faq(
     id_admin INT NOT NULL,
     question TEXT NOT NULL,
     answer TEXT NOT NULL,
-    FOREIGN KEY(id_admin) REFERENCES admin(id)
+    FOREIGN KEY(id_admin) REFERENCES admin(id) ON UPDATE CASCADE
+);
+
+CREATE TABLE notification(
+    id SERIAL PRIMARY KEY,
+    id_developer INT NOT NULL,
+    content TEXT NOT NULL,
+    time TIMESTAMP NOT NULL,
+    FOREIGN KEY(id_developer) REFERENCES game_developer(id) ON UPDATE CASCADE
+);
+
+CREATE TABLE comment_notification(
+    id SERIAL PRIMARY KEY,
+    id_notification INT NOT NULL,
+    id_comment INT NOT NULL,
+    type comment_notification_type NOT NULL,
+    FOREIGN KEY(id_notification) REFERENCES notification(id) ON UPDATE CASCADE,
+    FOREIGN KEY(id_comment) REFERENCES comment(id) ON UPDATE CASCADE
+);
+
+CREATE TABLE event_notification(
+    id SERIAL PRIMARY KEY,
+    id_notification INT NOT NULL,
+    id_event INT NOT NULL,
+    type event_notification_type NOT NULL,
+    FOREIGN KEY(id_notification) REFERENCES notification(id) ON UPDATE CASCADE,
+    FOREIGN KEY(id_event) REFERENCES event(id) ON UPDATE CASCADE
 );
