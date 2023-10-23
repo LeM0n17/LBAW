@@ -37,7 +37,7 @@ CREATE TYPE event_notification_type AS ENUM ('start', 'results', 'invitation');
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(20) NOT NULL UNIQUE,
-    password VARCHAR(20) NOT NULL,
+    password TEXT NOT NULL,
     email VARCHAR(50) UNIQUE
 );
 
