@@ -17,8 +17,10 @@ DROP TABLE IF EXISTS comment CASCADE;
 DROP TABLE IF EXISTS comment_like CASCADE;
 DROP TABLE IF EXISTS faq CASCADE;
 DROP TABLE IF EXISTS votes CASCADE;
-DROP TABLE IF EXISTS likes;
-DROP TYPE IF EXISTS event_type;
+DROP TABLE IF EXISTS likes CASCADE;
+DROP TYPE IF EXISTS event_type CASCADE;
+DROP TYPE IF EXISTS comment_notification_type CASCADE;
+DROP TYPE IF EXISTS event_notification_type CASCADE;
 
 -----------------------------------------
 -- Types
@@ -170,7 +172,7 @@ ALTER TABLE event
 ADD COLUMN tsvectors TSVECTOR;
 
 -- Create a function to automatically update tsvectors
-CREATE FUNCTION event_update_FTS() RETURNS TRIGGER AS $$
+CREATE FUNCTION event_manage_FTS() RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.tsvectors = (
@@ -193,7 +195,7 @@ LANGUAGE plpgsql;
 -- Create a trigger before insert or update on 'events'
 CREATE TRIGGER event_update_FTS
 BEFORE INSERT OR UPDATE ON event
-EXECUTE PROCEDURE event_update_FTS();
+EXECUTE PROCEDURE event_manage_FTS();
 
 -- Create a GIN index for ts_vectors
 CREATE INDEX event_update_FTS ON event USING GIN(tsvectors);
@@ -201,5 +203,4 @@ CREATE INDEX event_update_FTS ON event USING GIN(tsvectors);
 -----------------------------------------
 -- TRIGGERS
 -----------------------------------------
-
 
