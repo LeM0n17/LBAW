@@ -160,8 +160,6 @@ CREATE TABLE event_notification(
 -- INDEXES
 -----------------------------------------
 
-CREATE INDEX username ON users USING hash(username);
-
 CREATE INDEX event_participants ON participates USING hash(id_event);
 
 CREATE INDEX user_notifications ON notification USING btree(id_developer);
