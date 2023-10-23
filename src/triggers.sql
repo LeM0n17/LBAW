@@ -1,37 +1,75 @@
-Create Trigger if not exists ParticipationLimit
-Before Insert on participants
-For Each Row
-When exists (select ParticipantCount from (select count(*) as ParticipantCount from participants where participants.id_event = New.id_event) where ParticipantCount >= 100)
-Begin
-    select raise(ignore);
-End;
+pragma foreign_keys = ON;
+.mode columns
+.header on
+.nullvalue null
 
-Create Trigger if not exists CommentFilter
-Before Insert on comment
-For Each Row
-When not exists (select id_writer from participants where New.id_event = participants.id_event and comment.id_participant = New.id_writer)
-Begin
-    select raise(ignore);
-End;
+CREATE FUNCTION verify_participation_limit() RETURNS TRIGGER AS $BODY$
+BEGIN 
+    IF EXISTS (SELECT ParticipantCount FROM (SELECT count(*) AS ParticipantCount FROM participants WHERE participants.id_event = NEW.id_event) WHERE ParticipantCount >= 100) THEN
+        RAISE EXCEPTION 'PARTICIPATION LIMIT REACHED!'
+    END IF;
+    RETURN NEW;
+END $BODY$
+LANGUAGE plpgsql;
 
-Create Trigger if not exists ParticipationFilter
-Before Insert on participants
-For Each Row
-When exists (select * from participants where participants.id_event = New.id_event and participants.id_participant = New.id_participant)
-Begin
-    select raise(ignore);
-End;
+CREATE TRIGGER participation_limiter
+    BEFORE INSERT ON participants
+    FOR EACH ROW
+    EXECUTE PROCEDURE verify_participation_limit();
 
-Create Trigger if not exists LikeFilter
-Before Insert on likes
-For Each Row
-Begin
-    delete from likes where likes.id_developer = New.id_developer and likes.id_comment = New.id_developer;
-End;
 
-Create Trigger if not exists VoteFilter
-Before Insert on votes
-For Each Row
-Begin
-    delete from votes where votes.id_developer = New.id_developer and votes.id_option in (select id_option from options where options.id_poll = New.id_poll);
-End;
+
+CREATE FUNCTION comment_from_participant() RETURNS TRIGGER AS $BODY$
+BEGIN
+    IF NOT EXISTS (SELECT id_writer FROM participants WHERE NEW.id_event = participants.id_event AND comment.id_participant = NEW.id_writer) THEN
+        RAISE EXCEPTION 'COMMENT FROM NOT PARTICIPANT!'
+    END IF;
+    RETURN NEW;
+END $BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER comment_restricter
+    BEFORE INSERT ON comment
+    FOR EACH ROW
+    EXECUTE PROCEDURE comment_from_participant();
+
+
+
+CREATE FUNCTION verify_participation_presence() RETURNS TRIGGER AS $BODY$
+BEGIN
+    IF EXISTS (SELECT * FROM participants WHERE participants.id_event = NEW.id_event AND participants.id_participant = NEW.id_participant) THEN
+        RAISE EXCEPTION 'PARTICIPATION WAS ALREADY IN EVENT!'
+    END IF;
+END $BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER participation_presence
+    BEFORE INSERT ON participants
+    FOR EACH ROW 
+    EXECUTE PROCEDURE verify_participation_presence();
+
+
+
+CREATE FUNCTION delete_likes() RETURNS TRIGGER AS $BODY$
+BEGIN
+    DELETE FROM likes WHERE likes.id_developer = NEW.id_developer AND likes.id_comment = NEW.id_developer;
+END $BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER like_cleaning
+    BEFORE INSERT ON likes
+    FOR EACH ROW 
+    EXECUTE PROCEDURE delete_likes();
+
+
+
+CREATE FUNCTION filter_votes() RETURNS TRIGGER AS $BODY$
+BEGIN 
+    DELETE FROM votes WHERE votes.id_developer = NEW.id_developer AND votes.id_option IN (SELECT id_option FROM options WHERE options.id_poll = NEW.id_poll);
+END $BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER vote_cleaning
+    BEFORE INSERT ON votes
+    FOR EACH ROW 
+    EXECUTE PROCEDURE filter_votes();
