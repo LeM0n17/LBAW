@@ -1,0 +1,149 @@
+openapi: 3.0.0
+
+info:
+  version: '1.0'
+  title: A7
+  description: 'Web resources specification for A7'
+
+servers:
+  - url: http://lbaw.fe.up.pt #change to real url
+    description: FEUP DB server
+
+tags:
+  - name: 'M01: Authentication'
+  - name: 'M02: Events'
+  
+
+paths:
+  /login:
+    get:
+      operationId: R101
+      summary: 'R101: Login Form'
+      description: 'Login form : perms' #change perms to the correct permissions
+
+      tags:
+        - 'M01: Authentication'
+
+      responses:
+        '200':
+          description: 'OK, Show Log-in UI'
+    post:
+      operationId: 'R102'
+      summary: 'L102: Login Action'
+      description: 'Login information processing : perms' #change perms to the correct permissions
+
+      tags:
+        - 'M01: Authentication'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The user's username
+                  example: johndoe
+                password:
+                  type: string
+                  description: The user's password
+                  example: password123
+                email:
+                  type: string
+                  description: The user's email (optional)
+                  example: johndoe@example.com
+              required:
+                - username
+                - password
+      responses:
+        '302':
+          description: 'Redirect after checking the credentials'
+          headers:
+            Location:
+              schema:
+                type: string
+                description: Sends to user profile page
+                example:
+                  302Success:
+                    description:  'OK, Redirect to user profile page'
+                    value: '/user_profile/{id}' #may change
+                  302Error:
+                    description: 'Failed authentication, Redirect to login page'
+                    value: '/login_page' #may change
+  
+  /logout:
+
+    post:
+      operationId: R103
+      summary: 'R103: Logout Action'
+      description: 'Logout : perms' #change perms to the correct permissions
+
+      tags: 
+        - 'M01: Authentication'
+      responses:
+        '302':
+          description: 'Redirect after processing Logout'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'OK, Logout successful, Redirect to login page'
+                  value: '/login_page' #may change
+
+  /register:
+    get:
+      operationId: R104
+      summary: 'R104: Register Form'
+      description: 'Register form : perms' #change perms to the correct permissions
+
+      tags:
+        - 'M01: Authentication'
+      responses:
+        '200':
+          description: 'OK, Show Register UI'
+
+    post:
+      operationId: R105
+      summary: 'R105: Register Action'
+      description: 'Register information processing : perms' #change perms to the correct permissions
+
+      tags:
+        - 'M01: Authentication'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The user's username
+                  example: johndoe
+                password:
+                  type: string
+                  description: The user's password
+                  example: password123
+                email:
+                  type: string
+                  description: The user's email (optional)
+                  example: johndoe@example.com
+              required:
+                - username
+                - password
+      responses:
+        '302':
+          description: 'Redirect after processing new user info'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'OK, Redirect to user page'
+                  value: '/user_profile/{id}' #may change
