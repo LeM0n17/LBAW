@@ -25,9 +25,9 @@ BEGIN TRANSACTION;
 
     RETURN user_id;
 
-EXCEPTION
-    WHEN others THEN
-        ROLLBACK;
+    EXCEPTION
+        WHEN others THEN
+            ROLLBACK;
 
 COMMIT
 
