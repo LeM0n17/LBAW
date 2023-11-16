@@ -146,4 +146,4 @@ paths:
               examples:
                 302Success:
                   description: 'OK, Redirect to user page'
-                  value: '/user_profile/{id}' #may change
+                  value: '/user_profile/{id}'
