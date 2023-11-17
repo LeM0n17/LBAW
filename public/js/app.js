@@ -22,6 +22,21 @@ function addEventListeners() {
     let cardCreator = document.querySelector('article.card form.new_card');
     if (cardCreator != null)
       cardCreator.addEventListener('submit', sendCreateCardRequest);
+
+    document.querySelector(".dropdown").addEventListener("click", showDropdownContent);
+  }
+
+  function showDropdownContent()
+  {
+      var div = this.querySelector(".dropdown-content");
+      if (div.style.display != "block")
+      {
+        div.style.display = "block";
+      }
+      else
+      {
+        div.style.display = "none";
+      }
   }
   
   function encodeForAjax(data) {

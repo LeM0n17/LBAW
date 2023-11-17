@@ -137,6 +137,7 @@ body {
       border-bottom: 1px solid rgba(96, 108, 118, 0.4);
     }
   }
+  
   /**
    * Override milligram colors
    * Some styles might be missing
@@ -160,4 +161,43 @@ body {
   input[type=password]:focus {
     border-color: #a3a3a3;
   }
-  
+
+.ham-menu { display: inline-block; position: relative; margin: 0; }
+.ham-menu, .ham-menu::before, .ham-menu::after { width: 4em; height: 0.8em; margin: 0; border-radius: 7px; background-color: rgb(102, 102, 102); }
+.ham-menu::before, .ham-menu::after { content: ""; display: block; position: absolute; }
+.ham-menu::before { bottom: 130%; } .ham-menu::after { top: 130%; }
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  z-index: 1;
+  right: 0;
+  top: 2.5em;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: underline;
+  display: block;
+  text-align: center;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover {.ham-menu, .ham-menu::after, .ham-menu::before {
+  background-color: #4e4e4e;
+}}

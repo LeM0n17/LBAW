@@ -24,9 +24,20 @@
         <main>
             <header>
                 <h1><a href="{{ url('/cards') }}">Jammer</a></h1>
-                @if (Auth::check())
-                    <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
-                @endif
+                <div>
+                    @if (Auth::check())
+                        <a class="button" href="{{ url('/profile') }}">Pro</a>
+                        <a class="button">Not</a>
+                    @endif
+                    <div class="dropdown">
+                        <div class="ham-menu"></div>
+                        <div class="dropdown-content">
+                            <a href="{{ url('/aboutus') }}">About Us</a>
+                            <a href="{{ url('/faq') }}">FAQ</a>
+                            <a href="{{ url('/contacts') }}">Contacts</a>
+                        </div>
+                    </div>
+                </div>
             </header>
             <section id="content">
                 @yield('content')
