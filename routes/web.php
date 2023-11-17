@@ -8,6 +8,8 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
+use App\Http\Controllers\StaticController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,4 +54,11 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'showRegistrationForm')->name('register');
     Route::post('/register', 'register');
+});
+
+// Static
+Route::controller(StaticController::class)->group(function () {
+    Route::get('/aboutus', "showAboutUsPage");
+    Route::get('/faq', "showFaqPage");
+    Route::get('/contacts', "showContactsPage");
 });
