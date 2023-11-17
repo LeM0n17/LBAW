@@ -11,6 +11,7 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Styles -->
+        <script src="https://kit.fontawesome.com/b368ee8ced.js" crossorigin="anonymous"></script>
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
         <script type="text/javascript">
@@ -26,11 +27,11 @@
                 <h1><a href="{{ url('/cards') }}">Jammer</a></h1>
                 <div>
                     @if (Auth::check())
-                        <a class="button" href="{{ url('/profile') }}">Pro</a>
-                        <a class="button">Not</a>
+                        <a class="fa-regular fa-user fa-2xl" href="{{ url('/profile') }}"></a>
+                        <a class="fa-regular fa-bell fa-2xl" href="{{ url('/notifications') }}" ></a>
                     @endif
-                    <div class="dropdown">
-                        <div class="ham-menu"></div>
+                    <div class="dropdown" style="width: 1em;">
+                        <div class="fa-solid fa-ellipsis-vertical fa-2xl three-dots-icon"></div>
                         <div class="dropdown-content">
                             <a href="{{ url('/aboutus') }}">About Us</a>
                             <a href="{{ url('/faq') }}">FAQ</a>
