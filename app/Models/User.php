@@ -59,6 +59,6 @@ class User extends Authenticatable
 
     public function event(): HasMany
     {
-        return $this->hasMany(Events::class);
+        return $this->hasMany(Events::class, 'id_host');
     }
 }
