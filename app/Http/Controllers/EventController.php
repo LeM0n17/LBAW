@@ -32,22 +32,27 @@ class EventController extends Controller
     /**
      * Shows all cards.
      */
-    public function list(string $userId){
-        // Find the user by ID.
-        $user = UserJammer::findOrFail($userId);
+    public function list(){
+        if (!Auth::check()) {
+            // Not logged in, redirect to login.
+            return redirect('/login');
 
-        // Check if the current user can list the events.
-        $this->authorize('list', Events::class);
+        } else {
+            // The user is logged in.
+
+            // Get cards for user ordered by id.
+            $this->authorize('list', Events::class);
 
         // Retrieve events for the user ordered by ID.
-        $events = Auth::user()->events()->orderBy('id')->get();
+            $events = Auth::user()->events()->orderBy('id')->get();
 
-        // The current user is authorized to list events.
+            // The current user is authorized to list events.
 
-        // Use the pages.events template to display all events.
-        return view()->composer(['pages.events', 'partials.sidescroller'], function ($view) use ($events) {
-            $view->with('events', $events);
-        });
+            // Use the pages.events template to display all events.
+            return view()->composer(['pages.events', 'partials.sidescroller'], function ($view) use ($events) {
+                $view->with('events', $events);
+            });
+        }
     }
 
     /**
