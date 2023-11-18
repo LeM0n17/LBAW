@@ -45,9 +45,9 @@ class EventController extends Controller
         // The current user is authorized to list events.
 
         // Use the pages.events template to display all events.
-        return view('pages.events', [
-            'events' => $events
-        ]);
+        return view()->composer(['pages.events', 'partials.sidescroller'], function ($view) use ($events) {
+            $view->with('events', $events);
+        });
     }
 
     /**
