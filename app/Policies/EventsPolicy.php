@@ -30,7 +30,7 @@ class EventsPolicy
     /**
      * Determine if all cards can be listed by a user.
      */
-    public function list(UserJammer $user): bool
+    public function list(): bool
     {
         // Any (authenticated) user can list its own cards.
         return Auth::check();
