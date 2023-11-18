@@ -30,8 +30,8 @@
                         <a class="fa-regular fa-user fa-2xl" href="{{ url('/profile') }}"></a>
                         <a class="fa-regular fa-bell fa-2xl" href="{{ url('/notifications') }}" ></a>
                     @endif
-                    <div class="dropdown" style="width: 1em;">
-                        <div class="fa-solid fa-ellipsis-vertical fa-2xl three-dots-icon"></div>
+                    <div class="dropdown">
+                        <div class="fa-solid fa-bars fa-2xl hamburger-icon"></div>
                         <div class="dropdown-content">
                             <a href="{{ url('/aboutus') }}">About Us</a>
                             <a href="{{ url('/faq') }}">FAQ</a>

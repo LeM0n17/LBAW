@@ -194,5 +194,5 @@ body {
 .dropdown-content a:hover {background-color: #f1f1f1}
 
 
-.three-dots-icon {color: #ffffff;}
-.three-dots-icon:hover {color: #606c76}
+.hamburger-icon {color: #ffffff; margin: 0}
+.hamburger-icon:hover {color: #606c76}
