@@ -1,8 +1,8 @@
 -- noinspection SqlNoDataSourceInspectionForFile
-DROP SCHEMA IF EXISTS lbaw23115 CASCADE;
+DROP SCHEMA IF EXISTS jammer CASCADE;
 
-CREATE SCHEMA lbaw23115;
-SET search_path TO lbaw23115;
+CREATE SCHEMA jammer;
+SET search_path TO jammer;
 
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS game_developer CASCADE;
@@ -35,11 +35,12 @@ CREATE TYPE event_notification_type AS ENUM ('start', 'results', 'invitation');
 -- Tables
 -----------------------------------------
 
-CREATE TABLE users(
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(20) NOT NULL UNIQUE,
-    password TEXT NOT NULL,
-    email VARCHAR(50) UNIQUE
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  password VARCHAR NOT NULL,
+  email VARCHAR UNIQUE NOT NULL,
+  remember_token VARCHAR
 );
 
 CREATE TABLE game_developer(
@@ -203,8 +204,8 @@ CREATE INDEX event_update_FTS ON events USING GIN(tsvectors);
 -- TRIGGERS
 -----------------------------------------
 
-INSERT INTO users VALUES (DEFAULT, 'JohnDoe', '1234', 'example@example.com');
-INSERT INTO users VALUES (DEFAULT, 'JaneDoe', '1234', 'example1@example.com');
+INSERT INTO users VALUES (DEFAULT, 'JohnDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example@example.com');
+INSERT INTO users VALUES (DEFAULT, 'JaneDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example1@example.com');
 
 INSERT INTO game_developer VALUES (DEFAULT, 1);
 
