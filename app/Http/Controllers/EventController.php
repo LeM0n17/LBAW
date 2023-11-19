@@ -6,11 +6,16 @@ use Illuminate\Http\Request;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Events;
 
 class EventController extends Controller
 {
+    public function showEditEvents()
+    {
+        return view("pages.editevents");
+    }
     /**
      * Show the card for a given id.
      */
@@ -86,5 +91,39 @@ class EventController extends Controller
         // Delete the card and return it as JSON.
         $event->delete();
         return response()->json($event);
+    }
+
+    public function editEvents(Request $request, $id)
+    {
+        // Find the card.
+        $event = Events::findorFail($id);
+
+        // Check if the current user is authorized to edit this event.
+        $this->authorize('edit', $event);
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'end_' => 'required',
+            'description' => 'required',
+            'types' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/events')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $event->fill([
+            'name' => $request->input('name'),
+            'end_' => $request->input('end_'),
+            'description' => $request->input('description'),
+            'types' => $request->input('types'),
+        ]);
+
+        $event->save();
+        return redirect()->intended('/events')
+            ->withSuccess('Events updated!')
+            ->withErrors('Error');
     }
 }
