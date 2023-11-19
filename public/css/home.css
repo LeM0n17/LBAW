@@ -1,0 +1,21 @@
+div.sidescroller {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    inline-size: calc(100% - 30px);
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+div.eventcard {
+    flex: 0 0 auto;
+    padding: 14px;
+    display: inline-block;
+    background-color: #e4e4e4;
+}
+
+.homesection {
+    margin-left: 15px;
+    margin-bottom: 30px;
+}

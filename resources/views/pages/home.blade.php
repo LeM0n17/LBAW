@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<section id="cards">
+<link href="{{ url('css/home.css') }}" rel="stylesheet">
+<section id="featured" class="homesection">
+    <h2>Featured Events</h2>
     <div class="sidescroller">
         @each('partials.eventcard', $events, 'event')
     </div>
