@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Events;
 
@@ -103,36 +104,37 @@ class EventController extends Controller
         return response()->json($event);
     }
 
-    public function editEvents(Request $request, $id)
+    public function editEvents(Request $request)
     {
         // Find the card.
+        $id = $request->route('id');
         $event = Events::findorFail($id);
 
         // Check if the current user is authorized to edit this event.
-        $this->authorize('edit', $event);
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'end_' => 'required',
-            'description' => 'required',
             'types' => 'required',
+            'description' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return redirect('/events')
-                        ->withErrors($validator)
-                        ->withInput();
+            Log::info('Validation failed: ' . $validator->errors());
+            return redirect()->to("/editevents/{$event->id}")
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $event->fill([
             'name' => $request->input('name'),
             'end_' => $request->input('end_'),
-            'description' => $request->input('description'),
             'types' => $request->input('types'),
+            'description' => $request->input('description'),
         ]);
 
         $event->save();
-        return redirect()->intended('/events')
+        return redirect()->to("/events/{$event->id}")
             ->withSuccess('Events updated!')
             ->withErrors('Error');
     }

@@ -4,7 +4,7 @@
 <link href="{{ url('css/event.css') }}" rel="stylesheet">
 <div class="editevent">
     <h2>Edit event '{{ $event->name }}'</h2>
-    <form method="POST" action="{{ route('editevents') }}">
+    <form method="POST" action="{{ route('editevents', ['id' => $event->id]) }}">
     {{ csrf_field() }}
             <div>
                 <a class="button" href="{{ url('/events') }}">Cancel</a>
