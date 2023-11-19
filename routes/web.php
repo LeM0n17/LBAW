@@ -26,6 +26,12 @@ use App\Http\Controllers\MainController;
 // Home
 Route::redirect('/', '/login');
 
+// Events
+Route::controller(EventController::class)->group(function () {
+    Route::get('/home', 'list')->name('events');
+    Route::get('/events/{id}', 'show')->name('event');
+});
+
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {

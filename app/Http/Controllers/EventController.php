@@ -8,7 +8,6 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Events;
-use App\Models\UserJammer;
 
 class EventController extends Controller
 {
@@ -44,14 +43,12 @@ class EventController extends Controller
             $this->authorize('list', Events::class);
 
         // Retrieve events for the user ordered by ID.
-            $events = Auth::user()->event()->orderBy('id')->get();
+            $events = Auth::user()->events()->orderBy('id')->get();
 
             // The current user is authorized to list events.
 
             // Use the pages.events template to display all events.
-            return view()->composer(['pages.events', 'partials.sidescroller'], function ($view) use ($events) {
-                $view->with('events', $events);
-            });
+            return view('pages.home', ['events' => $events]);
         }
     }
 
