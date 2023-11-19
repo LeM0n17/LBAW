@@ -1,0 +1,15 @@
+div.eventinfo {
+    padding: 15px;
+    padding-bottom: 0;
+    max-width: 100%;
+    width: 75em;
+    background-color: #e4e4e4;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5em;
+}
+
+div.eventinfo #description {
+    margin-top: 15px;
+    padding-bottom: 5px;
+}

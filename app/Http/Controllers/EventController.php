@@ -12,14 +12,10 @@ use App\Models\Events;
 
 class EventController extends Controller
 {
-    public function showEditEvents()
-    {
-        return view("pages.editevents");
-    }
     /**
      * Show the card for a given id.
      */
-    public function show(string $id): View
+    public function show(string $id): View 
     {
         // Get the card.
         $event = Events::findOrFail($id);
@@ -29,6 +25,20 @@ class EventController extends Controller
 
         // Use the pages.card template to display the card.
         return view('pages.events', [
+            'event' => $event
+        ]);
+    }
+
+    public function showEditEvents(string $id): View 
+    {
+        // Get the card.
+        $event = Events::findOrFail($id);
+
+        // Check if the current user can see (show) the card.
+        $this->authorize('show', $event);  
+
+        // Use the pages.card template to display the card.
+        return view('pages.editevents', [
             'event' => $event
         ]);
     }
