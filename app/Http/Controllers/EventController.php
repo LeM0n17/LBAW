@@ -42,9 +42,6 @@ class EventController extends Controller
         // Get the card.
         $event = Events::findOrFail($id);
 
-        // Check if the current user can see (show) the card.
-        $this->authorize('show', $event);  
-
         // Use the pages.card template to display the card.
         return view('pages.editevents', [
             'event' => $event
@@ -106,6 +103,7 @@ class EventController extends Controller
         }
 
         $event->fill([
+            'id_host' => Auth::id(),
             'name' => $request->input('title'),
             'start' => $request->input('startdate'),
             'end_' => $request->input('enddate'),
@@ -122,9 +120,10 @@ class EventController extends Controller
     /**
      * Delete a card.
      */
-    public function delete(Request $request, $id)
+    public function delete(Request $request)
     {
         // Find the card.
+        $id = $request->route('id');
         $event = Events::find($id);
 
         // Delete the card and return it as JSON.
@@ -159,15 +158,16 @@ class EventController extends Controller
         $id = $request->route('id');
         $event = Events::findorFail($id);
 
+        $rules = ['description' => 'required',];
+        $rules['title'] = 'required';
+        $rules['startdate'] = 'required|date|before:enddate';
+        $rules['enddate'] = 'required|date|after:startdate';
+        $rules['privacy'] = 'required';
+        $rules['enddate'] = 'required|date|after:startdate';
+
         // Check if the current user is authorized to edit this event.
 
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'startdate' => 'required|date|after:today',
-            'enddate' => 'required|date|after:startdate',
-            'privacy' => 'required',
-            'description' => 'required',
-        ]);
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             Log::info('Validation failed: ' . $validator->errors());
