@@ -23,7 +23,7 @@ class EventController extends Controller
         $this->authorize('show', $event);  
 
         // Use the pages.card template to display the card.
-        return view('pages.event', [
+        return view('pages.events', [
             'event' => $event
         ]);
     }
