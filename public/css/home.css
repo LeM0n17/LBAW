@@ -1,3 +1,16 @@
+#search-bar {
+    width: 1000px;
+    max-width: calc(100% - 40px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#search-bar > form {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
 .homesection .title {
     margin-bottom: 5px;
 }
@@ -26,6 +39,22 @@ div.eventcard {
 
 div.eventcard h3 a {
     color: #3e3e3e;
+}
+
+div.eventinfo {
+    padding: 15px;
+    padding-bottom: 0;
+    max-width: 100%;
+    width: 75em;
+    background-color: #e4e4e4;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5em;
+}
+
+div.eventinfo #description {
+    margin-top: 15px;
+    padding-bottom: 5px;
 }
 
 button#createevent {

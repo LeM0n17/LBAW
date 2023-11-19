@@ -14,7 +14,19 @@ use App\Models\Events;
 class EventController extends Controller
 {
     /**
-     * Show the card for a given id.
+     * Get all the public events.
+     */
+    private function publicEvents() {
+        return Events::where('types', 'public')->orderBy('id');
+    }
+
+    public function showEditEvents()
+    {
+        return view("pages.editevents");
+    }
+
+    /**
+     * Show the event for a given id.
      */
     public function show(string $id): View 
     {
@@ -59,7 +71,7 @@ class EventController extends Controller
     /**
      * Shows all events.
      */
-    public function list(){
+    public function list() {
         if (!Auth::check()) {
             // Not logged in, redirect to login.
             return redirect('/login');
@@ -70,8 +82,8 @@ class EventController extends Controller
             // Get events for user ordered by id.
             $this->authorize('list', Events::class);
 
-        // Retrieve events for the user ordered by ID.
-            $events = Auth::user()->events()->orderBy('id')->get();
+            // Retrieve events for the user ordered by ID.
+            $events = $this->publicEvents()->get();
 
             // The current user is authorized to list events.
 
@@ -134,7 +146,26 @@ class EventController extends Controller
             ->withErrors('Error');
     }
 
-    public function editEvents(Request $request)
+    /**
+     * Perform a full-text search on the events.
+     */
+    public function search(String $input) {
+        $events = Auth::user()->isAdmin() ?
+                    // if the user is an administrator, search all events
+                    Events::whereRaw("tsvectors @@ to_tsquery(?)", [$input])
+                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
+                        ->get() :
+
+                    // if the user is NOT an administrator, search public events
+                    $this->publicEvents()
+                        ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
+                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
+                        ->get();
+
+        return view('pages.home', ['events' => $events]);
+    }
+
+    public function editEvents(Request $request, $id)
     {
         // Find the card.
         $id = $request->route('id');
