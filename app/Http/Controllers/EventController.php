@@ -137,7 +137,9 @@ class EventController extends Controller
     /**
      * Perform a full-text search on the events.
      */
-    public function search(String $input) {
+    public function search(Request $request) {
+        $input = $request->input('search-field');
+
         $events = Auth::user()->isAdmin() ?
                     // if the user is an administrator, search all events
                     Events::whereRaw("tsvectors @@ to_tsquery(?)", [$input])

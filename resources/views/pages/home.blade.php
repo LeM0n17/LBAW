@@ -3,8 +3,8 @@
 @section('content')
 <link href="{{ url('css/home.css') }}" rel="stylesheet">
 <div id="search-bar">
-    <form action="">
-        <input type="text" placeholder="Search..." name="q">
+    <form method="get" action="{{ route('searchevents' }}">
+        <input type="text" placeholder="Search..." id="search-field">
         <button type="submit">Submit</button>
     </form>
 </div>
