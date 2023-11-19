@@ -2,15 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\CardController;
-use App\Http\Controllers\ItemController;
 use App\Http\Controllers\EventController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
 use App\Http\Controllers\StaticController;
-use App\Http\Controllers\MainController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +48,10 @@ Route::controller(StaticController::class)->group(function () {
     Route::get('/aboutus', "showAboutUsPage");
     Route::get('/faq', "showFaqPage");
     Route::get('/contacts', "showContactsPage");
+});
+
+// Static
+Route::controller(ProfileController::class)->group(function () {
+    Route::get('/profile', "showProfilePage");
+    Route::get('/editprofile', "showEditProfilePage");
 });
