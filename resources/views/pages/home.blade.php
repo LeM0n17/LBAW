@@ -15,5 +15,5 @@
     </div>
 </section>
 
-<button id="createevent"><a href="/createevents">+</a></button>
+<a href="/createevents"><button id="createevent">+</button></a>
 @endsection

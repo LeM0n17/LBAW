@@ -8,7 +8,7 @@
         <button type="button"><a href="/editevents/{{ $event->id }}"> Configure </a></button><br>
         <form method="POST" action="{{ route('deleteevents', ['id' => $event->id]) }}">
             {{ csrf_field() }}
-            <button type="submit"><a href="/deleteevents/{{ $event->id }}"> Delete </a></button>
+            <button type="submit"> Delete </button>
         </form>
     @endif
     <label id="creator">By <b>{{ $event->host->name }}</b></label>
