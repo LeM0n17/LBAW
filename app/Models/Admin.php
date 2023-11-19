@@ -10,6 +10,7 @@ class Admin extends Model
 {
     use HasFactory;
 
+    protected $table = 'admin';
     public $timestamp = false;
 
     public function user() : BelongsTo {

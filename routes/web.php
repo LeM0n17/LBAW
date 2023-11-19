@@ -27,6 +27,7 @@ Route::redirect('/', '/login');
 // Events
 Route::controller(EventController::class)->group(function () {
     Route::get('/home', 'list')->name('events');
+    # Route::get('/home', 'search')->name('searchevents');
     Route::get('/events/{id}', 'show')->name('event');
     Route::get('/editevents/{id}', 'showEditEvents')->name('showeditevents');
     Route::get('/createevents', 'showCreateEvents')->name('showcreateevents');
@@ -34,7 +35,6 @@ Route::controller(EventController::class)->group(function () {
     Route::post('/createevents', 'create')->name('createevents');
     Route::post('/deleteevents/{id}', 'delete')->name('deleteevents');
     Route::get('/notifications', 'showNotificationsPage')->name('showNotificationsPage');
-    Route::get('/home', 'search')->name('searchevents');
 });
 
 // Authentication

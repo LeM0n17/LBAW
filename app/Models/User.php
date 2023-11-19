@@ -50,7 +50,7 @@ class User extends Authenticatable
     ];
 
     public function isAdmin() :bool {
-        return count($this->hasOne('App/Models/Admin', 'id')->get());
+        return count($this->hasOne(Admin::class, 'id')->get());
     }
 
     public function hostedEvents(): HasMany{
