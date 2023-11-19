@@ -81,6 +81,7 @@ body {
   button {
     background-color: #a3a3a3;
     border-color: #4e4e4e;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
   }
   a.button {
     background-color: #a3a3a3;
