@@ -24,7 +24,7 @@
                 <option value="protected">Protected</option>
             </select><br><br>
             <label for="description">Description:</label>
-            <textarea id="description" name="description" value="{{ $event->description }}"></textarea><br><br>
+            <textarea id="description" name="description">{{ $event->description }}</textarea><br><br>
     </form>
 </div>
 @endsection
