@@ -14,16 +14,17 @@
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" value="{{ $event->name }}"><br><br>
             <label for="startdate">Start:</label>
-            <input type="time" id="startdate" name="startdate" value="{{ $event->start }}"><br><br>
+            <input type="datetime-local" id="startdate" name="startdate" value="{{ $event->start }}"><br><br>
             <label for="enddate">End:</label>
-            <input type="time" id="enddate" name="enddate" value="{{ $event->end_ }}"><br><br>
+            <input type="datetime-local" id="enddate" name="enddate" value="{{ $event->end_ }}"><br><br>
             <label for="privacy">Privacy:</label>
             <select id="privacy" name="privacy" value="{{ $event->type }}">
                 <option value="public">Public</option>
                 <option value="private">Private</option>
                 <option value="protected">Protected</option>
             </select><br><br>
-            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" value="{{ $event->description }}"></textarea><br><br>
     </form>
 </div>
 @endsection
