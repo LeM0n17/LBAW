@@ -27,3 +27,14 @@ div.eventcard {
 div.eventcard h3 a {
     color: #3e3e3e;
 }
+
+button#createevent {
+    position: absolute;
+    border-radius: 100%;
+    height: 75px;
+    width: 75px;
+    font-size: 20px;
+    text-align: center;
+    bottom: 25px;
+    right: 25px;
+}
