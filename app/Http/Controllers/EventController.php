@@ -42,7 +42,7 @@ class EventController extends Controller
             // Get events for user ordered by id.
             $this->authorize('list', Events::class);
 
-        // Retrieve events for the user ordered by ID.
+            // Retrieve events for the user ordered by ID.
             $events = Auth::user()->events()->orderBy('id')->get();
 
             // The current user is authorized to list events.
