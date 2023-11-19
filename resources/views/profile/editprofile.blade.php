@@ -4,14 +4,19 @@
     <link href="{{ url('css/profile.css') }}" rel="stylesheet">
     
     <div class="main">
-        <div>
-            <a class="button" href="{{ url('/profile') }}">Cancel</a>
-            <a class="button" href="{{ url('/logout') }}">Save</a>
-        </div>
-        <br>
-        <div class="fa-regular fa-user fa-2xl profile-pic"></div>
-        <h2> {{ Auth::user()->name }}</h2>
-        <h3> {{ Auth::user()->email }}</h3>
+        <form method="POST" action="{{ route('editprofile') }}">
+        {{ csrf_field() }}
+            <div>
+                <a class="button" href="{{ url('/profile') }}">Cancel</a>
+                <button type="submit">Save</button>
+            </div>
+            <br>
+            <div class="fa-regular fa-user fa-2xl profile-pic"></div>
+                <label for="name">Username:</label>
+                <input type="text" id="name" name="name" value="{{ Auth::user()->name }}"><br><br>
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" value="{{ Auth::user()->email }}"><br><br>
+        </form>
         
     </div>
 @endsection
