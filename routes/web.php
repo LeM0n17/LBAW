@@ -27,7 +27,7 @@ Route::redirect('/', '/login');
 // Events
 Route::controller(EventController::class)->group(function () {
     Route::get('/home', 'list')->name('events');
-    # Route::get('/home', 'search')->name('searchevents');
+    Route::get('/search/{s}', 'search')->name('searchevents');
     Route::get('/events/{id}', 'show')->name('event');
     Route::get('/editevents/{id}', 'showEditEvents')->name('showeditevents');
     Route::get('/createevents', 'showCreateEvents')->name('showcreateevents');
