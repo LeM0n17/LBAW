@@ -49,6 +49,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function isAdmin() :bool {
+        return count($this->hasOne('App/Models/Admin', 'id')->get());
+    }
+
     public function events(): HasMany{
         return $this->hasMany(Events::class, 'id_host');
     }
