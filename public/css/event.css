@@ -19,11 +19,11 @@ div.editevent {
     text-align: center;
 }
 
-div.editevent {
+div.editevent textarea {
     min-height: 50px;
     padding: 10px;
     font-size: 16px;
     line-height: 1.5;
     resize: none;
-    height: calc(auto + 10px);
+    height: 10em;
 }
