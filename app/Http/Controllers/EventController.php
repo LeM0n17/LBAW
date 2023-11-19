@@ -16,15 +16,16 @@ class EventController extends Controller
      * Get all the public events.
      */
     private function publicEvents() {
-        return Events::where('types', 'public')->get();
+        return Events::where('types', 'public')->orderBy('id');
     }
 
     public function showEditEvents()
     {
         return view("pages.editevents");
     }
+
     /**
-     * Show the card for a given id.
+     * Show the event for a given id.
      */
     public function show(string $id): View
     {
@@ -55,7 +56,7 @@ class EventController extends Controller
             $this->authorize('list', Events::class);
 
             // Retrieve events for the user ordered by ID.
-            $events = $this->publicEvents();
+            $events = $this->publicEvents()->get();
 
             // The current user is authorized to list events.
 
@@ -100,12 +101,21 @@ class EventController extends Controller
         return response()->json($event);
     }
 
+    /**
+     * Perform a full-text search on the events.
+     */
     public function search(String $input) {
-        if (Auth::user()->isAdmin()) {
-            $events = Events::select()
-                ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
-                ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])->get();
-        }
+        $events = Auth::user()->isAdmin() ?
+                    // if the user is an administrator, search all events
+                    Events::whereRaw("tsvectors @@ to_tsquery(?)", [$input])
+                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
+                        ->get() :
+
+                    // if the user is NOT an administrator, search public events
+                    $this->publicEvents()
+                        ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
+                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
+                        ->get();
 
         return view('pages.home', ['events' => $events]);
     }
@@ -127,8 +137,8 @@ class EventController extends Controller
 
         if ($validator->fails()) {
             return redirect('/events')
-                        ->withErrors($validator)
-                        ->withInput();
+                    ->withErrors($validator)
+                    ->withInput();
         }
 
         $event->fill([
