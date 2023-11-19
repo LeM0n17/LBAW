@@ -20,11 +20,6 @@ class EventController extends Controller
         return Events::where('types', 'public')->orderBy('id');
     }
 
-    public function showEditEvents()
-    {
-        return view("pages.editevents");
-    }
-
     /**
      * Show the event for a given id.
      */
