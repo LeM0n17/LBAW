@@ -4,10 +4,12 @@
     <link href="{{ url('css/profile.css') }}" rel="stylesheet">
     
     <div class="main">
-        <div>
+        <form method="POST" action="{{ route('deleteprofile') }}">
+        {{ csrf_field() }}
             <a class="button" href="{{ url('/editprofile') }}">Edit Profile</a>
+            <button value="submit">Delete Account</button>
             <a class="button" href="{{ url('/logout') }}">Logout</a>
-        </div>
+        </form>
         <br>
         <div class="fa-regular fa-user fa-2xl profile-pic"></div>
         <h2> {{ Auth::user()->name }}</h2>
