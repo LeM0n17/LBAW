@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div>kys</div>
+<section id="cards">
+    <div class="sidescroller">
+        @each('partials.eventcard', $events, 'event')
+    </div>
+</section>
 @endsection
