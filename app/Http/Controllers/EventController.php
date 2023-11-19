@@ -44,16 +44,9 @@ class EventController extends Controller
         ]);
     }
 
-    public function showCreateEvents(string $id): View
+    public function showCreateEvents(): View
     {
-        // Get the card.
-        $event = Events::findOrFail($id);
-        // Check if the current user can see (show) the card.
-        $this->authorize('show', $event);  
-        // Use the pages.card template to display the card.
-        return view('pages.createevents', [
-            'event' => $event
-        ]);
+        return view('pages.createevents');
     }
 
     /**
