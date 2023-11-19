@@ -5,8 +5,8 @@
     
     <div class="main">
         <div>
-            <a class="button" href="{{ url('/editprofile') }}">Edit Profile</a>
-            <a class="button" href="{{ url('/logout') }}">Logout</a>
+            <a class="button" href="{{ url('/profile') }}">Cancel</a>
+            <a class="button" href="{{ url('/logout') }}">Save</a>
         </div>
         <br>
         <div class="fa-regular fa-user fa-2xl profile-pic"></div>
