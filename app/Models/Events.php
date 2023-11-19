@@ -13,7 +13,7 @@ class Events extends Model
     /**
      * Get the user that owns the event.
      */
-    public function user(): BelongsTo
+    public function host(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id_host');
     }

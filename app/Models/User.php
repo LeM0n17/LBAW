@@ -53,7 +53,7 @@ class User extends Authenticatable
         return count($this->hasOne('App/Models/Admin', 'id')->get());
     }
 
-    public function events(): HasMany{
+    public function hostedEvents(): HasMany{
         return $this->hasMany(Events::class, 'id_host');
     }
 }

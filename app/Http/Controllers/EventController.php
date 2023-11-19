@@ -12,6 +12,13 @@ use App\Models\Events;
 class EventController extends Controller
 {
     /**
+     * Get all the public events.
+     */
+    private function publicEvents() {
+        return Events::where('types', 'public')->get();
+    }
+
+    /**
      * Show the card for a given id.
      */
     public function show(string $id): View
@@ -31,7 +38,7 @@ class EventController extends Controller
     /**
      * Shows all events.
      */
-    public function list(){
+    public function list() {
         if (!Auth::check()) {
             // Not logged in, redirect to login.
             return redirect('/login');
@@ -43,7 +50,7 @@ class EventController extends Controller
             $this->authorize('list', Events::class);
 
             // Retrieve events for the user ordered by ID.
-            $events = Auth::user()->events()->orderBy('id')->get();
+            $events = $this->publicEvents();
 
             // The current user is authorized to list events.
 
@@ -86,5 +93,15 @@ class EventController extends Controller
         // Delete the card and return it as JSON.
         $event->delete();
         return response()->json($event);
+    }
+
+    public function search(String $input) {
+        if (Auth::user()->isAdmin()) {
+            $events = Events::select()
+                ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
+                ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])->get();
+        }
+
+        return view('pages.home', ['events' => $events]);
     }
 }
