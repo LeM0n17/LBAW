@@ -51,8 +51,3 @@ Route::controller(StaticController::class)->group(function () {
     Route::get('/faq', "showFaqPage");
     Route::get('/contacts', "showContactsPage");
 });
-
-// Main
-Route::controller(MainController::class)->group(function () {
-    Route::get('/home', "showHomePage");
-});

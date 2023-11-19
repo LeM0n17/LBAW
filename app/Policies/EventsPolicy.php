@@ -28,11 +28,11 @@ class EventsPolicy
     }
 
     /**
-     * Determine if all cards can be listed by a user.
+     * Determine if all events can be listed by a user.
      */
     public function list(): bool
     {
-        // Any (authenticated) user can list its own cards.
+        // Any (authenticated) user can list its own events.
         return Auth::check();
     }
 

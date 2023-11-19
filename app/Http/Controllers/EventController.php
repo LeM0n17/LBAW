@@ -29,7 +29,7 @@ class EventController extends Controller
     }
 
     /**
-     * Shows all cards.
+     * Shows all events.
      */
     public function list(){
         if (!Auth::check()) {
@@ -39,7 +39,7 @@ class EventController extends Controller
         } else {
             // The user is logged in.
 
-            // Get cards for user ordered by id.
+            // Get events for user ordered by id.
             $this->authorize('list', Events::class);
 
         // Retrieve events for the user ordered by ID.
