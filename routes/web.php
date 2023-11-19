@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
 use App\Http\Controllers\StaticController;
+use App\Http\Controllers\MainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,31 +25,6 @@ use App\Http\Controllers\StaticController;
 
 // Home
 Route::redirect('/', '/login');
-
-// Events
-Route::controller(EventController::class)->group(function () {
-    Route::get('/cards', 'list')->name('events');
-    Route::get('/events/{id}', 'show');
-});
-
-// Cards
-/*Route::controller(CardController::class)->group(function () {
-    Route::get('/cards', 'list')->name('cards');
-    Route::get('/cards/{id}', 'show');
-});*/
-
-
-// API
-Route::controller(CardController::class)->group(function () {
-    Route::put('/api/cards', 'create');
-    Route::delete('/api/cards/{card_id}', 'delete');
-});
-
-Route::controller(ItemController::class)->group(function () {
-    Route::put('/api/cards/{card_id}', 'create');
-    Route::post('/api/item/{id}', 'update');
-    Route::delete('/api/item/{id}', 'delete');
-});
 
 
 // Authentication
@@ -68,4 +44,9 @@ Route::controller(StaticController::class)->group(function () {
     Route::get('/aboutus', "showAboutUsPage");
     Route::get('/faq', "showFaqPage");
     Route::get('/contacts', "showContactsPage");
+});
+
+// Main
+Route::controller(MainController::class)->group(function () {
+    Route::get('/home', "showHomePage");
 });

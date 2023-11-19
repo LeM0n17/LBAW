@@ -48,17 +48,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    /**
-     * Get the cards for a user.
-     */
-    public function cards(): HasMany
-    {
-        return $this->hasMany(Card::class);
-    }
-
-    public function event(): HasMany
-    {
-        return $this->hasMany(Events::class, 'id_host');
-    }
 }

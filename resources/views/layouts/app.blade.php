@@ -24,7 +24,7 @@
     <body>
         <main>
             <header>
-                <h1><a href="{{ url('/cards') }}">Jammer</a></h1>
+                <h1><a href="{{ url('/home') }}">Jammer</a></h1>
                 <div>
                     @if (Auth::check())
                         <a class="fa-regular fa-user fa-2xl" href="{{ url('/profile') }}"></a>
