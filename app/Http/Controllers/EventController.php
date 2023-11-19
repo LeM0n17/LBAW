@@ -88,16 +88,35 @@ class EventController extends Controller
         // Create a blank new Card.
         $event = new Events();
 
-        // Check if the current user is authorized to create this card.
-        $this->authorize('create', $event);
+        // Check if the current user is authorized to edit this event.
 
-        // Set card details.
-        $event->name = $request->input('name');
-        $event->id_host = Auth::user()->id;
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'startdate' => 'required|date|after:today',
+            'enddate' => 'required|date|after:startdate',
+            'privacy' => 'required',
+            'description' => 'required',
+        ]);
 
-        // Save the card and return it as JSON.
+        if ($validator->fails()) {
+            Log::info('Validation failed: ' . $validator->errors());
+            return redirect()->to("/createevents/{$event->id}")
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $event->fill([
+            'name' => $request->input('title'),
+            'start' => $request->input('startdate'),
+            'end_' => $request->input('enddate'),
+            'types' => $request->input('privacy'),
+            'description' => $request->input('description'),
+        ]);
+
         $event->save();
-        return response()->json($event);
+        return redirect()->to("/events/{$event->id}")
+            ->withSuccess('Event created!')
+            ->withErrors('Error');
     }
 
     /**
@@ -108,18 +127,16 @@ class EventController extends Controller
         // Find the card.
         $event = Events::find($id);
 
-        // Check if the current user is authorized to delete this card.
-        $this->authorize('delete', $event);
-
         // Delete the card and return it as JSON.
         $event->delete();
-        return response()->json($event);
+        return redirect()->to("/home")
+            ->withSuccess('Event deleted!')
+            ->withErrors('Error');
     }
 
     public function editEvents(Request $request)
     {
         // Find the card.
-
         $id = $request->route('id');
         $event = Events::findorFail($id);
 
@@ -127,8 +144,8 @@ class EventController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'startdate' => 'required',
-            'enddate' => 'required',
+            'startdate' => 'required|date|after:today',
+            'enddate' => 'required|date|after:startdate',
             'privacy' => 'required',
             'description' => 'required',
         ]);
@@ -153,4 +170,5 @@ class EventController extends Controller
             ->withSuccess('Events updated!')
             ->withErrors('Error');
     }
+
 }
