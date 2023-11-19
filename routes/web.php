@@ -32,6 +32,7 @@ Route::controller(EventController::class)->group(function () {
     Route::get('/createevents', 'showCreateEvents')->name('showcreateevents');
     Route::post('/editevents/{id}', 'editevents')->name('editevents');
     Route::post('/createevents', 'create')->name('createevents');
+    Route::post('/deleteevents/{id}', 'delete')->name('deleteevents');
 });
 
 // Authentication
