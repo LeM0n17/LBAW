@@ -1,3 +1,15 @@
+#search-bar {
+    width: 1000px;
+    max-width: calc(100% - 40px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#search-bar form {
+    display: flex;
+    justify-content: center;
+}
+
 .homesection .title {
     margin-bottom: 5px;
 }
