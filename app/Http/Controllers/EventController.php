@@ -107,15 +107,17 @@ class EventController extends Controller
     public function editEvents(Request $request)
     {
         // Find the card.
+
         $id = $request->route('id');
         $event = Events::findorFail($id);
 
         // Check if the current user is authorized to edit this event.
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'end_' => 'required',
-            'types' => 'required',
+            'title' => 'required',
+            'startdate' => 'required',
+            'enddate' => 'required',
+            'privacy' => 'required',
             'description' => 'required',
         ]);
 
@@ -127,9 +129,10 @@ class EventController extends Controller
         }
 
         $event->fill([
-            'name' => $request->input('name'),
-            'end_' => $request->input('end_'),
-            'types' => $request->input('types'),
+            'name' => $request->input('title'),
+            'start' => $request->input('startdate'),
+            'end_' => $request->input('enddate'),
+            'types' => $request->input('privacy'),
             'description' => $request->input('description'),
         ]);
 
