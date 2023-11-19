@@ -53,6 +53,7 @@ Route::controller(StaticController::class)->group(function () {
 // Static
 Route::controller(ProfileController::class)->group(function () {
     Route::get('/profile', "showProfilePage");
+    Route::post('/deleteprofile', "deleteProfile")->name("deleteprofile");
     Route::get('/editprofile', "showEditProfilePage")->name("editprofile");
     Route::post('/editprofile', "saveEditProfileChanges");
 });

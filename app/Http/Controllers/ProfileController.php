@@ -23,32 +23,39 @@ class ProfileController extends Controller
         return view("profile.editprofile");
     }
 
-    public function saveEditProfileChanges(Request $request)
+    public function deleteProfile(Request $request)
     {
-        // Get current user
         $userId = Auth::id();
         $user = User::findOrFail($userId);
 
-        // Validate the data submitted by user
+        Auth::logout();
+
+        $user->delete();
+
+        return redirect()->intended('/login');
+    }
+
+    public function saveEditProfileChanges(Request $request)
+    {
+        $userId = Auth::id();
+        $user = User::findOrFail($userId);
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:250',
-            'email' => 'required|email|max:220|'. Rule::unique('users')->ignore($user->id),
+            'email' => 'required|email|max:250|'. Rule::unique('users')->ignore($user->id),
         ]);
 
-        // if fails redirects back with errors
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        // Fill user model
         $user->fill([
             'name' => $request->name,
             'email' => $request->email
         ]);
 
-        // Save user to database
         $user->save();
 
         return redirect()->intended('/profile')
