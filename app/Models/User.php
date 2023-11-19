@@ -56,4 +56,8 @@ class User extends Authenticatable
     public function hostedEvents(): HasMany{
         return $this->hasMany(Events::class, 'id_host');
     }
+
+    public function notification(): HasMany{
+        return $this->hasMany(Notifications::class, 'id_developer');
+    }
 }

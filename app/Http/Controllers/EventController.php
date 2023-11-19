@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\Events;
+use App\Models\Notifications;
 
 class EventController extends Controller
 {
@@ -190,4 +191,25 @@ class EventController extends Controller
             ->withErrors('Error');
     }
 
+    public function showNotificationsPage()
+    {
+        if (!Auth::check()) {
+            // Not logged in, redirect to login.
+            return redirect('/login');
+
+        } else {
+            // The user is logged in.
+
+            // Get notifications for user ordered by id.
+            $this->authorize('list', Notifications::class);
+
+        // Retrieve notifications for the user ordered by ID.
+            $notifications = Auth::user()->notification()->orderBy('id')->get();
+
+            // The current user is authorized to list notifications.
+
+            // Use the pages.events template to display all notifications.
+            return view("pages.notifications", ['notifications' => $notifications]);
+        }
+    }
 }

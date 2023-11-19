@@ -132,30 +132,14 @@ CREATE TABLE faq(
     FOREIGN KEY(id_admin) REFERENCES admin(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE notification(
+CREATE TABLE notifications(
     id SERIAL PRIMARY KEY,
     id_developer INT NOT NULL,
+    id_event INT NOT NULL,
+    type event_notification_type NOT NULL,
     content TEXT NOT NULL,
     time TIMESTAMP NOT NULL,
     FOREIGN KEY(id_developer) REFERENCES game_developer(id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE comment_notification(
-    id SERIAL PRIMARY KEY,
-    id_notification INT NOT NULL,
-    id_comment INT NOT NULL,
-    type comment_notification_type NOT NULL,
-    FOREIGN KEY(id_notification) REFERENCES notification(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY(id_comment) REFERENCES comment(id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE event_notification(
-    id SERIAL PRIMARY KEY,
-    id_notification INT NOT NULL,
-    id_event INT NOT NULL,
-    type event_notification_type NOT NULL,
-    FOREIGN KEY(id_notification) REFERENCES notification(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY(id_event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -----------------------------------------
@@ -164,8 +148,8 @@ CREATE TABLE event_notification(
 
 CREATE INDEX event_participants ON participates USING hash(id_event);
 
-CREATE INDEX user_notifications ON notification USING btree(id_developer);
-CLUSTER notification USING user_notifications;
+CREATE INDEX user_notifications ON notifications USING btree(id_developer);
+CLUSTER notifications USING user_notifications;
 
 -- Add column 'tsvectors' to 'event' to store computed tsvectors
 ALTER TABLE events
@@ -210,3 +194,5 @@ INSERT INTO users VALUES (DEFAULT, 'JaneDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAc
 INSERT INTO game_developer VALUES (DEFAULT, 1);
 
 INSERT INTO events VALUES (DEFAULT, 1, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event', 'Description', 'public');
+
+INSERT INTO notifications VALUES (DEFAULT, 1, 1, 'invitation', 'join please', '2020-01-01 00:00:00');
