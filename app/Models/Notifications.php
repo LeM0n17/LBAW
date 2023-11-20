@@ -10,6 +10,15 @@ class Notifications extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id_developer',
+        'id_event',
+        'type',
+        'content',
+        'time'
+    ];
+    public $timestamps = false;
+
     /**
      * Get the user that owns the event.
      */
