@@ -205,7 +205,7 @@ EXECUTE PROCEDURE verify_participation_limit();
 
 CREATE FUNCTION comment_from_participant() RETURNS TRIGGER AS $BODY$
 BEGIN
-    IF NOT EXISTS (SELECT id_writer FROM participants WHERE NEW.id_event = participants.id_event AND comment.id_participant = NEW.id_writer) THEN
+    IF NOT EXISTS (SELECT id_writer FROM participants WHERE NEW.id_event = participants.id_event AND comment.id_writer = NEW.id_writer) THEN
         RAISE EXCEPTION 'COMMENT FROM NOT PARTICIPANT!';
     END IF;
     RETURN NEW;
