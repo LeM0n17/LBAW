@@ -183,6 +183,7 @@ LANGUAGE plpgsql;
 -- Create a trigger before insert or update on 'events'
 CREATE TRIGGER event_update_FTS
 BEFORE INSERT OR UPDATE ON events
+FOR EACH ROW
 EXECUTE PROCEDURE event_manage_FTS();
 
 -- Create a GIN index for ts_vectors
