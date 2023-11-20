@@ -27,3 +27,24 @@ div.editevent textarea {
     resize: none;
     height: 10em;
 }
+
+div#invitationlist {
+    position: relative;
+    margin-top: 5em;
+    overflow: auto;
+    display: grid;
+    row-gap: 30px;
+    column-gap: 30px;
+    width: calc(100% - 30px);
+    left: 15px;
+    grid-template-columns: repeat(auto-fill, 7em);
+}
+
+.invitation {
+    background-color: rgb(200, 200, 200);
+    margin: 0;
+    padding: 5px;
+    width: 7em;
+    text-align: center;
+    vertical-align: middle;
+}

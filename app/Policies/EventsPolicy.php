@@ -22,8 +22,8 @@ class EventsPolicy
      */
     public function show(User $user, Events $event): bool
     {
-        // Only a card owner can see a card.
-        return $user->id === $event->id_host;
+        // Any (authenticated) user can see public events.
+        return Auth::check();
     }
 
     /**
@@ -36,20 +36,20 @@ class EventsPolicy
     }
 
     /**
-     * Determine if a card can be created by a user.
+     * Determine if an event can be created by a user.
      */
     public function create(User $user): bool
     {
-        // Any user can create a new card.
+        // Any user can create a new event.
         return Auth::check();
     }
 
     /**
-     * Determine if a card can be deleted by a user.
+     * Determine if an event can be deleted by a user.
      */
     public function delete(User $user, Events $event): bool
     {
-      // Only a card owner can delete it.
+      // Only a host can delete it.
       return $user->id === $event->id_host;
     }
 }

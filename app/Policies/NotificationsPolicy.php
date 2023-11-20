@@ -46,11 +46,11 @@ class NotificationsPolicy
     }
 
     /**
-     * Determine if a card can be deleted by a user.
+     * Determine if a notification can be deleted by a user.
      */
     public function delete(User $user, Notifications $notification): bool
     {
-      // Only a card owner can delete it.
+      // Only a notification owner can delete it.
       return $user->id === $notification->id_developer;
     }
 }

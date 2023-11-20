@@ -7,19 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Participant;
 use App\Models\Events;
+use Illuminate\View\View;
 
 class ParticipantController extends Controller
 {
-    public function list(Request $request)
-    {
-        $eventId = $request->route('id');
-        $event = Events::findOrFail($eventId);
-        $participants = Participant::where('id_event', $event->id)->get();
-
-        return view('pages.manageparticipants', [
-            'participants' => $participants
-        ]);
-    }
     public function addParticipants(Request $request)
     {
         $participant = new Participant();
@@ -49,5 +40,19 @@ class ParticipantController extends Controller
         $participant->delete();
 
         return redirect()->intended('/manageparticipants');
+    }
+    public function showManageParticipants(string $eventId): View 
+    {
+        $event = Events::findOrFail($eventId);
+        $participants = Participant::where('id_event', $event->id)->get();
+        // Get the card.
+        $event = Events::findOrFail($eventId);
+        // Check if the current user can see (show) the card.
+        $this->authorize('show', $event);  
+        // Use the pages.card template to display the card.
+        return view('pages.manageparticipants', [
+            'event' => $event,
+            'participants' => $participants
+        ]);
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RegisterController;
 
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ParticipantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,11 @@ Route::controller(EventController::class)->group(function () {
     Route::post('/deleteevents/{id}', 'delete')->name('deleteevents');
     Route::post('/invitetoevent/{id}', 'inviteToEvent')->name('invitetoevent');
     Route::get('/notifications', 'showNotificationsPage')->name('showNotificationsPage');
-    Route::get('/manageparticipants/{id}', 'showManageParticipants')->name('showManageParticipants');
+});
+
+// Participants
+Route::controller(ParticipantController::class)->group(function () {
+    Route::get('/participants/{id}','showManageParticipants')->name('showManageParticipants');
 });
 
 // Authentication
