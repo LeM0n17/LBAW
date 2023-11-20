@@ -157,14 +157,14 @@ class EventController extends Controller
 
         $events = Auth::user()->isAdmin() ?
                     // if the user is an administrator, search all events
-                    Events::whereRaw("tsvectors @@ to_tsquery(?)", [$search])
-                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) DESC", [$search])
+                    Events::whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$search])
+                        ->orderByRaw("ts_rank(tsvectors, to_tsquery('english', ?)) DESC", [$search])
                         ->get() :
 
                     // if the user is NOT an administrator, search public events
                     $this->publicEvents()
-                        ->whereRaw("tsvectors @@ to_tsquery(?)", [$search])
-                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) DESC", [$search])
+                        ->whereRaw("(events.name = ? OR events.tsvectors @@ to_tsquery('english', ?))", [$search, $search])
+                        ->orderByRaw("ts_rank(events.tsvectors, to_tsquery('english', ?)) DESC", [$search])
                         ->get();
 
         return view('pages.search', ['events' => $events]);
