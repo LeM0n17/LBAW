@@ -137,22 +137,21 @@ class EventController extends Controller
     /**
      * Perform a full-text search on the events.
      */
-    public function search(Request $request) {
-        $input = $request->input('search-field');
-
-        $events = Auth::user()->isAdmin() ?
+    public function search(string $s) {
+        $events = 
+        Auth::user()->isAdmin() ?
                     // if the user is an administrator, search all events
-                    Events::whereRaw("tsvectors @@ to_tsquery(?)", [$input])
-                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
+                    Events::whereRaw("tsvectors @@ to_tsquery(?)", [$s])
+                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$s])
                         ->get() :
 
                     // if the user is NOT an administrator, search public events
                     $this->publicEvents()
-                        ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
-                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
+                        ->whereRaw("tsvectors @@ to_tsquery(?)", [$s])
+                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$s])
                         ->get();
 
-        return view('pages.home', ['events' => $events]);
+        return view('pages.search', ['events' => $events]);
     }
 
     public function editEvents(Request $request, $id)
