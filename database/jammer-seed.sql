@@ -19,9 +19,12 @@ DROP TABLE IF EXISTS comment_like CASCADE;
 DROP TABLE IF EXISTS faq CASCADE;
 DROP TABLE IF EXISTS votes CASCADE;
 DROP TABLE IF EXISTS likes CASCADE;
+
 DROP TYPE IF EXISTS event_type CASCADE;
 DROP TYPE IF EXISTS comment_notification_type CASCADE;
 DROP TYPE IF EXISTS event_notification_type CASCADE;
+
+DROP FUNCTION IF EXISTS event_manage_FTS CASCADE;
 
 -----------------------------------------
 -- Types
@@ -183,7 +186,7 @@ BEFORE INSERT OR UPDATE ON events
 EXECUTE PROCEDURE event_manage_FTS();
 
 -- Create a GIN index for ts_vectors
-CREATE INDEX event_update_FTS ON events USING GIN(tsvectors);
+CREATE INDEX event_FTS_index ON events USING GIN(tsvectors);
 
 -----------------------------------------
 -- TRIGGERS
