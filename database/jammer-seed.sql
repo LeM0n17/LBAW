@@ -226,6 +226,7 @@ BEGIN
     IF EXISTS (SELECT * FROM participants WHERE participants.id_event = NEW.id_event AND participants.id_participant = NEW.id_participant) THEN
         RAISE EXCEPTION 'PARTICIPATION WAS ALREADY IN EVENT!';
     END IF;
+    RETURN NEW;
 END $BODY$
     LANGUAGE plpgsql;
 

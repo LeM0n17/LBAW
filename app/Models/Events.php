@@ -25,7 +25,7 @@ class Events extends Model
 
     public function participants(): HasMany
     {
-        return $this->hasMany(Participant::class, 'id_participant');
+        return $this->hasMany(Participant::class, 'id_event');
     }
 
     public function notifications(): HasMany

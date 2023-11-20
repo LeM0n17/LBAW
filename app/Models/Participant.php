@@ -13,6 +13,13 @@ class Participant extends Model
 
     // Don't add create and update timestamps in database.
     public $timestamps  = false;
+    public $incrementing = false;
+    public $primaryKey = null;
+
+    protected $fillable = [
+        'id_participant',
+        'id_event',
+    ];
 
     /**
      * Get the user.
@@ -20,6 +27,11 @@ class Participant extends Model
     public function participant(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id_participant');
+    }
+
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Events::class, 'id_event');
     }
 
 }

@@ -5,7 +5,7 @@
     @if ($event->notifications->contains('id_developer', Auth::user()->id))
         <form method="POST" action="{{ route('addHomeParticipant', ['id' => $event->id]) }}">
             {{ csrf_field() }}
-            <button type="button"> Accept Invite </button>
+            <button type="submit"> Accept Invite </button>
         </form>
     @endif
 </div>

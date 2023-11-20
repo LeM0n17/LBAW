@@ -42,7 +42,7 @@ Route::controller(EventController::class)->group(function () {
 // Participants
 Route::controller(ParticipantController::class)->group(function () {
     Route::get('/participants/{id}','showManageParticipants')->name('showManageParticipants');
-    Route::post('/home','addParticipants')->name('addHomeParticipant');
+    Route::post('/home/{id}','addParticipants')->name('addHomeParticipant');
     Route::post('/events/{id}','addParticipants')->name('addParticipant');
 });
 

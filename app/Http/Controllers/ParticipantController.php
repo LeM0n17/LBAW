@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Participant;
 use App\Models\Events;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
+use App\Models\Notifications;
 
 class ParticipantController extends Controller
 {
@@ -16,18 +18,26 @@ class ParticipantController extends Controller
         $participant = new Participant();
 
         $userId = Auth::id();
-        $user = User::findOrFail($userId);
 
         $eventId = $request->route('id');
 
         $participant->fill([
-            'id_participant' => $user->id,
-            '$id_event' => $eventId
+            'id_participant' => $userId,
+            'id_event' => $eventId
         ]);
 
-        $user->save();
+        $participant->save();
 
-        return redirect()->intended('/events/{$userId}');
+        // Delete the notification
+        $notification = Notifications::where('id_developer', $userId)
+            ->where('id_event', $eventId)
+            ->first();
+
+        if ($notification) {
+            $notification->delete();
+        }
+
+        return redirect()->to("/events/{$eventId}");
     }
 
     public function removeParticipant(Request $request)
@@ -39,17 +49,17 @@ class ParticipantController extends Controller
 
         $participant->delete();
 
-        return redirect()->intended('/manageparticipants');
+        return redirect()->to("/events/{$eventId}");
     }
     public function showManageParticipants(string $eventId): View 
     {
         $event = Events::findOrFail($eventId);
         $participants = Participant::where('id_event', $event->id)->get();
-        // Get the card.
+
         $event = Events::findOrFail($eventId);
-        // Check if the current user can see (show) the card.
+
         $this->authorize('show', $event);  
-        // Use the pages.card template to display the card.
+
         return view('pages.manageparticipants', [
             'event' => $event,
             'participants' => $participants
