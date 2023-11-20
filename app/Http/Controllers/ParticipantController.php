@@ -6,9 +6,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Participant;
+use App\Models\Events;
 
 class ParticipantController extends Controller
 {
+    public function list(Request $request)
+    {
+        $eventId = $request->route('id');
+        $event = Events::findOrFail($eventId);
+        $participants = Participant::where('id_event', $event->id)->get();
+
+        return view('pages.manageparticipants', [
+            'participants' => $participants
+        ]);
+    }
     public function addParticipants(Request $request)
     {
         $participant = new Participant();
