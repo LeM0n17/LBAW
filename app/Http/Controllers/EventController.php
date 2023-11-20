@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 use App\Models\Events;
 use App\Models\Notifications;
+use App\Models\User;
 
 class EventController extends Controller
 {
@@ -52,6 +53,20 @@ class EventController extends Controller
     public function showCreateEvents(): View
     {
         return view('pages.createevents');
+    }
+
+    public function showManageParticipants(string $id): View 
+    {
+        // Get the card.
+        $event = Events::findOrFail($id);
+
+        // Check if the current user can see (show) the card.
+        $this->authorize('show', $event);  
+
+        // Use the pages.card template to display the card.
+        return view('pages.manageparticipants', [
+            'event' => $event
+        ]);
     }
 
     /**
@@ -213,5 +228,35 @@ class EventController extends Controller
             // Use the pages.events template to display all notifications.
             return view("pages.notifications", ['notifications' => $notifications]);
         }
+    }
+
+    public function inviteToEvent(Request $request, $id)
+    {
+        $notification = new Notifications();
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            Log::info('Validation failed: ' . $validator->errors());
+            return redirect()->to("/events/{$id}")
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $notification->fill([
+            'id_developer' => User::where('email', $request->input('email'))->first()->id,
+            'id_event' => $id,
+            'type' => 'invitation',
+            'content' => 'please join',
+            'time' => date("Y-m-d H:i:s")
+        ]);
+
+        $notification->save();
+
+        return redirect()->to("/events/{$id}")
+            ->withSuccess('User invited!')
+            ->withErrors('Error');
     }
 }

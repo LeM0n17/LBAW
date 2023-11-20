@@ -1,14 +1,14 @@
 -- noinspection SqlNoDataSourceInspectionForFile
-DROP SCHEMA IF EXISTS jammer CASCADE;
+DROP SCHEMA IF EXISTS lbaw23115 CASCADE;
 
-CREATE SCHEMA jammer;
-SET search_path TO jammer;
+CREATE SCHEMA lbaw23115;
+SET search_path TO lbaw23115;
 
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS game_developer CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
 DROP TABLE IF EXISTS events CASCADE;
-DROP TABLE IF EXISTS participants CASCADE;
+DROP TABLE IF EXISTS participates CASCADE;
 DROP TABLE IF EXISTS tag CASCADE;
 DROP TABLE IF EXISTS event_tag CASCADE;
 DROP TABLE IF EXISTS poll CASCADE;
@@ -35,12 +35,11 @@ CREATE TYPE event_notification_type AS ENUM ('start', 'results', 'invitation');
 -- Tables
 -----------------------------------------
 
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR NOT NULL,
-  password VARCHAR NOT NULL,
-  email VARCHAR UNIQUE NOT NULL,
-  remember_token VARCHAR
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(20) NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    email VARCHAR(50) UNIQUE
 );
 
 CREATE TABLE game_developer(
@@ -66,8 +65,7 @@ CREATE TABLE events(
     FOREIGN KEY(id_host) REFERENCES game_developer(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE participants
-(
+CREATE TABLE participates(
     id_participant INT NOT NULL,
     id_event INT NOT NULL,
     FOREIGN KEY(id_participant) REFERENCES game_developer(id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -133,24 +131,40 @@ CREATE TABLE faq(
     FOREIGN KEY(id_admin) REFERENCES admin(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE notifications(
+CREATE TABLE notification(
     id SERIAL PRIMARY KEY,
     id_developer INT NOT NULL,
-    id_event INT NOT NULL,
-    type event_notification_type NOT NULL,
     content TEXT NOT NULL,
     time TIMESTAMP NOT NULL,
     FOREIGN KEY(id_developer) REFERENCES game_developer(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE comment_notification(
+    id SERIAL PRIMARY KEY,
+    id_notification INT NOT NULL,
+    id_comment INT NOT NULL,
+    type comment_notification_type NOT NULL,
+    FOREIGN KEY(id_notification) REFERENCES notification(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(id_comment) REFERENCES comment(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE event_notification(
+    id SERIAL PRIMARY KEY,
+    id_notification INT NOT NULL,
+    id_event INT NOT NULL,
+    type event_notification_type NOT NULL,
+    FOREIGN KEY(id_notification) REFERENCES notification(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(id_event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -----------------------------------------
 -- INDEXES
 -----------------------------------------
 
-CREATE INDEX event_participants ON participants USING hash(id_event);
+CREATE INDEX event_participants ON participates USING hash(id_event);
 
-CREATE INDEX user_notifications ON notifications USING btree(id_developer);
-CLUSTER notifications USING user_notifications;
+CREATE INDEX user_notifications ON notification USING btree(id_developer);
+CLUSTER notification USING user_notifications;
 
 -- Add column 'tsvectors' to 'event' to store computed tsvectors
 ALTER TABLE events
@@ -188,88 +202,3 @@ CREATE INDEX event_update_FTS ON events USING GIN(tsvectors);
 -----------------------------------------
 -- TRIGGERS
 -----------------------------------------
-
-CREATE FUNCTION verify_participation_limit() RETURNS TRIGGER AS $BODY$
-BEGIN
-    IF EXISTS (SELECT ParticipantCount FROM (SELECT count(*) AS ParticipantCount FROM participants WHERE participants.id_event = NEW.id_event) as pPC WHERE ParticipantCount >= 100) THEN
-        RAISE EXCEPTION 'PARTICIPATION LIMIT REACHED!';
-    END IF;
-    RETURN NEW;
-END $BODY$
-    LANGUAGE plpgsql;
-
-CREATE TRIGGER participation_limiter
-    BEFORE INSERT ON participants
-    FOR EACH ROW
-EXECUTE PROCEDURE verify_participation_limit();
-
-CREATE FUNCTION comment_from_participant() RETURNS TRIGGER AS $BODY$
-BEGIN
-    IF NOT EXISTS (SELECT id_writer FROM participants WHERE NEW.id_event = participants.id_event AND comment.id_writer = NEW.id_writer) THEN
-        RAISE EXCEPTION 'COMMENT FROM NOT PARTICIPANT!';
-    END IF;
-    RETURN NEW;
-END $BODY$
-    LANGUAGE plpgsql;
-
-CREATE TRIGGER comment_restricter
-    BEFORE INSERT ON comment
-    FOR EACH ROW
-EXECUTE PROCEDURE comment_from_participant();
-
-CREATE FUNCTION verify_participation_presence() RETURNS TRIGGER AS $BODY$
-BEGIN
-    IF EXISTS (SELECT * FROM participants WHERE participants.id_event = NEW.id_event AND participants.id_participant = NEW.id_participant) THEN
-        RAISE EXCEPTION 'PARTICIPATION WAS ALREADY IN EVENT!';
-    END IF;
-END $BODY$
-    LANGUAGE plpgsql;
-
-CREATE TRIGGER participation_presence
-    BEFORE INSERT ON participants
-    FOR EACH ROW
-EXECUTE PROCEDURE verify_participation_presence();
-
-CREATE FUNCTION delete_likes() RETURNS TRIGGER AS $BODY$
-BEGIN
-    DELETE FROM likes WHERE likes.id_developer = NEW.id_developer AND likes.id_comment = NEW.id_developer;
-END $BODY$
-    LANGUAGE plpgsql;
-
-CREATE TRIGGER like_cleaning
-    BEFORE INSERT ON likes
-    FOR EACH ROW
-EXECUTE PROCEDURE delete_likes();
-
-CREATE FUNCTION filter_votes() RETURNS TRIGGER AS $BODY$
-BEGIN
-    DELETE FROM votes WHERE votes.id_developer = NEW.id_developer AND votes.id_option IN
-            (SELECT id_option FROM option WHERE option.id_poll in
-            (SELECT id_poll FROM option WHERE option.id = NEW.id_option));
-END $BODY$
-    LANGUAGE plpgsql;
-
-CREATE TRIGGER vote_cleaning
-    BEFORE INSERT ON votes
-    FOR EACH ROW
-EXECUTE PROCEDURE filter_votes();
-
------------------------------------------
--- TRANSACTIONS
------------------------------------------
-
------------------------------------------
--- POPULATE
------------------------------------------
-
-INSERT INTO users VALUES (DEFAULT, 'JohnDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example@example.com');
-INSERT INTO users VALUES (DEFAULT, 'JaneDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example1@example.com');
-INSERT INTO users VALUES (DEFAULT, 'JaneDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example2@example.com');
-
-INSERT INTO game_developer VALUES (1, 1);
-INSERT INTO game_developer VALUES (2, 2);
-INSERT INTO game_developer VALUES (3, 3);
-
-INSERT INTO events VALUES (DEFAULT, 1, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event', 'Description', 'public');
-
-INSERT INTO notifications VALUES (DEFAULT, 2, 1, 'invitation', 'join please', '2020-01-01 00:00:00');
