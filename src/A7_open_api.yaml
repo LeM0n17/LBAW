@@ -19,7 +19,7 @@ paths:
     get:
       operationId: R101
       summary: 'R101: Login Form'
-      description: 'Login form : perms' #change perms to the correct permissions
+      description: 'Login form : PUB'
 
       tags:
         - 'M01: Authentication'
@@ -30,7 +30,7 @@ paths:
     post:
       operationId: 'R102'
       summary: 'L102: Login Action'
-      description: 'Login information processing : perms' #change perms to the correct permissions
+      description: 'Login information processing : PUB'
 
       tags:
         - 'M01: Authentication'
@@ -42,20 +42,16 @@ paths:
             schema:
               type: object
               properties:
-                username:
-                  type: string
-                  description: The user's username
-                  example: johndoe
+                email:
+                    type: string
+                    description: The user's email (optional)
+                    example: johndoe@example.com
                 password:
                   type: string
                   description: The user's password
                   example: password123
-                email:
-                  type: string
-                  description: The user's email (optional)
-                  example: johndoe@example.com
               required:
-                - username
+                - email
                 - password
       responses:
         '302':
@@ -64,21 +60,21 @@ paths:
             Location:
               schema:
                 type: string
-                description: Sends to user profile page
+                description: Sends to home page
                 example:
                   302Success:
-                    description:  'OK, Redirect to user profile page'
-                    value: '/user_profile/{id}' #may change
+                    description:  'OK, Redirect to home page'
+                    value: '/home'
                   302Error:
                     description: 'Failed authentication, Redirect to login page'
-                    value: '/login_page' #may change
+                    value: '/login'
   
   /logout:
 
     post:
       operationId: R103
       summary: 'R103: Logout Action'
-      description: 'Logout : perms' #change perms to the correct permissions
+      description: 'Logout : PUB'
 
       tags: 
         - 'M01: Authentication'
@@ -92,13 +88,13 @@ paths:
               examples:
                 302Success:
                   description: 'OK, Logout successful, Redirect to login page'
-                  value: '/login_page' #may change
+                  value: '/login'
 
   /register:
     get:
       operationId: R104
       summary: 'R104: Register Form'
-      description: 'Register form : perms' #change perms to the correct permissions
+      description: 'Register form : PUB'
 
       tags:
         - 'M01: Authentication'
@@ -109,7 +105,7 @@ paths:
     post:
       operationId: R105
       summary: 'R105: Register Action'
-      description: 'Register information processing : perms' #change perms to the correct permissions
+      description: 'Register information processing : PUB'
 
       tags:
         - 'M01: Authentication'
@@ -145,5 +141,16 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: 'OK, Redirect to user page'
-                  value: '/user_profile/{id}'
+                  description: 'OK, Redirect to home page'
+                  value: '/home'
+  /home:
+    get:
+      operationId: R106
+      summary: 'R106: Home Page'
+      description: 'Home page : PUB'
+
+      tags:
+        - 'M01: Authentication'
+      responses:
+        '200':
+          description: 'OK, Show Home UI'

@@ -27,4 +27,9 @@ class Events extends Model
     {
         return $this->hasMany(Participant::class, 'id_participant');
     }
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notifications::class, 'id_event');
+    }
 }

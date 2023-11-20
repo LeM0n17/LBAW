@@ -86,6 +86,7 @@ class EventController extends Controller
     {
         // Create a blank new Card.
         $event = new Events();
+        $this->authorize('create', $event);  
 
         // Check if the current user is authorized to edit this event.
 
@@ -128,6 +129,8 @@ class EventController extends Controller
         $id = $request->route('id');
         $event = Events::find($id);
 
+        $this->authorize('delete', $event);  
+
         // Delete the card and return it as JSON.
         $event->delete();
         return redirect()->to("/home")
@@ -160,6 +163,8 @@ class EventController extends Controller
         // Find the card.
         $id = $request->route('id');
         $event = Events::findorFail($id);
+
+        $this->authorize('editEvents', $event);
 
         $rules = ['description' => 'required',];
         $rules['title'] = 'required';
@@ -230,8 +235,10 @@ class EventController extends Controller
                 ->withInput();
         }
 
+        $user = User::where('email', $request->input('email'))->first();
+
         $notification->fill([
-            'id_developer' => User::where('email', $request->input('email'))->first()->id,
+            'id_developer' => $user->id,
             'id_event' => $id,
             'type' => 'invitation',
             'content' => 'please join',

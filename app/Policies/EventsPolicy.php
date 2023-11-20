@@ -52,4 +52,10 @@ class EventsPolicy
       // Only a host can delete it.
       return $user->id === $event->id_host;
     }
+
+    public function editEvents(User $user, Events $event): bool
+    {
+        return $user->id === $event->id_host;
+    }
+
 }
