@@ -36,6 +36,7 @@ Route::controller(EventController::class)->group(function () {
     Route::post('/deleteevents/{id}', 'delete')->name('deleteevents');
     Route::post('/invitetoevent/{id}', 'inviteToEvent')->name('invitetoevent');
     Route::get('/notifications', 'showNotificationsPage')->name('showNotificationsPage');
+    Route::get('/manageparticipants/{id}', 'showManageParticipants')->name('showManageParticipants');
 });
 
 // Authentication

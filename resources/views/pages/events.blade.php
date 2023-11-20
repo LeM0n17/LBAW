@@ -6,6 +6,7 @@
     <h2 id = "title">{{ $event->name }}</h2>
     @if (Auth::user()->id == $event->host->id)
         <button type="button"><a href="/editevents/{{ $event->id }}"> Configure </a></button><br>
+        <button type="button"><a href="/manageparticipants/{{ $event->id }}"> Participants </a></button><br>
         <form method="POST" action="{{ route('deleteevents', ['id' => $event->id]) }}">
             {{ csrf_field() }}
             <button type="submit"> Delete </button>
