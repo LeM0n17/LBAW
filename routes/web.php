@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -24,6 +25,13 @@ use App\Http\Controllers\ParticipantController;
 
 // Home
 Route::redirect('/', '/login');
+
+// Admin
+Route::controller(AdminController::class)->group(function () {
+    Route::get("/admin", "showAdminPage")->name("showAdminPage");
+    Route::post("/admin/{id}", "deleteUser")->name("deleteUser");
+    Route::post("/admin/{id}", "deleteEvent")->name("deleteEvent");
+});
 
 // Events
 Route::controller(EventController::class)->group(function () {
