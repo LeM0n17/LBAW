@@ -27,7 +27,7 @@ class ParticipantController extends Controller
 
         $user->save();
 
-        return redirect()->intended('/manageparticipants');
+        return redirect()->intended('/events/{$userId}');
     }
 
     public function removeParticipant(Request $request)

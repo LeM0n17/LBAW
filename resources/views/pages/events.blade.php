@@ -14,8 +14,11 @@
     @endif
     <label id="creator">By <b>{{ $event->host->name }}</b></label>
     <label id="duration">{{ $event->start }} - {{ $event->end_ }}</label>
-    @if (Auth::user()->id != $event->host->id)
-        <button type="button"> Request to Join </button>
+    @if ($event->notifications->contains('id_developer', Auth::user()->id))
+        <form method="POST" action="{{ route('addParticipant', ['id' => $event->id]) }}">
+            {{ csrf_field() }}
+            <button type="button"> Accept Invite </button>
+        </form>
     @endif
     <p id="description">{{ $event->description }}</p>
 </div>

@@ -3,6 +3,9 @@
     <label>By <b>{{ $event->host->name }}</b></label>
     <label>{{ $event->start }} - {{ $event->end_ }}</label>
     @if ($event->notifications->contains('id_developer', Auth::user()->id))
-        <button type="button"> Accept Invite </button>
+        <form method="POST" action="{{ route('addHomeParticipant', ['id' => $event->id]) }}">
+            {{ csrf_field() }}
+            <button type="button"> Accept Invite </button>
+        </form>
     @endif
 </div>
