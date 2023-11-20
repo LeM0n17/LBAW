@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Events;
+use App\Models\Admin;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -50,7 +51,7 @@ class EventsPolicy
     public function delete(User $user, Events $event): bool
     {
       // Only a host can delete it.
-      return $user->id === $event->id_host;
+      return $user->id === $event->id_host || $user->isAdmin();
     }
 
     public function editEvents(User $user, Events $event): bool

@@ -21,6 +21,8 @@ class AdminController extends Controller
         $events = $this->publicEvents()->get(); 
         $users = User::all();
 
+        $this->authorize('showAdminPage', $events);
+
         return view('pages.admin', [
             'events' => $events,
             'users' => $users
@@ -31,6 +33,9 @@ class AdminController extends Controller
     {
         $userId = $request->route('id');
         $user = User::findOrFail($userId);
+
+        $this->authorize('deleteUser', $user);
+
         $user->delete();
 
         return redirect()->intended('/admin');

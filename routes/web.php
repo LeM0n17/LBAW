@@ -29,8 +29,8 @@ Route::redirect('/', '/login');
 // Admin
 Route::controller(AdminController::class)->group(function () {
     Route::get("/admin", "showAdminPage")->name("showAdminPage");
-    Route::post("/admin/{id}", "deleteUser")->name("deleteUser");
-    Route::post("/admin/{id}", "deleteEvent")->name("deleteEvent");
+    Route::post("/admin/user/{id}", "deleteUser")->name("deleteUser");
+    Route::post("/admin/event/{id}", "deleteEvent")->name("deleteEvent");
 });
 
 // Events
