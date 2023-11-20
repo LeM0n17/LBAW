@@ -54,6 +54,20 @@ class EventController extends Controller
         return view('pages.createevents');
     }
 
+    public function showManageParticipants(string $id): View 
+    {
+        // Get the card.
+        $event = Events::findOrFail($id);
+
+        // Check if the current user can see (show) the card.
+        $this->authorize('show', $event);  
+
+        // Use the pages.card template to display the card.
+        return view('pages.manageparticipants', [
+            'event' => $event
+        ]);
+    }
+
     /**
      * Shows all events.
      */
