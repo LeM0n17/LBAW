@@ -154,7 +154,7 @@ class EventController extends Controller
         return view('pages.search', ['events' => $events]);
     }
 
-    public function editEvents(Request $request, $id)
+    public function editEvents(Request $request)
     {
         // Find the card.
         $id = $request->route('id');
