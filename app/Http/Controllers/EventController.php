@@ -137,18 +137,19 @@ class EventController extends Controller
     /**
      * Perform a full-text search on the events.
      */
-    public function search(string $s) {
-        $events = 
-        Auth::user()->isAdmin() ?
+    public function search(Request $request) {
+        $search = $request->input('search');
+
+        $events = Auth::user()->isAdmin() ?
                     // if the user is an administrator, search all events
-                    Events::whereRaw("tsvectors @@ to_tsquery(?)", [$s])
-                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$s])
+                    Events::whereRaw("tsvectors @@ to_tsquery(?)", [$search])
+                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) DESC", [$search])
                         ->get() :
 
                     // if the user is NOT an administrator, search public events
                     $this->publicEvents()
-                        ->whereRaw("tsvectors @@ to_tsquery(?)", [$s])
-                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$s])
+                        ->whereRaw("tsvectors @@ to_tsquery(?)", [$search])
+                        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) DESC", [$search])
                         ->get();
 
         return view('pages.search', ['events' => $events]);
@@ -204,7 +205,7 @@ class EventController extends Controller
             // Get notifications for user ordered by id.
             $this->authorize('list', Notifications::class);
 
-        // Retrieve notifications for the user ordered by ID.
+            // Retrieve notifications for the user ordered by ID.
             $notifications = Auth::user()->notification()->orderBy('id')->get();
 
             // The current user is authorized to list notifications.
