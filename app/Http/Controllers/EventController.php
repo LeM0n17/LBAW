@@ -72,8 +72,6 @@ class EventController extends Controller
             // Retrieve events for the user ordered by ID.
             $events = $this->publicEvents()->get();
 
-            // The current user is authorized to list events.
-
             // Use the pages.events template to display all events.
             return view('pages.home', ['events' => $events]);
         }
