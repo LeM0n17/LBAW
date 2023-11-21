@@ -8,6 +8,6 @@
     <button type="submit">Invite</button>
 </form>
 <div id="invitationlist">
-    @each('partials.participant', $participants, 'participant', $event, 'event')
+    @each('partials.participant', $participants, 'participant')
 </div>
 @endsection
