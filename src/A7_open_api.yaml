@@ -6,7 +6,7 @@ info:
   description: 'Web resources specification for A7'
 
 servers:
-  - url: http://127.0.0.1..8000 
+  - url: https://lbaw23115.lbaw.fe.up.pt
     description: Jammer - Game Jamming Platform
 
 tags:
