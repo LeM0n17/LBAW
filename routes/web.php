@@ -52,7 +52,7 @@ Route::controller(ParticipantController::class)->group(function () {
     Route::get('/participants/{id}','showManageParticipants')->name('showManageParticipants');
     Route::post('/home/{id}','addParticipants')->name('addHomeParticipant');
     Route::post('/events/{id}','addParticipants')->name('addParticipant');
-    Route::post('/participants/{id_participant}/{id_event}','removeParticipant')->name('removeParticipant');
+    Route::post('/participants/remove/{id_participant}','removeParticipant')->name('removeParticipant');
 });
 
 // Authentication

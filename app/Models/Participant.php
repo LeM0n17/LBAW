@@ -14,6 +14,7 @@ class Participant extends Model
     // Don't add create and update timestamps in database.
     public $timestamps  = false;
     public $incrementing = false;
+    protected $keyType = 'nonIncrementing';
     public $primaryKey = null;
 
     protected $fillable = [

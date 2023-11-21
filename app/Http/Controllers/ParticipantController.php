@@ -43,11 +43,9 @@ class ParticipantController extends Controller
     public function removeParticipant(Request $request)
     {
         $participantId = $request->route('id_participant');
-        $eventId = $request->route('id_event');
+        $eventId = $request->input('eventid');
 
-        $participant = Participant::where('id_participant', $participantId)->where('id_event', $eventId)->firstOrFail();
-
-        $participant->delete();
+        $participant = Participant::where('id_participant', $participantId)->where('id_event', $eventId)->delete();
 
         return redirect()->to("/events/{$eventId}");
     }

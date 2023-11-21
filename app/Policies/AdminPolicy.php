@@ -12,7 +12,7 @@ class AdminPolicy
 {
     public function showAdminPage(User $user): bool
     {
-        return $user->isAdmin();
+        return Auth::user()->isAdmin;
     }
 
     public function deleteUser(User $user, User $userToDelete): bool
