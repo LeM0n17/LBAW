@@ -146,8 +146,8 @@ paths:
                   value: '/home'
   /home:
     get:
-      operationId: R106
-      summary: 'R106: Home Page'
+      operationId: R201
+      summary: 'R201: Home Page'
       description: 'Home page : PUB'
 
       tags:
@@ -157,8 +157,8 @@ paths:
           description: 'OK, Show Home UI'
           
     post: 
-      operationId: R107
-      summary: 'R107: Join Event'
+      operationId: R210
+      summary: 'R210: Join Event'
       description: 'Join Event : Invite Only'
 
       tags:
@@ -197,8 +197,8 @@ paths:
 
   /event/{id}:
     get:
-      operationId: R108
-      summary: 'R108: Event Page'
+      operationId: R203
+      summary: 'R203: Event Page'
       description: 'Event Page : PUB'
 
       tags:
@@ -208,8 +208,8 @@ paths:
           description: 'OK, Show Event UI'
     
     post:
-      operationId: R109
-      summary: 'R109: Join Event'
+      operationId: R210
+      summary: 'R210: Join Event'
       description: 'Join Event : Invite Only'
 
       tags:
@@ -247,8 +247,8 @@ paths:
 
   /deleteevents/{id}:
     post:
-      operationId: R110
-      summary: 'R110: Delete Event'
+      operationId: R208
+      summary: 'R208: Delete Event'
       description: 'Delete Event : OWN'
 
       tags:
@@ -282,12 +282,13 @@ paths:
 
   /editevents/{id}:
     get:
-      operationId: R111
-      summary: 'R111: Edit Event Page'
+      operationId: R206
+      summary: 'R206: Edit Event Page'
       description: 'Edit Event Page : OWN'
 
-    tags:
-        - 'M02: Events'
+      tags:
+          - 'M02: Events'
+
       responses:
         '200':
           description: 'OK, Show Event UI'
@@ -355,5 +356,106 @@ paths:
                 400:
                   description: 'Bad request'
 
-  
+  /profile:
+    get:
+      operationId: R302
+      summary: 'R302: Profile Page'
+      description: 'Profile Page : OWN'
+    
+      tags:
+        - 'M03: User'
+      
+      response:
+        '200':
+          description: 'OK, Show Profile UI'
+        
+    post:
+      operationId: R305
+      summary: 'R305: Delete account'
+      description: 'Delete account : OWN'
+
+      tags:
+        - 'M03: User'
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: number
+                  description: The user's id
+                  example: 2
+              required:
+                - user_id
+
+      response:
+        '302':
+          description: 'Redirect after deleting account'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'OK, Redirect to login page'
+                  value: '/login'
+
+  /editprofile:
+    get:
+      operationId: R303
+      summary: 'R303: Edit Profile Page'
+      description: 'Edit Profile Page : OWN'
+    
+      tags:
+        - 'M03: User'
+      
+      response:
+        '200':
+          description: 'OK, Show Edit Profile UI'
+        
+    post:
+      operationId: R304
+      summary: 'R304: Edit account'
+      description: 'Edit account : OWN'
+
+      tags:
+        - 'M03: User'
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: number
+                  description: The user's id
+                  example: 2
+                name:
+                  type: string
+                  description: The user's username
+                  example: 'john doe'
+                email:
+                  type: string
+                  description: The user's email
+                  example: 'example@example.com'
+              required:
+                - user_id
+                - name
+                - email
+      response:
+        '302':
+          description: 'Redirect after altering account'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'OK, Redirect to profile page'
+                  value: '/profile'
 
