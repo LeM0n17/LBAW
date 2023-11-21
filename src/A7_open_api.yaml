@@ -154,3 +154,137 @@ paths:
       responses:
         '200':
           description: 'OK, Show Home UI'
+          
+    post: 
+      operationId: R107
+      summary: 'R107: Join Event'
+      description: 'Join Event : Invite Only'
+
+      tags:
+        - 'M02: Events'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: number
+                  description: The user's id
+                  example: 1
+                password:
+                  type: number
+                  description: The event's id
+                  example: 1
+              required:
+                - user_id
+                - event_id
+
+      responses:
+        '302':
+          description: 'Redirect after joining an event'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'OK, Redirect to event page'
+                  value: '/events/{id}'
+
+  /event/{id}:
+    get:
+      operationId: R108
+      summary: 'R108: Event Page'
+      description: 'Event Page : PUB'
+
+      tags:
+        - 'M02: Events'
+      responses:
+        '200':
+          description: 'OK, Show Event UI'
+    
+    post:
+      operationId: R109
+      summary: 'R109: Join Event'
+      description: 'Join Event : Invite Only'
+
+      tags:
+        - 'M02: Events'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: number
+                  description: The user's id
+                  example: 1
+                password:
+                  type: number
+                  description: The event's id
+                  example: 1
+              required:
+                - user_id
+                - event_id
+
+      responses:
+        '302':
+          description: 'Redirect after joining an event'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'OK, Redirect to event page'
+                  value: '/events/{id}'
+
+  /deleteevents/{id}:
+    post:
+      operationId: R110
+      summary: 'R109: Delete Event'
+      description: 'Delete Event : OWN'
+
+      tags:
+        - 'M02: Events'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: number
+                  description: The user's id
+                  example: 1
+                password:
+                  type: number
+                  description: The event's id
+                  example: 1
+              required:
+                - user_id
+                - event_id
+
+      responses:
+        '302':
+          description: 'Redirect after joining an event'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'OK, Redirect to event page'
+                  value: '/events/{id}'
+
+      
+
+
