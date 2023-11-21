@@ -6,8 +6,8 @@ info:
   description: 'Web resources specification for A7'
 
 servers:
-  - url: http://lbaw.fe.up.pt #change to real url
-    description: FEUP DB server
+  - url: http://127.0.0.1..8000 
+    description: Jammer - Game Jamming Platform
 
 tags:
   - name: 'M01: Authentication'
@@ -154,8 +154,8 @@ paths:
         - 'M03: User'
       responses:
         '200':
-          description: 'OK, Show Home UI'
-          
+          description: 'OK, Show Home UI'          
+
     post: 
       operationId: R107
       summary: 'R107: Join Event'
@@ -285,8 +285,7 @@ paths:
       operationId: R111
       summary: 'R111: Edit Event Page'
       description: 'Edit Event Page : OWN'
-
-    tags:
+      tags:
         - 'M02: Events'
       responses:
         '200':
@@ -355,5 +354,85 @@ paths:
                 400:
                   description: 'Bad request'
 
-  
+  /manageparticipants:
+    get:
+      operationId: R107
+      summary: 'R107: Manage Participants'
+      description: 'Manage Participants : OWN'
 
+      tags:
+        - 'M03: User'
+      responses:
+        '200':
+          description: 'OK, Show Manage Participants UI'
+        '401':
+          description: 'Unauthorized access, the user is not the owner of the event'
+  /invitetoevent/{id}:
+    post:
+      operationId: R108
+      summary: 'R108: Invite user to Event'
+      description: 'Invite to Event : OWN'
+      tags:
+        - 'M03: User'
+      parameters:
+        - in: path
+          name: event_id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the event
+        - in: query
+          name: email
+          required: true
+          schema:
+            type: string
+          description: The email to invite
+      responses:
+        '200':
+          description: 'OK, Invitation sent'
+        '401':
+          description: 'Unauthorized access, the user is not the owner of the event'
+  /removeParticipant/{id_participant}:
+    post:
+      operationId: R109
+      summary: 'R109: Remove Participant'
+      description: 'Remove Participant from Event'
+      tags:
+        - 'M03: User'
+      parameters:
+        - in: path
+          name: id_participant
+          required: true
+          schema:
+            type: integer
+          description: The ID of the participant
+        - in: path
+          name: eventid
+          required: true
+          schema:
+            type: integer
+          description: The ID of the event
+      responses:
+        '200':
+          description: 'OK, Participant removed'
+        '401':
+          description: 'Unauthorized access, the user is not the owner of the event'
+  /search:
+    get:
+      operationId: R110
+      summary: 'R110: Search'
+      description: 'Search for a term'
+      tags:
+        - 'M03: User'
+      parameters:
+        - in: query
+          name: search
+          required: false
+          schema:
+            type: string
+          description: The search term
+      responses:
+        '200':
+          description: 'OK, Search results returned'
+        '400':
+          description: 'Bad Request, Invalid search term'
