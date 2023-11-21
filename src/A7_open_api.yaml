@@ -71,7 +71,6 @@ paths:
                     value: '/login'
   
   /logout:
-
     post:
       operationId: R103
       summary: 'R103: Logout Action'
@@ -315,15 +314,15 @@ paths:
                   description: The event's description
                   example: Very cool event
                 startdate:
-                  type: date
+                  type: string
                   description: The event's start date
                   example: 21/11/2023 00:00
                 enddate:
-                  type: date
+                  type: string
                   description: The event's end date
                   example: 29/11/2023 00:00
                 privacy:
-                  type: enum
+                  type: array
                   description: The event's privacy
                   example: public
               required:
@@ -353,6 +352,39 @@ paths:
               examples:
                 400:
                   description: 'Bad request'
+
+  /createevents:
+    post:
+      operationId: R111
+      summary: 'R111: Create Events'
+      description: 'Create a new event'
+      tags:
+        - 'M03: User'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                startdate:
+                  type: string
+                  format: date-time
+                enddate:
+                  type: string
+                  format: date-time
+                privacy:
+                  type: string
+                  enum: [public, private, protected]
+                description:
+                  type: string
+      responses:
+        '200':
+          description: 'OK, Event created'
+        '400':
+          description: 'Bad Request, Invalid input'
 
   /manageparticipants:
     get:
@@ -392,6 +424,7 @@ paths:
           description: 'OK, Invitation sent'
         '401':
           description: 'Unauthorized access, the user is not the owner of the event'
+
   /removeParticipant/{id_participant}:
     post:
       operationId: R109
@@ -417,6 +450,7 @@ paths:
           description: 'OK, Participant removed'
         '401':
           description: 'Unauthorized access, the user is not the owner of the event'
+          
   /search:
     get:
       operationId: R110
@@ -436,3 +470,61 @@ paths:
           description: 'OK, Search results returned'
         '400':
           description: 'Bad Request, Invalid search term'
+
+  /admin:
+    get:
+      operationId: R111
+      summary: 'R111: Admin Page'
+      description: 'Admin Page : ADMIN'
+
+      tags:
+        - 'M03: User'
+      responses:
+        '200':
+          description: 'OK, Show Admin UI'
+        '401':
+          description: 'Unauthorized access, the user is not an admin'
+  
+  /deleteEvent/{id}:
+    post:
+      operationId: R112
+      summary: 'R112: Delete Event'
+      description: 'Delete an event'
+      tags:
+        - 'M03: User'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the event
+      responses:
+        '200':
+          description: 'OK, Event deleted'
+        '400':
+          description: 'Bad Request, Invalid event ID'
+        '401':
+          description: 'Unauthorized, User does not have permission to delete this event'
+
+  /deleteUser/{id}:
+    post:
+      operationId: R113
+      summary: 'R113: Ban User'
+      description: 'Ban a user'
+      tags:
+        - 'M03: User'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the user
+      responses:
+        '200':
+          description: 'OK, User banned'
+        '400':
+          description: 'Bad Request, Invalid user ID'
+        '401':
+          description: 'Unauthorized, User does not have permission to ban this user'
