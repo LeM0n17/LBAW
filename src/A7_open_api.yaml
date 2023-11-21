@@ -171,11 +171,11 @@ paths:
             schema:
               type: object
               properties:
-                username:
+                user_id:
                   type: number
                   description: The user's id
                   example: 1
-                password:
+                event_id:
                   type: number
                   description: The event's id
                   example: 1
@@ -222,11 +222,11 @@ paths:
             schema:
               type: object
               properties:
-                username:
+                user_id:
                   type: number
                   description: The user's id
                   example: 1
-                password:
+                event_id:
                   type: number
                   description: The event's id
                   example: 1
@@ -235,21 +235,20 @@ paths:
                 - event_id
 
       responses:
-        '302':
+        '200':
           description: 'Redirect after joining an event'
           headers:
             Location:
               schema:
                 type: string
               examples:
-                302Success:
-                  description: 'OK, Redirect to event page'
-                  value: '/events/{id}'
+                200:
+                  description: 'Successful request'
 
   /deleteevents/{id}:
     post:
       operationId: R110
-      summary: 'R109: Delete Event'
+      summary: 'R110: Delete Event'
       description: 'Delete Event : OWN'
 
       tags:
@@ -262,21 +261,82 @@ paths:
             schema:
               type: object
               properties:
-                username:
-                  type: number
-                  description: The user's id
-                  example: 1
-                password:
+                event_id:
                   type: number
                   description: The event's id
-                  example: 1
+                  example: 2
               required:
-                - user_id
                 - event_id
 
       responses:
         '302':
-          description: 'Redirect after joining an event'
+          description: 'Redirect after deleting an event'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'OK, Redirect to home page'
+                  value: '/home'
+
+  /editevents/{id}:
+    get:
+      operationId: R111
+      summary: 'R111: Edit Event Page'
+      description: 'Edit Event Page : OWN'
+
+    tags:
+        - 'M02: Events'
+      responses:
+        '200':
+          description: 'OK, Show Event UI'
+
+    post:
+      operationId: R112
+      summary: 'R112: Update Event'
+      description: 'Update Event : OWN'
+
+      tags:
+        - 'M02: Events'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_id:
+                  type: number
+                  description: The event's id
+                  example: 2
+                description:
+                  type: string
+                  description: The event's description
+                  example: Very cool event
+                startdate:
+                  type: date
+                  description: The event's start date
+                  example: 21/11/2023 00:00
+                enddate:
+                  type: date
+                  description: The event's end date
+                  example: 29/11/2023 00:00
+                privacy:
+                  type: enum
+                  description: The event's privacy
+                  example: public
+              required:
+                - event_id
+                - description
+                - startdate
+                - enddate
+                - privacy
+
+      responses:
+        '302':
+          description: 'Redirect after updating an event'
           headers:
             Location:
               schema:
@@ -284,8 +344,16 @@ paths:
               examples:
                 302Success:
                   description: 'OK, Redirect to event page'
-                  value: '/events/{id}'
+                  value: '/event/{id}'
+        '400':
+          description: 'Failed to update an event'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                400:
+                  description: 'Bad request'
 
-      
-
+  
 
