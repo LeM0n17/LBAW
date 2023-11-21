@@ -273,8 +273,7 @@ INSERT INTO users VALUES (DEFAULT, 'JorgeDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKA
 
 INSERT INTO game_developer VALUES (1, 1);
 INSERT INTO game_developer VALUES (2, 2);
-
-INSERT INTO admin VALUES (3, 3);
+INSERT INTO game_developer VALUES (3, 3);
 
 INSERT INTO events VALUES (DEFAULT, 1, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event', 'Description', 'public');
 INSERT INTO events VALUES (DEFAULT, 2, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event2', 'Description2', 'public');

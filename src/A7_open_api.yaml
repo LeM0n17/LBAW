@@ -12,7 +12,8 @@ servers:
 tags:
   - name: 'M01: Authentication'
   - name: 'M02: Events'
-  
+  - name: 'M03: User'
+  - name: 'M04: Static'
 
 paths:
   /login:
@@ -150,7 +151,7 @@ paths:
       description: 'Home page : PUB'
 
       tags:
-        - 'M01: Authentication'
+        - 'M03: User'
       responses:
         '200':
           description: 'OK, Show Home UI'
