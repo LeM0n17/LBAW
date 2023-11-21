@@ -1,8 +1,8 @@
 -- noinspection SqlNoDataSourceInspectionForFile
-DROP SCHEMA IF EXISTS jammer CASCADE;
+DROP SCHEMA IF EXISTS lbaw23115 CASCADE;
 
-CREATE SCHEMA jammer;
-SET search_path TO jammer;
+CREATE SCHEMA lbaw23115;
+SET search_path TO lbaw23115;
 
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS game_developer CASCADE;
@@ -280,3 +280,5 @@ INSERT INTO events VALUES (DEFAULT, 2, '2020-01-01 00:00:00', '2024-01-01 00:00:
 
 INSERT INTO notifications VALUES (DEFAULT, 2, 2, 'invitation', 'join please', '2020-01-01 00:00:00');
 INSERT INTO notifications VALUES (DEFAULT, 2, 1, 'invitation', 'join please', '2020-01-01 00:00:00');
+
+INSERT INTO admin VALUES (DEFAULT, 3);

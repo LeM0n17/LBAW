@@ -361,7 +361,7 @@ Once Docker is authenticated, configure the `upload_image.sh` script with your i
 Example configuration:
 
 ```bash
-IMAGE_NAME=git.fe.up.pt:5050/lbaw/lbawYYYY/lbawYYXX # Replace with your group's image name
+IMAGE_NAME=git.fe.up.pt:5050/lbaw/lbaw2324/lbaw23115 # Replace with your group's image name
 ```
 
 You can now build and upload the docker image by executing that script from the project root folder:

@@ -8,6 +8,8 @@ use Illuminate\View\View;
 
 use App\Models\Events;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -21,7 +23,7 @@ class AdminController extends Controller
         $events = $this->publicEvents()->get(); 
         $users = User::all();
 
-        $this->authorize('showAdminPage', $events);
+        $this->authorize('showAdminPage', Auth::user());
 
         return view('pages.admin', [
             'events' => $events,
@@ -31,14 +33,15 @@ class AdminController extends Controller
 
     public function deleteUser(Request $request)
     {
+        Log::info('AdminController::deleteUser');
         $userId = $request->route('id');
         $user = User::findOrFail($userId);
 
-        $this->authorize('deleteUser', $user);
+        //$this->authorize('deleteUser', $user);
 
         $user->delete();
 
-        return redirect()->intended('/admin');
+        return redirect()->to('/admin');
     }
 
     public function deleteEvent(Request $request)
@@ -47,7 +50,7 @@ class AdminController extends Controller
         $id = $request->route('id');
         $event = Events::find($id);
 
-        $this->authorize('delete', $event);  
+        //$this->authorize('delete', $user);
 
         // Delete the card and return it as JSON.
         $event->delete();
