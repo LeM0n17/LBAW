@@ -140,6 +140,10 @@ class EventController extends Controller
      * Perform a full-text search on the events.
      */
     public function search(Request $request) {
+        if (!Auth::check())
+            // Not logged in, redirect to login.
+            return redirect('/login');
+
         $search = $request->input('search');
 
         $query = Auth::user()->isAdmin() ?
@@ -150,8 +154,8 @@ class EventController extends Controller
                     $this->publicEvents();
 
         if (!empty($search))
-            $query = $query->whereRaw('(events.name = ? OR events.tsvectors @@ plainto_tsquery(\'english\', ?))', [$search, $search])
-                        ->orderByRaw('ts_rank(events.tsvectors, plainto_tsquery(\'english\', ?)) DESC', [$search]);
+            $query = $query->whereRaw('(events.name = ? OR events.tsvectors @@ to_tsquery(\'english\', ?))', [$search, $search])
+                        ->orderByRaw('ts_rank(events.tsvectors, to_tsquery(\'english\', ?)) DESC', [$search]);
 
         return view('pages.search', ['events' => $query->get()]);
     }

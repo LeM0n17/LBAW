@@ -165,14 +165,14 @@ BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.tsvectors = (
             setweight(to_tsvector('english', NEW.name), 'A') ||
-            setweight(to_tsvector('english', COALESCE(NEW.description, '')), 'B')
+            setweight(to_tsvector('english', NEW.description), 'B')
         );
     END IF;
     IF TG_OP = 'UPDATE' THEN
         IF (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
             NEW.tsvectors = (
                 setweight(to_tsvector('english', NEW.name), 'A') ||
-                setweight(to_tsvector('english', COALESCE(NEW.description, '')), 'B')
+                setweight(to_tsvector('english', NEW.description), 'B')
             );
         END IF;
     END IF;
