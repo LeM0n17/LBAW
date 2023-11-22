@@ -7,12 +7,14 @@ use App\Models\Events;
 use App\Models\Admin;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AdminPolicy
 {
     public function showAdminPage(User $user): bool
     {
-        return Auth::user()->isAdmin;
+        Log::info('AdminPolicy::$user->isAdmin(): ' . var_export($user->isAdmin(), true));
+        return $user->isAdmin();
     }
 
     public function deleteUser(User $user, User $userToDelete): bool
