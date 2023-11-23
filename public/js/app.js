@@ -23,6 +23,16 @@ function addEventListeners() {
     if (cardCreator != null)
       cardCreator.addEventListener('submit', sendCreateCardRequest);
 
+    const search_bar = document.querySelector("#search");
+    if (search_bar) {
+      search_bar.addEventListener('input', async function() {
+        const query = 'search/get?search=' + this.value;
+        const response = await fetch(query);
+
+        document.querySelector('#search').innerHTML = await response.text();
+      })
+    }
+
     document.querySelector(".dropdown").addEventListener("click", showDropdownContent);
   }
 
@@ -191,6 +201,6 @@ function addEventListeners() {
   
     return new_item;
   }
-  
+
   addEventListeners();
   
