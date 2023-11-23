@@ -28,7 +28,7 @@ function addEventListeners() {
       let contentSection = document.querySelector('#content');
   
       if (searchForm) {
-        searchForm.addEventListener('submit', function(event) {
+        searchForm.addEventListener('input', function(event) {
             event.preventDefault();
             const searchValue = searchField.value;
     
