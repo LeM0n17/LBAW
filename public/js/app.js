@@ -23,14 +23,27 @@ function addEventListeners() {
     if (cardCreator != null)
       cardCreator.addEventListener('submit', sendCreateCardRequest);
 
-    const search_bar = document.querySelector("#search");
-    if (search_bar) {
-      search_bar.addEventListener('input', async function() {
-        const query = 'search/get?search=' + this.value;
-        const response = await fetch(query);
-
-        document.querySelector('#search').innerHTML = await response.text();
-      })
+      let searchForm = document.querySelector('#searchForm'); // Assuming your form has the id 'searchForm'
+      let searchField = document.querySelector('#search');
+      let contentSection = document.querySelector('#content');
+  
+      if (searchForm) {
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const searchValue = searchField.value;
+    
+            fetch(`/search?search=${searchValue}`, {
+              headers: {
+                  'X-Requested-With': 'XMLHttpRequest'
+              }
+            })
+              .then(response => response.text())
+              .then(data => {
+                console.log(data);
+                document.querySelector('#searchResults').innerHTML = data;
+              })
+              .catch(error => console.error('Error:', error));
+        });
     }
 
     document.querySelector(".dropdown").addEventListener("click", showDropdownContent);

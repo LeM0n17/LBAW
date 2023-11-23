@@ -157,7 +157,13 @@ class EventController extends Controller
             $query = $query->whereRaw('(events.name = ? OR events.tsvectors @@ to_tsquery(\'english\', ?))', [$search, $search])
                         ->orderByRaw('ts_rank(events.tsvectors, to_tsquery(\'english\', ?)) DESC', [$search]);
 
-        return view('pages.search', ['events' => $query->get()]);
+        if ($request->ajax()) {
+            Log::info('Returning search_results view');
+            return view('pages.search_results', ['events' => $query->get()]);
+        } else {
+            Log::info('Returning search view');
+            return view('pages.search', ['events' => $query->get()]);
+        }
     }
 
     public function editEvents(Request $request)
