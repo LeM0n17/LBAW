@@ -32,4 +32,9 @@ class Events extends Model
     {
         return $this->hasMany(Notifications::class, 'id_event');
     }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'id_event');
+    }
 }

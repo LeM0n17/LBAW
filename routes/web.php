@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ParticipantController;
+use App\Http\Controllers\CommentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,4 +81,9 @@ Route::controller(ProfileController::class)->group(function () {
     Route::post('/deleteprofile', "deleteProfile")->name("deleteprofile");
     Route::get('/editprofile', "showEditProfilePage")->name("editprofile");
     Route::post('/editprofile', "saveEditProfileChanges");
+});
+
+//comments
+Route::controller(CommentsController::class)->group(function () {
+    Route::post('/events/{id}/comments', "createComment")->name("createcomment");
 });

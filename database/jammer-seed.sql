@@ -209,7 +209,7 @@ EXECUTE PROCEDURE verify_participation_limit();
 
 CREATE FUNCTION comment_from_participant() RETURNS TRIGGER AS $BODY$
 BEGIN
-    IF NOT EXISTS (SELECT id_writer FROM participants WHERE NEW.id_event = participants.id_event AND comment.id_writer = NEW.id_writer) THEN
+    IF NOT EXISTS (SELECT id_participant FROM participants WHERE NEW.id_event = participants.id_event AND NEW.id_writer = participants.id_participant) THEN
         RAISE EXCEPTION 'COMMENT FROM NOT PARTICIPANT!';
     END IF;
     RETURN NEW;
@@ -262,6 +262,26 @@ EXECUTE PROCEDURE filter_votes();
 -----------------------------------------
 -- TRANSACTIONS
 -----------------------------------------
+BEGIN;
+
+CREATE OR REPLACE FUNCTION anonymize_user_parameters() RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE users
+    SET username = 'Anonymous',
+        password = '',
+        email = 'anon@anon.com'
+    WHERE id = OLD.id;
+    
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER anonymize_user_parameters_trigger
+BEFORE DELETE ON users
+FOR EACH ROW
+EXECUTE FUNCTION anonymize_user_parameters();
+
+COMMIT;
 
 -----------------------------------------
 -- POPULATE

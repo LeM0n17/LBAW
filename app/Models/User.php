@@ -60,4 +60,9 @@ class User extends Authenticatable
     public function notification(): HasMany{
         return $this->hasMany(Notifications::class, 'id_developer');
     }
+
+    
+    public function comments(): HasMany{
+        return $this->hasMany(Comment::class, 'id_writer');
+    }
 }
