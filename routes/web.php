@@ -86,4 +86,5 @@ Route::controller(ProfileController::class)->group(function () {
 //comments
 Route::controller(CommentsController::class)->group(function () {
     Route::post('/events/{id}/comments', "createComment")->name("createcomment");
+    Route::delete('/events/{id}/deletecomment', "deleteComment")->name("deletecomment");
 });

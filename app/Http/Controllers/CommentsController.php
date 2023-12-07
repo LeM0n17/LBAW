@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use App\Models\Comment;
+use App\Models\Participant;
 use Exception;
 
 class CommentsController extends Controller
@@ -31,6 +32,7 @@ class CommentsController extends Controller
             'id_writer' => Auth::id(),
             'id_event' => $eventid,
             'content' => $request->input('content'),
+            'time' => date('Y-m-d H:i:s'),
         ]);
 
         try {
@@ -39,7 +41,7 @@ class CommentsController extends Controller
                 ->withSuccess('Comment created!');
         } catch (Exception $e) {
             return redirect()->to("/events/{$eventid}")
-                ->withErrors(['error' => 'COMMENT NOT FROM PARTICIPANT!']);
+                ->withErrors(['error' => 'You are not a participant in this event!']);
         }
     }
 
@@ -48,11 +50,11 @@ class CommentsController extends Controller
         $commentId = $request->route('id');
         $comment = Comment::findOrFail($commentId);
 
-        $this->authorize('delete', $comment);
+        //$this->authorize('delete', $comment);
 
         $comment->delete();
 
-        return redirect()->to("/events/{$comment->envent->id}");
+        return redirect()->to("/events/{$comment->event->id}");
     }
 
     public function editComment(Request $request)
