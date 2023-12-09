@@ -259,4 +259,22 @@ class EventController extends Controller
             ->withSuccess('User invited!')
             ->withErrors('Error');
     }
+
+    public function showUserEvents()
+    {
+        $userId = Auth::id();
+
+        // Get the events where the user is participating
+        $participatingEvents = Events::whereHas('participants', function ($query) use ($userId) {
+            $query->where('id_participant', $userId);
+        })->get();
+
+        // Get the events where the user is hosting
+        $hostingEvents = Events::where('id_host', $userId)->get();
+
+        return view("pages.myevents", [
+            'participatingEvents' => $participatingEvents,
+            'hostedEvents' => $hostingEvents
+        ]);
+    }
 }

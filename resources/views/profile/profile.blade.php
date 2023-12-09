@@ -8,6 +8,7 @@
         {{ csrf_field() }}
             <a class="button" href="{{ url('/editprofile') }}">Edit Profile</a>
             <button value="submit">Delete Account</button>
+            <a class="button" href="{{ route('showMyEvents') }}">My Events</a> 
             <a class="button" href="{{ url('/logout') }}">Logout</a>
         </form>
         <br>
