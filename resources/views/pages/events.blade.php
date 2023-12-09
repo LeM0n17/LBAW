@@ -22,4 +22,24 @@
     @endif
     <p id="description">{{ $event->description }}</p>
 </div>
+<div class="commentsection">
+    @each('partials.comments', $event->comments, 'comment')
+    <form action="{{ route('createcomment', ['id' => $event->id]) }}" method="POST">
+        {{ csrf_field() }}
+        <div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <label for="content">New Comment(participants only):</label>
+            <textarea name="content" id="content" placeholder="Enter your comment here..."></textarea>
+        </div>
+        <button type="submit">Add Comment</button>
+    </form>
+</div>
 @endsection
