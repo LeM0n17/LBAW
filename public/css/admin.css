@@ -2,10 +2,10 @@ div.eventcard {
     background-color: rgb(200, 200, 200);
     margin: 0;
     padding: 5px;
-    width: 10em;
     text-align: center;
     vertical-align: middle;
     border-radius: 10px;
+    width: 15em;
 }
 
 div.eventcard h3 a {
@@ -33,7 +33,7 @@ div.eventcard h3 {
     background-color: rgb(200, 200, 200);
     margin: 0;
     padding: 5px;
-    width: 7em;
+    width: calc(auto + 20px);
     text-align: center;
     vertical-align: middle;
     border-radius: 10px;
