@@ -33,7 +33,7 @@ class ProfileController extends Controller
         $user->fill([
             'name' => 'Deleted User',
             'password' => "anon",
-            'email' => 'anon'+strval($userId)+'@anon.com'
+            'email' => 'anon'.$userId.'@anon.com'
 
         ]);
 
