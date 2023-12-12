@@ -39,7 +39,14 @@ class AdminController extends Controller
 
         //$this->authorize('deleteUser', $user);
 
-        $user->delete();
+        $user->fill([
+            'name' => 'Deleted User',
+            'password' => "anon",
+            'email' => 'anon'.$userId.'@anon.com'
+
+        ]);
+
+        $user->save();
 
         return redirect()->to('/admin');
     }
