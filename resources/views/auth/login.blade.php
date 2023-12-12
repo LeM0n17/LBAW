@@ -6,17 +6,16 @@
 
     <label for="email">E-mail</label>
     <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
-    @if ($errors->has('email'))
-        <span class="error">
-          {{ $errors->first('email') }}
-        </span>
-    @endif
 
     <label for="password" >Password</label>
     <input id="password" type="password" name="password" required>
-    @if ($errors->has('password'))
+
+
+    @if ($errors)
         <span class="error">
-            {{ $errors->first('password') }}
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
         </span>
     @endif
 
