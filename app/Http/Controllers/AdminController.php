@@ -8,6 +8,7 @@ use Illuminate\View\View;
 
 use App\Models\Events;
 use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -19,16 +20,20 @@ class AdminController extends Controller
 
     public function showAdminPage():View
     {
-        // Retrieve events for the user ordered by ID.
-        $events = $this->publicEvents()->get(); 
-        $users = User::all();
-
         $this->authorize('showAdminPage', Auth::user());
 
-        return view('admin.admin', [
-            'events' => $events,
-            'users' => $users
+        return view('admin.admin');
+    }
+
+    public function showAdminTagsPage():View 
+    {
+        $tag = Tag::all();
+        $this->authorize('showAdminPage', Auth::user());
+
+        return view('admin.tags', [
+            'tags' => $tag
         ]);
+
     }
 
     public function showAdminUsersPage():View

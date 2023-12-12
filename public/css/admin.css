@@ -42,7 +42,8 @@ div.eventcard {
 }
 
 #adminevents,
-#adminusers {
+#adminusers,
+#admintags {
     position: relative;
     width: calc(100% - 30px);
     margin-bottom: 4em;
@@ -50,7 +51,8 @@ div.eventcard {
 }
 
 #adminusers form,
-#adminevents form {
+#adminevents form,
+#admintags form {
     margin: 0;
 }
 
