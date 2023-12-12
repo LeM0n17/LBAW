@@ -2,134 +2,175 @@ body {
     background-color: #ffffff;
     color: #3e3e3e;
     margin: 0;
-  }
-  main > header {
+}
+
+main>header.topbar {
     display: grid;
     grid-template-columns: 1fr auto auto;
     align-items: center;
     background-color: #c2c2c2;
     padding: 1em;
     margin-bottom: 1em;
-  }
-  main > header h1 {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+header.empty {
+    height: 87px;
+    margin-bottom: 2em;
+}
+
+main>header h1 {
     margin: 0;
-  }
-  main > header a {
+}
+
+main>header a {
     margin-left: 0.5em;
     justify-self: center;
-  }
-  main > header span {
+}
+
+main>header span {
     margin: 1em;
     justify-self: center;
-  }
-  #content label {
+}
+
+#content label {
     font-weight: normal;
-  }
-  #content > form {
+}
+
+#content>form {
     margin: 0 auto;
     padding: 1em;
     max-width: 20em;
     border: 1px solid #8d8d8d;
-  }
-  #content > form .error {
+}
+
+#content>form .error {
     font-weight: bold;
     color: #ff3333;
-  }
-  #content > form .success {
+}
+
+#content>form .success {
     font-weight: bold;
     color: #106af1;
-  }
-  #content > form input {
+}
+
+#content>form input {
     background-color: white;
-  }
-  @media (max-width: 70em) {
-    main > header {
-      display: grid;
-      grid-template-columns: 1fr auto;
+}
+
+@media (max-width: 70em) {
+    main>header {
+        display: grid;
+        grid-template-columns: 1fr auto;
     }
-    main > header h1 {
-      grid-row-end: span 2;
+    main>header h1 {
+        grid-row-end: span 2;
     }
-  }
-  @media (max-width: 40em) {
-  }
-  @media (max-width: 25em) {
+}
+
+@media (max-width: 40em) {}
+
+@media (max-width: 25em) {
     body {
-      margin: 0;
+        margin: 0;
     }
-    main > header {
-      margin: 0;
-      padding: 0.5em;
+    main>header {
+        margin: 0;
+        padding: 0.5em;
     }
-    main > header span {
-      margin: 0;
+    main>header span {
+        margin: 0;
     }
     #content form {
-      margin: 0;
-      max-width: 25em;
+        margin: 0;
+        max-width: 25em;
     }
     article.card {
-      margin: 0;
-      border-bottom: 1px solid rgba(96, 108, 118, 0.4);
+        margin: 0;
+        border-bottom: 1px solid rgba(96, 108, 118, 0.4);
     }
-  }
-  
-  /**
+}
+
+
+/**
    * Override milligram colors
    * Some styles might be missing
    **/
-  button {
+
+button {
     background-color: #a3a3a3;
     border-color: #4e4e4e;
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
-  }
-  a.button {
+}
+
+a.button {
     background-color: #a3a3a3;
     border-color: #4e4e4e;
-  }
-  a.button.button-outline {
+}
+
+a.button.button-outline {
     color: #a3a3a3;
-  }
-  a {
+}
+
+a {
     color: #ffffff;
-  }
-  input[type=text]:focus,
-  input[type=email]:focus,
-  input[type=password]:focus {
+}
+
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus {
     border-color: #a3a3a3;
-  }
+}
+
 
 /* The container <div> - needed to position the dropdown content */
+
 .dropdown {
-  position: relative;
-  display: inline-block;
-  margin-left: 1em;
-  margin-right: 1em;
+    position: relative;
+    display: inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
 }
+
 
 /* Dropdown Content (Hidden by Default) */
+
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  z-index: 1;
-  right: 0;
-  top: 2.5em;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    z-index: 1;
+    right: 0;
+    top: 2.5em;
 }
+
 
 /* Links inside the dropdown */
+
 .dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: underline;
-  display: block;
-  text-align: center;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: underline;
+    display: block;
+    text-align: center;
 }
 
+
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
 
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
 
-.hamburger-icon {color: #ffffff; margin: 0}
-.hamburger-icon:hover {color: #606c76}
+.hamburger-icon {
+    color: #ffffff;
+    margin: 0
+}
+
+.hamburger-icon:hover {
+    color: #606c76
+}

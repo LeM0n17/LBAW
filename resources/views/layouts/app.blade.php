@@ -23,7 +23,8 @@
     </head>
     <body>
         <main>
-            <header>
+            <header class="empty"></header>
+            <header class="topbar">
                 <h1><a href="{{ url('/home') }}">Jammer</a></h1>
                 <div>
                     @if (Auth::check())

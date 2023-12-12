@@ -48,3 +48,15 @@ div#invitationlist {
     text-align: center;
     vertical-align: middle;
 }
+
+div.commentsection {
+    position: relative;
+    max-width: calc(100% - 30px);
+    margin-left: auto;
+    margin-right: auto;
+    width: 75em;
+}
+
+div.commentsection textarea {
+    resize: none;
+}
