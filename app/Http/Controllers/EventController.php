@@ -67,6 +67,9 @@ class EventController extends Controller
         if (!Auth::check()) {
             // Not logged in, redirect to login.
             return redirect('/login');
+
+        } elseif (Auth::user()->isAdmin()) {
+            return redirect('/admin');
             
         } else {
             // The user is logged in.

@@ -25,9 +25,29 @@ class AdminController extends Controller
 
         $this->authorize('showAdminPage', Auth::user());
 
-        return view('pages.admin', [
+        return view('admin.admin', [
             'events' => $events,
             'users' => $users
+        ]);
+    }
+
+    public function showAdminUsersPage():View
+    {
+        $users = User::all();
+        $this->authorize('showAdminPage', Auth::user());
+
+        return view('admin.users', [
+            'users' => $users
+        ]);
+    }
+
+    public function showAdminEventsPage():View
+    {
+        $events = $this->publicEvents()->get();
+        $this->authorize('showAdminPage', Auth::user());
+
+        return view('admin.events', [
+            'events' => $events
         ]);
     }
 
