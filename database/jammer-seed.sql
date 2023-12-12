@@ -43,6 +43,7 @@ CREATE TABLE users (
   name VARCHAR NOT NULL,
   password VARCHAR NOT NULL,
   email VARCHAR UNIQUE NOT NULL,
+  pfp BYTEA, 
   remember_token VARCHAR
 );
 
