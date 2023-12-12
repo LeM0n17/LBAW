@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Carbon;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -18,8 +19,12 @@ class EventController extends Controller
     /**
      * Get all the public events.
      */
-    private function publicEvents() {
-        return Events::where('types', 'public')->orderBy('id');
+    private function getEvents() {
+        return Events::where(function ($query)
+        {
+            $query->where("types", "public")
+                ->orWhere("id_host","=", Auth::user()->id);
+        });
     }
 
     /**
@@ -63,17 +68,26 @@ class EventController extends Controller
             // Not logged in, redirect to login.
             return redirect('/login');
 
+        } elseif (Auth::user()->isAdmin()) {
+            return redirect('/admin');
+            
         } else {
             // The user is logged in.
 
             // Get events for user ordered by id.
             $this->authorize('list', Events::class);
 
-            // Retrieve events for the user ordered by ID.
-            $events = $this->publicEvents()->get();
+            $events = $this->getEvents()->get();
+
+            $mytime = Carbon::now();
+
+            $running_events = $events->where("start", "<", $mytime->toDateTimeString())
+                                ->where("end_",">", $mytime->toDateTimeString());
+            $upcoming_events = $events->where("start", ">", $mytime->toDateTimeString());
+            $finished_events = $events->where("end_","<", $mytime->toDateTimeString());
 
             // Use the pages.events template to display all events.
-            return view('pages.home', ['events' => $events]);
+            return view('pages.home', ['running_events' => $running_events, 'upcoming_events' => $upcoming_events, 'finished_events' => $finished_events]);
         }
     }
 

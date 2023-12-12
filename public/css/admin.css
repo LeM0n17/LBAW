@@ -1,17 +1,15 @@
-div.eventcard {
-    flex: 0 0 auto;
-    padding: 14px;
-    display: inline-block;
-    background-color: #e4e4e4;
-}
-
 div.eventcard h3 a {
     color: #3e3e3e;
 }
 
+div.eventcard h3 {
+    margin: 0;
+    overflow: hidden;
+}
+
 .spread {
     position: relative;
-    margin-top: 5em;
+    margin-top: 1em;
     overflow: auto;
     display: grid;
     row-gap: 30px;
@@ -21,11 +19,51 @@ div.eventcard h3 a {
     grid-template-columns: repeat(auto-fill, 7em);
 }
 
+#adminevents .spread {
+    grid-template-columns: repeat(auto-fill, 15em);
+}
+
+div.eventcard {
+    background-color: rgb(200, 200, 200);
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 10px;
+    width: 15em;
+}
+
 .user {
     background-color: rgb(200, 200, 200);
     margin: 0;
-    padding: 5px;
-    width: 7em;
+    padding: 10px;
     text-align: center;
     vertical-align: middle;
+    border-radius: 10px;
+}
+
+#adminevents,
+#adminusers {
+    position: relative;
+    width: calc(100% - 30px);
+    margin-bottom: 4em;
+    left: 15px;
+}
+
+#adminusers form,
+#adminevents form {
+    margin: 0;
+}
+
+.buttonholder {
+    width: 50em;
+    max-width: calc(100% - 50px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.buttonholder button {
+    margin-bottom: 20px;
+    height: 10em;
+    width: 100%;
+    font-size: 1em;
 }

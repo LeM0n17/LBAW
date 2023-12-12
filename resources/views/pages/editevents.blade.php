@@ -7,7 +7,7 @@
     <form method="POST" action="{{ route('editevents', ['id' => $event->id]) }}">
     {{ csrf_field() }}
             <div>
-                <a class="button" href="{{ url('/events') }}">Cancel</a>
+                <a class="button" href="{{ route('event', ['id' => $event->id]) }}">Cancel</a>
                 <button type="submit">Save</button>
             </div>
             <br>
