@@ -13,15 +13,15 @@ use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
-    private function publicEvents() {
-        return Events::where('types', 'public')->orderBy('id');
+    private function getEvents() {
+        return Events::all();
     }
 
     public function showAdminPage():View
     {
         // Retrieve events for the user ordered by ID.
-        $events = $this->publicEvents()->get(); 
-        $users = User::all();
+        $events = $this->getEvents(); 
+        $users = User::where('name','!=','Deleted User')->get();
 
         $this->authorize('showAdminPage', Auth::user());
 
