@@ -161,11 +161,7 @@ class EventController extends Controller
         $search = $request->input('search');
 
         $query = Auth::user()->isAdmin() ?
-                    // if the user is an administrator, search all events
-                    Events::select() :
-
-                    // if the user is NOT an administrator, search public events
-                    $this->publicEvents();
+                    Events::select() : $this->getEvents();
 
         if (!empty($search))
             $query = $query->whereRaw('(events.name = ? OR events.tsvectors @@ to_tsquery(\'english\', ?))', [$search, $search])
