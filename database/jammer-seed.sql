@@ -267,7 +267,7 @@ BEGIN;
 CREATE OR REPLACE FUNCTION anonymize_user_parameters() RETURNS TRIGGER AS $$
 BEGIN
     UPDATE users
-    SET username = 'Anonymous',
+    SET name = 'Anonymous',
         password = 'anon',
         email = 'anon@anon.com'
     WHERE id = OLD.id;

@@ -30,7 +30,14 @@ class ProfileController extends Controller
 
         Auth::logout();
 
-        $user->delete();
+        $user->fill([
+            'name' => 'Deleted User',
+            'password' => "anon",
+            'email' => 'anon'+strval($userId)+'@anon.com'
+
+        ]);
+
+        $user->save();
 
         return redirect()->intended('/login');
     }
