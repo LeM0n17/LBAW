@@ -303,9 +303,7 @@ INSERT INTO users VALUES (DEFAULT, 'JohnDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAc
 INSERT INTO users VALUES (DEFAULT, 'JaneDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example1@example.com');
 INSERT INTO users VALUES (DEFAULT, 'JorgeDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example2@example.com');
 
---INSERT INTO game_developer VALUES (1, 1);
---INSERT INTO game_developer VALUES (2, 2);
---INSERT INTO game_developer VALUES (3, 3);
+INSERT INTO tag VALUES (DEFAULT, 'Indie');
 
 INSERT INTO events VALUES (DEFAULT, 1, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event', 'Description', 'public');
 INSERT INTO events VALUES (DEFAULT, 2, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event2', 'Description2', 'public');
