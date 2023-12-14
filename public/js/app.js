@@ -23,7 +23,7 @@ function addEventListeners() {
     if (cardCreator != null)
       cardCreator.addEventListener('submit', sendCreateCardRequest);
 
-      let searchForm = document.querySelector('#searchForm'); // Assuming your form has the id 'searchForm'
+      let searchForm = document.querySelector('#searchForm');
       let searchField = document.querySelector('#search');
       let contentSection = document.querySelector('#content');
   

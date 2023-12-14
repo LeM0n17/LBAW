@@ -27,6 +27,13 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+        $credentials_name = $request->only('name');
+        if ($credentials_name["name"] == "Deleted User")
+        {
+            return redirect()->intended('/register')
+            ->withErrors('Chosen name is not allowed');
+        }
+
         $request->validate([
             'name' => 'required|string|max:250',
             'email' => 'required|email|max:250|unique:users',

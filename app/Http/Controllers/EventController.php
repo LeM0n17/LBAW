@@ -161,11 +161,7 @@ class EventController extends Controller
         $search = $request->input('search');
 
         $query = Auth::user()->isAdmin() ?
-                    // if the user is an administrator, search all events
-                    Events::select() :
-
-                    // if the user is NOT an administrator, search public events
-                    $this->publicEvents();
+                    Events::select() : $this->getEvents();
 
         if (!empty($search))
             $query = $query->whereRaw('(events.name = ? OR events.tsvectors @@ to_tsquery(\'english\', ?))', [$search, $search])
@@ -272,5 +268,23 @@ class EventController extends Controller
         return redirect()->to("/participants/{$id}")
             ->withSuccess('User invited!')
             ->withErrors('Error');
+    }
+
+    public function showUserEvents()
+    {
+        $userId = Auth::id();
+
+        // Get the events where the user is participating
+        $participatingEvents = Events::whereHas('participants', function ($query) use ($userId) {
+            $query->where('id_participant', $userId);
+        })->get();
+
+        // Get the events where the user is hosting
+        $hostingEvents = Events::where('id_host', $userId)->get();
+
+        return view("pages.myevents", [
+            'participatingEvents' => $participatingEvents,
+            'hostedEvents' => $hostingEvents
+        ]);
     }
 }
