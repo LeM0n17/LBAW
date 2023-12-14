@@ -66,7 +66,7 @@ class AdminController extends Controller
 
         $user->delete();
 
-        return redirect()->to('/admin');
+        return redirect()->to('/admin/user');
     }
 
     public function deleteEvent(Request $request)
@@ -79,8 +79,19 @@ class AdminController extends Controller
 
         // Delete the card and return it as JSON.
         $event->delete();
-        return redirect()->to("/admin")
+        return redirect()->to("/admin/event")
             ->withSuccess('Event deleted!')
+            ->withErrors('Error');
+    }
+
+    public function deleteTag(Request $request)
+    {
+        $id = $request->route('id');
+        $tag = Tag::find($id);
+
+        $tag->delete();
+        return redirect()->to('/admin/tag')
+            ->withSuccess('Tag deleted!')
             ->withErrors('Error');
     }
 }

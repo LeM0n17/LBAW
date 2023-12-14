@@ -33,6 +33,7 @@ Route::controller(AdminController::class)->group(function () {
     Route::get("/admin/user", "showAdminUsersPage")->name("showAdminUsersPage");
     Route::get("/admin/event", "showAdminEventsPage")->name("showAdminEventsPage");
     Route::get("/admin/tag", "showAdminTagsPage")->name("showAdminTagsPage");
+    Route::post("/admin/tag/delete/{id}", "deleteTag")->name("deleteTag");
     Route::post("/admin/user/{id}", "deleteUser")->name("deleteUser");
     Route::post("/admin/event/{id}", "deleteEvent")->name("deleteEvent");
 });
