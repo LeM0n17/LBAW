@@ -16,7 +16,7 @@ div.eventcard h3 {
     column-gap: 30px;
     width: calc(100% - 30px);
     left: 15px;
-    grid-template-columns: repeat(auto-fill, 7em);
+    grid-template-columns: repeat(auto-fill, 10em);
 }
 
 #adminevents .spread {
@@ -39,10 +39,12 @@ div.eventcard {
     text-align: center;
     vertical-align: middle;
     border-radius: 10px;
+    width: 10em;
 }
 
 #adminevents,
-#adminusers {
+#adminusers,
+#admintags {
     position: relative;
     width: calc(100% - 30px);
     margin-bottom: 4em;
@@ -50,7 +52,8 @@ div.eventcard {
 }
 
 #adminusers form,
-#adminevents form {
+#adminevents form,
+#admintags form {
     margin: 0;
 }
 

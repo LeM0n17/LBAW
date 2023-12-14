@@ -8,6 +8,7 @@ use Illuminate\View\View;
 
 use App\Models\Events;
 use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -25,10 +26,18 @@ class AdminController extends Controller
 
         $this->authorize('showAdminPage', Auth::user());
 
-        return view('admin.admin', [
-            'events' => $events,
-            'users' => $users
+        return view('admin.admin');
+    }
+
+    public function showAdminTagsPage():View 
+    {
+        $tag = Tag::all();
+        $this->authorize('showAdminPage', Auth::user());
+
+        return view('admin.tags', [
+            'tags' => $tag
         ]);
+
     }
 
     public function showAdminUsersPage():View
@@ -68,7 +77,7 @@ class AdminController extends Controller
 
         $user->save();
 
-        return redirect()->to('/admin');
+        return redirect()->to('/admin/user');
     }
 
     public function deleteEvent(Request $request)
@@ -81,8 +90,19 @@ class AdminController extends Controller
 
         // Delete the card and return it as JSON.
         $event->delete();
-        return redirect()->to("/admin")
+        return redirect()->to("/admin/event")
             ->withSuccess('Event deleted!')
+            ->withErrors('Error');
+    }
+
+    public function deleteTag(Request $request)
+    {
+        $id = $request->route('id');
+        $tag = Tag::find($id);
+
+        $tag->delete();
+        return redirect()->to('/admin/tag')
+            ->withSuccess('Tag deleted!')
             ->withErrors('Error');
     }
 }
