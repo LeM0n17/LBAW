@@ -19,10 +19,20 @@ class AdminPolicy
 
     public function deleteUser(User $user, User $userToDelete): bool
     {
-        return $user->isAdmin() && !$userToDelete->isAdmin();
+        return $user->isAdmin() && $userToDelete->isAdmin();
     }
 
-    public function deleteEvent(User $user, Events $event): bool
+    public function deleteEvent(User $user): bool
+    {
+        return $user->isAdmin();
+    }
+
+    public function deleteTag(User $user): bool
+    {
+        return $user->isAdmin();
+    }
+
+    public function createTag(User $user): bool
     {
         return $user->isAdmin();
     }
