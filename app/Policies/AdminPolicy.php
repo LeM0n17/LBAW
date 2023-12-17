@@ -13,13 +13,12 @@ class AdminPolicy
 {
     public function showAdminPage(User $user): bool
     {
-        Log::info('AdminPolicy::$user->isAdmin(): ' . var_export($user->isAdmin(), true));
         return $user->isAdmin();
     }
 
-    public function deleteUser(User $user, User $userToDelete): bool
+    public function deleteUser(): bool
     {
-        return $user->isAdmin() && $userToDelete->isAdmin();
+        return Auth::user()->isAdmin();
     }
 
     public function deleteEvent(User $user): bool
