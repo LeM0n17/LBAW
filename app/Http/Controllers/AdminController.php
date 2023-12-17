@@ -20,10 +20,6 @@ class AdminController extends Controller
 
     public function showAdminPage():View
     {
-        // Retrieve events for the user ordered by ID.
-        $events = $this->getEvents(); 
-        $users = User::where('name','!=','Deleted User')->get();
-
         $this->authorize('showAdminPage', Auth::user());
 
         return view('admin.admin');
@@ -42,7 +38,7 @@ class AdminController extends Controller
 
     public function showAdminUsersPage():View
     {
-        $users = User::all();
+        $users = User::whereDoesntHave('admin')->get();
         $this->authorize('showAdminPage', Auth::user());
 
         return view('admin.users', [
@@ -64,18 +60,17 @@ class AdminController extends Controller
     {
         Log::info('AdminController::deleteUser');
         $userId = $request->route('id');
-        $user = User::findOrFail($userId);
+        $userToDelete = User::findOrFail($userId);
 
-        //$this->authorize('deleteUser', $user);
+        $this->authorize('deleteUser');
 
-        $user->fill([
+        $userToDelete->fill([
             'name' => 'Deleted User',
             'password' => "anon",
             'email' => 'anon'.$userId.'@anon.com'
-
         ]);
 
-        $user->save();
+        $userToDelete->save();
 
         return redirect()->to('/admin/user');
     }
@@ -86,7 +81,7 @@ class AdminController extends Controller
         $id = $request->route('id');
         $event = Events::find($id);
 
-        //$this->authorize('delete', $user);
+        $this->authorize('deleteEvent', Auth::user());
 
         // Delete the card and return it as JSON.
         $event->delete();
@@ -100,9 +95,23 @@ class AdminController extends Controller
         $id = $request->route('id');
         $tag = Tag::find($id);
 
+        $this->authorize('deleteTag', Auth::user());
+
         $tag->delete();
         return redirect()->to('/admin/tag')
             ->withSuccess('Tag deleted!')
+            ->withErrors('Error');
+    }
+
+    public function createTag(Request $request) 
+    {
+        $this->authorize('createTag', Auth::user());
+        Tag::create([
+            'name' => $request->tagname
+        ]);
+
+        return redirect()->to('/admin/tag')
+            ->withSuccess('Tag created!')
             ->withErrors('Error');
     }
 }

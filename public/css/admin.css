@@ -46,10 +46,14 @@ div.eventcard {
 #adminusers,
 #admintags {
     position: relative;
-    width: calc(100% - 30px);
+    max-width: calc(100% - 50px);
     margin-bottom: 4em;
-    left: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 85em;
 }
+
+#admintags {margin-top: 5em;}
 
 #adminusers form,
 #adminevents form,
