@@ -60,6 +60,8 @@ Route::controller(ParticipantController::class)->group(function () {
     Route::get('/participants/{id}','showManageParticipants')->name('showManageParticipants');
     Route::post('/home/{id}','addParticipants')->name('addHomeParticipant');
     Route::post('/events/{id}','addParticipants')->name('addParticipant');
+    Route::post('/notifications/accept/{id_event}/{id_user}','addParticipantFromRequest')->name('addParticipantFromRequest');
+    Route::post('notifications>/refuse/{id_notification}','refuseParticipantFromRequest')->name('refuseParticipantFromRequest');
     Route::post('/participants/remove/{id_participant}','removeParticipant')->name('removeParticipant');
 });
 

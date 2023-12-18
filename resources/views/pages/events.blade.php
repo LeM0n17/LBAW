@@ -20,13 +20,15 @@
             <button type="submit"> Accept Invite </button>
         </form>
     @endif
-    @if (!$event->notifications->where('type', 'request')->contains('id_developer', Auth::user()->id))
-        <form method="POST" action="{{ route('requestToJoin', ['event_id' => $event->id, 'user_id' => Auth::user()->id]) }}">
-            {{ csrf_field() }}
-            <button type="submit"> Request to Join </button>
-        </form>
-    @else
-        <p id="request">Request Sent waiting on answer from host</p>
+    @if (!$event->participants->contains('id_participant', Auth::user()->id))
+        @if (!$event->notifications->where('type', 'request')->contains('id_developer', Auth::user()->id))
+            <form method="POST" action="{{ route('requestToJoin', ['event_id' => $event->id, 'user_id' => Auth::user()->id]) }}">
+                {{ csrf_field() }}
+                <button type="submit"> Request to Join </button>
+            </form>
+        @else
+            <p id="request">Request Sent waiting on answer from host</p>
+        @endif
     @endif
     <p id="description">{{ $event->description }}</p>
 </div>

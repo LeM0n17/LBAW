@@ -40,6 +40,47 @@ class ParticipantController extends Controller
         return redirect()->to("/events/{$eventId}");
     }
 
+    public function addParticipantFromRequest(Request $request)
+    {
+        $participant = new Participant();
+
+        $userId = $request->route('id_user');
+
+        $eventId = $request->route('id_event');
+
+        $participant->fill([
+            'id_participant' => $userId,
+            'id_event' => $eventId
+        ]);
+
+        $participant->save();
+
+        // Delete the notification
+        $notification = Notifications::where('id_developer', $userId)
+            ->where('id_event', $eventId)
+            ->first();
+
+        if ($notification) {
+            $notification->delete();
+        }
+
+        return redirect()->to("/notifications");
+    }
+
+    public function refuseParticipantFromRequest(Request $request)
+    {
+        $notification_id = $request->route('id_notification');
+
+        // Delete the notification
+        $notification = Notifications::where('id', $notification_id)->first();
+
+        if ($notification) {
+            $notification->delete();
+        }
+
+        return redirect()->to("/notifications");
+    }
+
     public function removeParticipant(Request $request)
     {
         $participantId = $request->route('id_participant');
