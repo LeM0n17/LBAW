@@ -32,7 +32,7 @@ DROP FUNCTION IF EXISTS event_manage_FTS CASCADE;
 
 CREATE TYPE event_type AS ENUM ('public', 'private', 'protected');
 CREATE TYPE comment_notification_type AS ENUM ('reply', 'like');
-CREATE TYPE event_notification_type AS ENUM ('start', 'results', 'invitation');
+CREATE TYPE event_notification_type AS ENUM ('start', 'results', 'invitation', 'request');
 
 -----------------------------------------
 -- Tables

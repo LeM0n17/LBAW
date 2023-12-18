@@ -229,7 +229,15 @@ class EventController extends Controller
             $this->authorize('list', Notifications::class);
 
             // Retrieve notifications for the user ordered by ID.
-            $notifications = Auth::user()->notification()->orderBy('id')->get();
+            //$notifications = Auth::user()->notification()->orderBy('id')->get();
+            $notifications = Auth::user()
+            ->notification()
+            ->where('type', 'request')
+            ->whereHas('event', function ($query) {
+                $query->where('id_host', Auth::id());
+            })
+            ->orderBy('id')
+            ->get();
 
             // The current user is authorized to list notifications.
 
@@ -270,6 +278,31 @@ class EventController extends Controller
             ->withErrors('Error');
     }
 
+    public function requestToJoin(Request $request)
+    {
+        $notification = new Notifications();
+
+        $user_id = $request->route('user_id');
+        $event_id = $request->route('event_id');
+
+        Log::info("User ID: $user_id, Event ID: $event_id");
+
+        $user = User::where('id', $user_id)->first();
+
+        $notification->fill([
+            'id_developer' => $user->id,
+            'id_event' => $event_id,
+            'type' => 'request',
+            'content' => 'asking to join',
+            'time' => date("Y-m-d H:i:s")
+        ]);
+
+        $notification->save();
+
+        return redirect()->to("/events/{$event_id}")
+            ->withSuccess('Request Successfull!');
+    }
+
     public function showUserEvents()
     {
         $userId = Auth::id();
@@ -286,5 +319,15 @@ class EventController extends Controller
             'participatingEvents' => $participatingEvents,
             'hostedEvents' => $hostingEvents
         ]);
+    }
+
+    public function getEventRequests($userId, $eventId)
+    {
+        $requests = Notifications::where('id_developer', $userId)
+            ->where('id_event', $eventId)
+            ->where('type', 'request')
+            ->get();
+
+        return $requests;
     }
 }

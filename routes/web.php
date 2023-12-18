@@ -52,6 +52,7 @@ Route::controller(EventController::class)->group(function () {
     Route::post('/invitetoevent/{id}', 'inviteToEvent')->name('invitetoevent');
     Route::get('/notifications', 'showNotificationsPage')->name('showNotificationsPage');
     Route::get('/myevents', 'showUserEvents')->name('showMyEvents');
+    Route::post('/requesttojoin/{event_id}/{user_id}', 'requestToJoin')->name('requestToJoin');
 });
 
 // Participants
