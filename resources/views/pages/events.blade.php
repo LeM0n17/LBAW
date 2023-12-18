@@ -30,6 +30,13 @@
             <p id="request">Request Sent waiting on answer from host</p>
         @endif
     @endif
+    @if($event->participants->contains('id_participant', Auth::user()->id))
+        <form method="POST" action="{{ route('leaveEvent', ['id' => $event->id]) }}">
+            {{ csrf_field() }}
+            @method('DELETE')
+            <button type="submit"> Leave Event </button>
+        </form>
+    @endif
     <p id="description">{{ $event->description }}</p>
 </div>
 <div class="commentsection">

@@ -90,6 +90,16 @@ class ParticipantController extends Controller
 
         return redirect()->to("/events/{$eventId}");
     }
+
+    public function leaveEvent(Request $request)
+    {
+        $eventId = $request->route('id');
+        $userId = Auth::id();
+
+        $participant = Participant::where('id_participant', $userId)->where('id_event', $eventId)->delete();
+
+        return redirect()->to("/events/{$eventId}");
+    }
     public function showManageParticipants(string $eventId): View 
     {
         $event = Events::findOrFail($eventId);
