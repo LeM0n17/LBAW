@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RecoverPasswordController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventController;
@@ -72,6 +73,10 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'showRegistrationForm')->name('register');
     Route::post('/register', 'register');
+});
+
+Route::controller(RecoverPasswordController::class)->group(function () {
+    Route::get('/recover-password', 'show')->name('show');
 });
 
 // Static

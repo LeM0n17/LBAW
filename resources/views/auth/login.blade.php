@@ -9,7 +9,7 @@
     <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
 
     <div id="password-labels">
-        <a id="forgot-password">Forgot password?</a>
+        <a id="forgot-password" href="/recover-password">Forgot password?</a>
         <label for="password" >Password</label>
     </div>
 
