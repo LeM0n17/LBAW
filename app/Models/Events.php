@@ -37,4 +37,9 @@ class Events extends Model
     {
         return $this->hasMany(Comment::class, 'id_event');
     }
+
+    public function tags(): HasMany
+    {
+        return $this->hasMany(TagConnection::class, 'id_event');
+    }
 }

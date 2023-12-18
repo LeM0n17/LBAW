@@ -20,6 +20,7 @@
             <button type="submit"> Accept Invite </button>
         </form>
     @endif
+    @each('partials.tagdisplay', $event->tag, 'tag')
     <p id="description">{{ $event->description }}</p>
 </div>
 <div class="commentsection">
