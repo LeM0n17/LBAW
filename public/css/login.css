@@ -1,0 +1,10 @@
+#password-labels {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#forgot-password {
+    margin-left: auto;
+    margin-right: 0;
+    color: blue
+}

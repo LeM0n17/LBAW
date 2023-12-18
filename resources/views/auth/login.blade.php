@@ -1,13 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+<link href="{{url('css/login.css')}}" rel="stylesheet">
 <form method="POST" action="{{ route('login') }}">
     {{ csrf_field() }}
 
     <label for="email">E-mail</label>
     <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
 
-    <label for="password" >Password</label>
+    <div id="password-labels">
+        <a id="forgot-password">Forgot password?</a>
+        <label for="password" >Password</label>
+    </div>
+
     <input id="password" type="password" name="password" required>
 
 
