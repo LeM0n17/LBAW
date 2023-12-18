@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RecoverPasswordController;
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventController;
@@ -78,6 +79,8 @@ Route::controller(RegisterController::class)->group(function () {
 Route::controller(RecoverPasswordController::class)->group(function () {
     Route::get('/recover-password', 'show')->name('show');
 });
+
+Route::post('/recover-password/send', [MailController::class, 'send']);
 
 // Static
 Route::controller(StaticController::class)->group(function () {
