@@ -37,4 +37,20 @@ class Events extends Model
     {
         return $this->hasMany(Comment::class, 'id_event');
     }
+
+    public function hasPendingRequest($userId)
+    {
+        return $this->notifications()
+            ->where('id_developer', $userId)
+            ->where('event_notification_type', 'request')
+            ->exists();
+    }
+
+    public function hasBeenInvited($userId)
+    {
+        return $this->notifications()
+            ->where('id_developer', $userId)
+            ->where('event_notification_type', 'invite')
+            ->exists();
+    }
 }

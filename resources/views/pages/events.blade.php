@@ -14,10 +14,27 @@
     @endif
     <label id="creator">By <b>{{ $event->host->name }}</b></label>
     <label id="duration">{{ $event->start }} - {{ $event->end_ }}</label>
-    @if ($event->notifications->contains('id_developer', Auth::user()->id))
+    @if ($event->notifications->where('type', 'invite')->contains('id_developer', Auth::user()->id))
         <form method="POST" action="{{ route('addHomeParticipant', ['id' => $event->id]) }}">
             {{ csrf_field() }}
             <button type="submit"> Accept Invite </button>
+        </form>
+    @endif
+    @if (!$event->participants->contains('id_participant', Auth::user()->id))
+        @if (!$event->notifications->where('type', 'request')->contains('id_developer', Auth::user()->id))
+            <form method="POST" action="{{ route('requestToJoin', ['event_id' => $event->id, 'user_id' => Auth::user()->id]) }}">
+                {{ csrf_field() }}
+                <button type="submit"> Request to Join </button>
+            </form>
+        @else
+            <p id="request">Request Sent waiting on answer from host</p>
+        @endif
+    @endif
+    @if($event->participants->contains('id_participant', Auth::user()->id))
+        <form method="POST" action="{{ route('leaveEvent', ['id' => $event->id]) }}">
+            {{ csrf_field() }}
+            @method('DELETE')
+            <button type="submit"> Leave Event </button>
         </form>
     @endif
     <p id="description">{{ $event->description }}</p>
