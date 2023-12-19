@@ -298,8 +298,9 @@ class EventController extends Controller
         $this->authorize('editEvents', $event);
 
         $tags = $event->tags;
+        $alltags = Tag::all();
 
-        return view("event.configuretag", ['tags' => $tags, 'event' => $event]);
+        return view("event.configuretag", ['tags' => $tags, 'event' => $event, 'alltags' => $alltags]);
     }
 
     public function connectTag(Request $request)

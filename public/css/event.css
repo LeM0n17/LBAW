@@ -66,3 +66,25 @@ div.commentsection textarea {
     background-color: #3e3e3e;
     border-radius: 50%;
 }
+
+.spread {
+    position: relative;
+    margin-top: 1em;
+    overflow: auto;
+    display: grid;
+    row-gap: 30px;
+    column-gap: 30px;
+    width: calc(100% - 30px);
+    left: 15px;
+    grid-template-columns: repeat(auto-fill, 10em);
+}
+
+#currenttags {
+    position: relative;
+    max-width: calc(100% - 50px);
+    margin-bottom: 4em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 85em;
+    margin-top: 5em;
+}
