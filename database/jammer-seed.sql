@@ -43,7 +43,7 @@ CREATE TABLE users (
   name VARCHAR NOT NULL,
   password VARCHAR NOT NULL,
   email VARCHAR UNIQUE NOT NULL,
-  pfp BYTEA, 
+  image VARCHAR, 
   remember_token VARCHAR
 );
 
@@ -300,7 +300,7 @@ COMMIT;
 -- POPULATE
 -----------------------------------------
 
-INSERT INTO users VALUES (DEFAULT, 'JohnDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example@example.com');
+INSERT INTO users (id, name, password, email, image) VALUES (DEFAULT, 'JohnDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example@example.com', 'pfps/1.png');
 INSERT INTO users VALUES (DEFAULT, 'JaneDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example1@example.com');
 INSERT INTO users VALUES (DEFAULT, 'JorgeDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example2@example.com');
 
