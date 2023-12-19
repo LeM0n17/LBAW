@@ -77,10 +77,13 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 Route::controller(RecoverPasswordController::class)->group(function () {
-    Route::get('/recover-password', 'show')->name('show');
+    Route::get('/recover-password', 'show')->name('showRecoverPasswordForm');
 });
 
-Route::post('/recover-password/send', [MailController::class, 'send']);
+// Emails
+Route::controller(MailController::class)->group(function () {
+    Route::post('/recover-password/send', 'sendPasswordRecoveryEmail')->name('sendPasswordRecoveryEmail');
+});
 
 // Static
 Route::controller(StaticController::class)->group(function () {

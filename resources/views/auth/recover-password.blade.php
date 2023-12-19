@@ -2,19 +2,13 @@
 
 @section('content')
     <link href="{{url('css/login.css')}}" rel="stylesheet">
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('sendPasswordRecoveryEmail') }}">
         {{ csrf_field() }}
+
+        Please input the e-mail you registered with.
 
         <label for="email">E-mail</label>
         <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
-
-        <div id="password-labels">
-            <a id="forgot-password">Forgot password?</a>
-            <label for="password" >Password</label>
-        </div>
-
-        <input id="password" type="password" name="password" required>
-
 
         @if ($errors)
             <span class="error">
@@ -24,18 +18,8 @@
         </span>
         @endif
 
-        <label>
-            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-        </label>
-
         <button type="submit">
-            Login
+            Send
         </button>
-        <a class="button button-outline" href="{{ route('register') }}">Register</a>
-        @if (session('success'))
-            <p class="success">
-                {{ session('success') }}
-            </p>
-        @endif
     </form>
 @endsection

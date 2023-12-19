@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MailModel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -19,7 +20,7 @@ class RecoverPasswordController extends Controller
      */
     public function recoverPassword(Request $request) {
 
-        $user = User::where('email', '=', $request->recoverAttemp)->first();
+        $user = User::where('email', $request->recoverAttemp)->first();
         if (!$user) return redirect()->route('login')->with('error', "Invalid email");
 
         if (Hash::check($request->recoverToken, $user->password)) {
@@ -40,31 +41,5 @@ class RecoverPasswordController extends Controller
         }
         return redirect()->route('login')->with('invalid_token', "Invalid token. Please try again.")
             ->with('email_attemp', $request->recoverAttemp);
-    }
-
-    /**
-     * Sends an email requesting the user to reset their password.
-     */
-    public function sendEmail(Request $request) {
-        $user = User::where('email', $request->email);
-
-        // verify if the user exists
-        if (!$user)
-            return;
-
-        // generate a random token
-        $token = Str::random();
-
-        $data = array('name' => $user->name,
-            'token' => $token);
-
-        Mail::send('partials.mail', $data, function($message) {
-            $message->subject('Recover your password!');
-            $message->from('OnlyFEUP@gmail.com','OnlyFEUP');
-            $message->to('user@gmail.com', 'OnlyFEUP User');
-        });
-
-        $user->password = bcrypt($token);
-        $user->save();
     }
 }
