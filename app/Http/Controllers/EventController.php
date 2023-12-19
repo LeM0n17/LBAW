@@ -317,8 +317,8 @@ class EventController extends Controller
             'id_tag' => $tag_id,
         ]);
 
-        return redirect()->to('/tagconfig/{}')
-            ->withSuccess('Tag created!')
+        return redirect()->to("/tagconfig/{$event_id}")
+            ->withSuccess('Tag connected!')
             ->withErrors('Error');
     }
 
@@ -333,8 +333,8 @@ class EventController extends Controller
         $this->authorize('editEvents', $event);
 
         $connection->delete();
-        return redirect()->to('/tagconfig/{}')
-            ->withSuccess('Tag created!')
+        return redirect()->to("/tagconfig/{$event_id}")
+            ->withSuccess('Tag disconnected!')
             ->withErrors('Error');
     }
 }
