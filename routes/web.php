@@ -12,6 +12,7 @@ use App\Http\Controllers\StaticController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,4 +98,11 @@ Route::controller(ProfileController::class)->group(function () {
 Route::controller(CommentsController::class)->group(function () {
     Route::post('/events/{id}/comments', "createComment")->name("createcomment");
     Route::delete('/events/{id}/deletecomment', "deleteComment")->name("deletecomment");
+});
+
+//likes
+Route::controller(LikeController::class)->group(function () {
+    Route::post('/events/comments/{id_comment}/like', "addLike")->name("addLike");
+    Route::post('/events/comments/{id_comment}/dislike', "addDislike")->name("addDislike");
+    Route::delete('/events/comments/{id_comment}/removelike', "deleteLike")->name("removeLike");
 });
