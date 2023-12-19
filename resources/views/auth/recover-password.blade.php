@@ -12,10 +12,10 @@
 
         @if ($errors)
             <span class="error">
-            @foreach ($errors->all() as $error)
+                @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
-        </span>
+            </span>
         @endif
 
         <button type="submit">

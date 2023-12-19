@@ -77,7 +77,9 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 Route::controller(RecoverPasswordController::class)->group(function () {
-    Route::get('/recover-password', 'show')->name('showRecoverPasswordForm');
+    Route::get('/recover-password', 'showRecoverPasswordForm')->name('showRecoverPassword');
+    Route::get('/reset-password/{token}', 'showResetPasswordForm')->name('showResetPassword');
+    Route::post('/reset-password/{token}', 'resetPassword')->name('resetPassword');
 });
 
 // Emails

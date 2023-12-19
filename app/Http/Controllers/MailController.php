@@ -18,7 +18,7 @@ class MailController extends Controller
 
         // verify if the user exists
         if ($username == NULL)
-            return redirect()->route('showRecoverPasswordForm')
+            return redirect()->route('showRecoverPassword')
                 ->withErrors('error', 'That email does not belong to any user!');
 
         // generate a random token
@@ -27,6 +27,7 @@ class MailController extends Controller
         $mailData = array(
             'name' => $username,
             'email' => $request->email,
+            'subject' => 'Recover your password!',
             'token' => $token,
         );
 

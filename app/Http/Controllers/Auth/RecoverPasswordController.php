@@ -6,40 +6,55 @@ use App\Http\Controllers\Controller;
 use App\Mail\MailModel;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class RecoverPasswordController extends Controller
 {
-    public function show() {
+    /**
+     * Show the form for recovering the password.
+     */
+    public function showRecoverPasswordForm() {
         return view('auth/recover-password');
+    }
+
+    /**
+     * Show the form for resetting the password.
+     */
+    public function showResetPasswordForm(Request $request) {
+        return view('auth/reset-password',
+            ['token' => $request->token, 'email' => $request->email]);
     }
 
     /**
      * Recover password.
      */
-    public function recoverPassword(Request $request) {
+    public function resetPassword(Request $request) {
+        // verify if the user exists
+        $user = User::where('email', $request->email)->first();
 
-        $user = User::where('email', $request->recoverAttemp)->first();
-        if (!$user) return redirect()->route('login')->with('error', "Invalid email");
+        if (!$user)
+            return redirect()->route('login')
+                ->with('error', "Invalid email!");
 
-        if (Hash::check($request->recoverToken, $user->password)) {
-            // verify if the passwords match
-            if($request->recoverPassword1 != $request->recoverPassword2)
-                return redirect()->route('login')->with('match_error', "Passwords don't match")
-                    ->with('email_attemp', $request->recoverAttemp);
+        // verify if the password has at least 8 characters
+        if (strlen($request->password) < 8)
+            return redirect()
+                ->route('showResetPassword', ['token' => $request->token, 'email' => $request->email])
+                ->with('error', "The password must have at least 8 characters!");
 
-            // verify if the password has the right length
-            if(strlen($request->recoverPassword1) < 8)
-                return redirect()->route('login')->with('size_error', "Password must have at least 8 characters")
-                    ->with('email_attemp', $request->recoverAttemp);
+        // verify if the passwords match
+        if ($request->password != $request->confirmPassword)
+            return redirect()
+                ->route('showResetPassword', ['token' => $request->token, 'email' => $request->email])
+                ->with('error', "The passwords do not match!");
 
-            $user->password = bcrypt($request->recoverPassword1);
-            $user->save();
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-            return redirect()->route('login')->with('success', "Your password has been changed successfully");
-        }
-        return redirect()->route('login')->with('invalid_token', "Invalid token. Please try again.")
-            ->with('email_attemp', $request->recoverAttemp);
+        return redirect()->route('login')
+            ->withSuccess("Your password has successfully been changed!");
     }
 }
