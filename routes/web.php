@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\RecoverPasswordController;
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventController;
@@ -77,6 +79,17 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'showRegistrationForm')->name('register');
     Route::post('/register', 'register');
+});
+
+Route::controller(RecoverPasswordController::class)->group(function () {
+    Route::get('/recover-password', 'showRecoverPasswordForm')->name('showRecoverPassword');
+    Route::get('/reset-password/{token}', 'showResetPasswordForm')->name('showResetPassword');
+    Route::post('/reset-password/{token}', 'resetPassword')->name('resetPassword');
+});
+
+// Emails
+Route::controller(MailController::class)->group(function () {
+    Route::post('/recover-password/send', 'sendPasswordRecoveryEmail')->name('sendPasswordRecoveryEmail');
 });
 
 // Static
