@@ -29,16 +29,6 @@ class Comment extends Model
         return $this->hasMany(Like::class, 'id_comment');
     }
 
-    public function positiveLikesCount(): int
-    {
-        return $this->likes->where('likes', true)->count();
-    }
-
-    public function negativeLikesCount(): int
-    {
-        return $this->likes->where('likes', false)->count();
-    }
-
     public function isLikedBy(User $user)
     {
         return $this->likes->where('likes', true)->contains('id_developer', $user->id);
@@ -47,5 +37,15 @@ class Comment extends Model
     public function isDislikedBy(User $user)
     {
         return $this->likes->where('likes', false)->contains('id_developer', $user->id);;
+    }
+
+    public function likesCount(): int
+    {
+        return $this->likes()->where('likes', true)->count();
+    }
+
+    public function dislikesCount(): int
+    {
+        return $this->likes()->where('likes', false)->count();
     }
 }

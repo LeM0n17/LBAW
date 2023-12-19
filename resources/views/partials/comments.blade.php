@@ -9,6 +9,7 @@
             <button type="submit"> Delete </button>
         </form>
     @endif
+    <p>{{ $comment->likesCount() }} likes</p>
     @if($comment->isLikedBy(Auth::user()))
         <form method="POST" action="{{route('removeLike', ['id_comment' => $comment->id])}}">
             {{ csrf_field() }}
@@ -21,6 +22,7 @@
             <button type="submit" style="color:blue">&#x25B2;</button>
         </form>
     @endif
+    <p>{{ $comment->dislikesCount() }} dislikes</p>
     @if($comment->isDislikedBy(Auth::user()))
         <form method="POST" action="{{route('removeLike', ['id_comment' => $comment->id])}}">
             {{ csrf_field() }}
