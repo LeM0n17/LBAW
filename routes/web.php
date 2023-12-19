@@ -46,10 +46,13 @@ Route::controller(EventController::class)->group(function () {
     Route::get('/events/{id}', 'show')->name('event');
     Route::get('/editevents/{id}', 'showEditEvents')->name('showeditevents');
     Route::get('/createevents', 'showCreateEvents')->name('showcreateevents');
+    Route::get('/tagconfig/{id}', 'showTagConfigurationPage')->name('showTagConfigurationPage');
     Route::post('/editevents/{id}', 'editevents')->name('editevents');
     Route::post('/createevents', 'create')->name('createevents');
     Route::post('/deleteevents/{id}', 'delete')->name('deleteevents');
     Route::post('/invitetoevent/{id}', 'inviteToEvent')->name('invitetoevent');
+    Route::post('/tagconfig/{id}/disconnect', 'disconnectTag')->name('disconnectTag');
+    Route::post('/tagconfig/{id}/connect', 'connectTag')->name('connectTag');
     Route::get('/notifications', 'showNotificationsPage')->name('showNotificationsPage');
     Route::get('/myevents', 'showUserEvents')->name('showMyEvents');
 });
