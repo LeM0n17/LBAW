@@ -311,6 +311,12 @@ class EventController extends Controller
         $tag = Tag::findorFail($tag_id);
         $event = Events::findorFail($event_id);
 
+        if (TagConnection::where('id_event', $event_id)->where('id_tag', $tag_id)->count() > 0) {
+            return redirect()->to("/tagconfig/{$event_id}")
+                ->withSuccess('Tag failed!')
+                ->withErrors('Error');
+        }
+
         $this->authorize('editEvents', $event);
 
         TagConnection::create([
@@ -329,11 +335,10 @@ class EventController extends Controller
         $event_id = $request->event_id;
 
         $event = Events::findorFail($event_id);
-        $connection = TagConnection::where('id_tag', $tag_id)->where('id_event', $event_id)->firstOrFail();
 
         $this->authorize('editEvents', $event);
 
-        $connection->delete();
+        TagConnection::where('id_tag', $tag_id)->where('id_event', $event_id)->delete();
         return redirect()->to("/tagconfig/{$event_id}")
             ->withSuccess('Tag disconnected!')
             ->withErrors('Error');

@@ -76,7 +76,7 @@ div.commentsection textarea {
     column-gap: 30px;
     width: calc(100% - 30px);
     left: 15px;
-    grid-template-columns: repeat(auto-fill, 10em);
+    grid-template-columns: repeat(auto-fill, 5em);
 }
 
 #currenttags {
@@ -87,4 +87,8 @@ div.commentsection textarea {
     margin-right: auto;
     width: 85em;
     margin-top: 5em;
+}
+
+#currenttags h2 {
+    margin-bottom: 0;
 }

@@ -10,7 +10,9 @@ class TagConnection extends Model
 {
     use HasFactory;
     protected $table = 'event_tag';
-    public $timestamps = false;
+
+    // Don't add create and update timestamps in database.
+    public $timestamps  = false;
     public $incrementing = false;
     protected $keyType = 'nonIncrementing';
     public $primaryKey = null;
