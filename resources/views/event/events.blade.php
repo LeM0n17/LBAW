@@ -6,6 +6,7 @@
     <h2 id = "title">{{ $event->name }}</h2>
     @if (Auth::user()->id == $event->host->id)
         <button type="button"><a href="/editevents/{{ $event->id }}"> Configure </a></button><br>
+        <button type="button"><a href="/tagconfig/{{ $event->id }}"> Tags </a></button><br>
         <button type="button"><a href="/participants/{{ $event->id }}"> Participants </a></button><br>
         <form method="POST" action="{{ route('deleteevents', ['id' => $event->id]) }}">
             {{ csrf_field() }}
@@ -20,7 +21,7 @@
             <button type="submit"> Accept Invite </button>
         </form>
     @endif
-    @each('partials.tagdisplay', $event->tag, 'tag')
+    @each('partials.tagdisplay', $event->tags, 'tag')
     <p id="description">{{ $event->description }}</p>
 </div>
 <div class="commentsection">

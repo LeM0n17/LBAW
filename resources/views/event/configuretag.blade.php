@@ -2,8 +2,8 @@
 
 @section('content')
 <link href="{{ url('css/event.css') }}" rel="stylesheet">
-<form method="POST" action="{{ route('') }}">
-    <select name="newtag" id="newtag">
+<form method="POST" action="{{ route('connectTag', ['event_id' => $event->id]) }}">
+    <select name="tag_id" id="tag_id">
 
     </select>
     <button type="submit">Add</button>

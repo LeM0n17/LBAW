@@ -299,7 +299,7 @@ class EventController extends Controller
 
         $tags = $event->tags;
 
-        return view("event.configuretag", ['tags' => $tags]);
+        return view("event.configuretag", ['tags' => $tags, 'event' => $event]);
     }
 
     public function connectTag(Request $request)
