@@ -299,8 +299,11 @@ class EventController extends Controller
 
         $tags = $event->tags;
         $alltags = Tag::all();
+        $filteredtags = $alltags->reject(function($element) use ($id){
+            return TagConnection::where('id_event', $id)->where('id_tag', $element->id)->count() > 0;
+        });
 
-        return view("event.configuretag", ['tags' => $tags, 'event' => $event, 'alltags' => $alltags]);
+        return view("event.configuretag", ['tags' => $tags, 'event' => $event, 'alltags' => $filteredtags]);
     }
 
     public function connectTag(Request $request)
@@ -311,18 +314,14 @@ class EventController extends Controller
         $tag = Tag::findorFail($tag_id);
         $event = Events::findorFail($event_id);
 
-        if (TagConnection::where('id_event', $event_id)->where('id_tag', $tag_id)->count() > 0) {
-            return redirect()->to("/tagconfig/{$event_id}")
-                ->withSuccess('Tag failed!')
-                ->withErrors('Error');
+        if (TagConnection::where('id_event', $event_id)->where('id_tag', $tag_id)->count() <= 0) {
+            $this->authorize('editEvents', $event);
+
+            TagConnection::create([
+                'id_event' => $event_id,
+                'id_tag' => $tag_id,
+            ]);
         }
-
-        $this->authorize('editEvents', $event);
-
-        TagConnection::create([
-            'id_event' => $event_id,
-            'id_tag' => $tag_id,
-        ]);
 
         return redirect()->to("/tagconfig/{$event_id}")
             ->withSuccess('Tag connected!')

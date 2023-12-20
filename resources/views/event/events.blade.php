@@ -4,24 +4,31 @@
 <link href="{{ url('css/event.css') }}" rel="stylesheet">
 <div class="eventinfo">
     <h2 id = "title">{{ $event->name }}</h2>
-    @if (Auth::user()->id == $event->host->id)
-        <button type="button"><a href="/editevents/{{ $event->id }}"> Configure </a></button><br>
-        <button type="button"><a href="/tagconfig/{{ $event->id }}"> Tags </a></button><br>
-        <button type="button"><a href="/participants/{{ $event->id }}"> Participants </a></button><br>
-        <form method="POST" action="{{ route('deleteevents', ['id' => $event->id]) }}">
-            {{ csrf_field() }}
-            <button type="submit"> Delete </button>
-        </form>
-    @endif
     <label id="creator">By <b>{{ $event->host->name }}</b></label>
     <label id="duration">{{ $event->start }} - {{ $event->end_ }}</label>
-    @if ($event->notifications->contains('id_developer', Auth::user()->id))
-        <form method="POST" action="{{ route('addHomeParticipant', ['id' => $event->id]) }}">
+    <div class="tagcontainer">
+        @each('partials.tagdisplay', $event->tags, 'tag')
+    </div>
+    @if ($event->participants->contains('id_participant', Auth::user()->id))
+        <label id="userin">You are already registered in this event!</label>
+    @elseif ($event->notifications->contains('id_developer', Auth::user()->id))
+        <form method="POST" action="{{ route('addHomeParticipant', ['id' => $event->id]) }}" id="joinform">
             {{ csrf_field() }}
             <button type="submit"> Accept Invite </button>
         </form>
     @endif
-    @each('partials.tagdisplay', $event->tags, 'tag')
+    @if (Auth::user()->id == $event->host->id)
+        <div class="buttoncontainer">
+            <button type="button"><a href="/editevents/{{ $event->id }}"> Configure </a></button>
+            <button type="button"><a href="/tagconfig/{{ $event->id }}"> Tags </a></button>
+            <button type="button"><a href="/participants/{{ $event->id }}"> Participants </a></button>
+            <form method="POST" action="{{ route('deleteevents', ['id' => $event->id]) }}" id="deleteform">
+                {{ csrf_field() }}
+                <button type="submit" id="deletebutton"> Delete </button>
+            </form>
+        </div>
+    @endif
+    <hr>
     <p id="description">{{ $event->description }}</p>
 </div>
 <div class="commentsection">
