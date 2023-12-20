@@ -11,7 +11,7 @@
 <section id="CancelledNotification" class="notificationsection">
     <h2 class="title">CancelledNotifications</h2>
     <div class="sidescroller">
-        @each('partials.notificationcard', $cancellednotifications, 'notification')
+        @each('partials.cancellednotification', $cancellednotifications, 'notification')
     </div>
 </section>
 

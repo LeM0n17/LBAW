@@ -324,28 +324,21 @@ class EventController extends Controller
         ]);
     }
 
-    public function getEventRequests($userId, $eventId)
+    public function createCancelledNotificationsForEvent($event_id)
     {
-        $requests = Notifications::where('id_developer', $userId)
-            ->where('id_event', $eventId)
-            ->where('type', 'request')
-            ->get();
+        $event = Events::find($event_id);
+        $participants = $event->participants;
 
-        return $requests;
-    }
+        if ($participants->isEmpty()) {
+            return false;
+        }
 
-    public function createCancelledNotificationsForEvent($eventId)
-    {
-        try{
-        $event = Events::find($eventId);
-        $users = $event->participants;
-
-        foreach ($users as $user) {
+        foreach ($participants as $participant) {
             $notification = new Notifications();
 
             $notification->fill([
-                'id_developer' => $user->id,
-                'id_event' => $eventId,
+                'id_developer' => $participant->id_participant,
+                'id_event' => $event->id,
                 'type' => 'cancellation',
                 'content' => 'Event has been cancelled',
                 'time' => date("Y-m-d H:i:s")
@@ -353,25 +346,21 @@ class EventController extends Controller
 
             $notification->save();
         }
-    
-            return true;
-        } catch (\Exception $e) {
-            Log::error('Error creating notifications for event: ' . $e->getMessage());
-            return false;
-        }
-    }
+
+        return true;
+}
  
-    public function addCancelledToTitle($eventId)
+    public function cancelEvent($eventId)
     {
         $event = Events::find($eventId);
 
         if ($this->createCancelledNotificationsForEvent($event->id)) {
-            $event->title .= " - Cancelled";
+            $event->name .= " - Cancelled";
             $event->save();
             return redirect()->to("/events/{$eventId}")
                 ->withSuccess('Event title updated!');
         } else {
-            return redirect()->to("/events/{$eventId}")
+            return redirect()->to("home")
                 ->withSuccess('Error cancelling event!');
         }
     }
