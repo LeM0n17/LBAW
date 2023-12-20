@@ -11,6 +11,10 @@
             {{ csrf_field() }}
             <button type="submit"> Delete </button>
         </form>
+        <form method="POST" action="{{ route('cancelevent', ['event_id' => $event->id]) }}">
+            {{ csrf_field() }}
+            <button type="submit"> Cancel </button>
+        </form>
     @endif
     <label id="creator">By <b>{{ $event->host->name }}</b></label>
     <label id="duration">{{ $event->start }} - {{ $event->end_ }}</label>

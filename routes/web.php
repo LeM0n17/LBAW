@@ -56,6 +56,7 @@ Route::controller(EventController::class)->group(function () {
     Route::get('/notifications', 'showNotificationsPage')->name('showNotificationsPage');
     Route::get('/myevents', 'showUserEvents')->name('showMyEvents');
     Route::post('/requesttojoin/{event_id}/{user_id}', 'requestToJoin')->name('requestToJoin');
+    Route::post('/cancelevent/{event_id}', 'cancelEvent')->name('cancelevent');
 });
 
 // Participants

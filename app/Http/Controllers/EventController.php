@@ -229,8 +229,11 @@ class EventController extends Controller
             $this->authorize('list', Notifications::class);
 
             // Retrieve notifications for the user ordered by ID.
-            //$notifications = Auth::user()->notification()->orderBy('id')->get();
-            $notifications = Auth::user()
+            $cancellednotifications = Notifications::where('id_developer', Auth::user()->id)
+            ->where('type', 'cancellation')
+            ->get();
+
+            $requestnotifications = Auth::user()
             ->notification()
             ->where('type', 'request')
             ->whereHas('event', function ($query) {
@@ -242,7 +245,7 @@ class EventController extends Controller
             // The current user is authorized to list notifications.
 
             // Use the pages.events template to display all notifications.
-            return view("pages.notifications", ['notifications' => $notifications]);
+            return view("pages.notifications", ['requestnotifications' => $requestnotifications, 'cancellednotifications' => $cancellednotifications]);
         }
     }
 
@@ -321,13 +324,44 @@ class EventController extends Controller
         ]);
     }
 
-    public function getEventRequests($userId, $eventId)
+    public function createCancelledNotificationsForEvent($event_id)
     {
-        $requests = Notifications::where('id_developer', $userId)
-            ->where('id_event', $eventId)
-            ->where('type', 'request')
-            ->get();
+        $event = Events::find($event_id);
+        $participants = $event->participants;
 
-        return $requests;
+        if ($participants->isEmpty()) {
+            return false;
+        }
+
+        foreach ($participants as $participant) {
+            $notification = new Notifications();
+
+            $notification->fill([
+                'id_developer' => $participant->id_participant,
+                'id_event' => $event->id,
+                'type' => 'cancellation',
+                'content' => 'Event has been cancelled',
+                'time' => date("Y-m-d H:i:s")
+            ]);
+
+            $notification->save();
+        }
+
+        return true;
+}
+ 
+    public function cancelEvent($eventId)
+    {
+        $event = Events::find($eventId);
+
+        if ($this->createCancelledNotificationsForEvent($event->id)) {
+            $event->name .= " - Cancelled";
+            $event->save();
+            return redirect()->to("/events/{$eventId}")
+                ->withSuccess('Event title updated!');
+        } else {
+            return redirect()->to("home")
+                ->withSuccess('Error cancelling event!');
+        }
     }
 }
