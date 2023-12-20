@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Events;
 use App\Models\Notifications;
 use App\Models\User;
+use App\Models\File;
 
 class EventController extends Controller
 {
@@ -329,5 +331,25 @@ class EventController extends Controller
             ->get();
 
         return $requests;
+    }
+
+    public function showSubmissions(string $id): View 
+    {
+        // Get the card.
+        $event = Events::findOrFail($id);
+
+        // Check if the current user can see (show) the card.
+        $this->authorize('show', $event);  
+
+        // Use the pages.card template to display the card.
+        return view('pages.submissions', [
+            'event' => $event
+        ]);
+    }
+
+    public function downloadFile(string $id)
+    {
+        $file = File::findOrFail($id);
+        return Storage::download($file->path);
     }
 }

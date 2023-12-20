@@ -4,6 +4,9 @@
 <link href="{{ url('css/event.css') }}" rel="stylesheet">
 <div class="eventinfo">
     <h2 id = "title">{{ $event->name }}</h2>
+    <a href="{{ url('/submissions/'.strval($event->id)) }}"><button>Submissions</button></a>
+    <br>
+
     @if (Auth::user()->id == $event->host->id)
         <button type="button"><a href="/editevents/{{ $event->id }}"> Configure </a></button><br>
         <button type="button"><a href="/participants/{{ $event->id }}"> Participants </a></button><br>
@@ -30,6 +33,7 @@
             <p id="request">Request Sent waiting on answer from host</p>
         @endif
     @endif
+
     @if($event->participants->contains('id_participant', Auth::user()->id))
         <form method="POST" action="{{ route('leaveEvent', ['id' => $event->id]) }}">
             {{ csrf_field() }}
