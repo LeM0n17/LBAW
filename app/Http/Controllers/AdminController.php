@@ -21,7 +21,6 @@ class AdminController extends Controller
     public function showAdminPage():View
     {
         $this->authorize('showAdminPage', Auth::user());
-
         return view('admin.admin');
     }
 

@@ -28,7 +28,11 @@
                 <h1><a href="{{ url('/home') }}">Jammer</a></h1>
                 <div>
                     @if (Auth::check())
-                        <a class="fa-regular fa-user fa-2xl" href="{{ url('/profile') }}"></a>
+                        @if (Auth::user()->image == "")
+                            <a href="{{ url('/profile') }}"><img src="{{URL::asset('/images/default_pfp.png')}}" height="50" width="50" style="padding: none;"></img></a>
+                        @else
+                            <a href="{{ url('/profile') }}"><img src="{{URL::asset('storage/'.Auth::user()->image)}}" height="50" width="50" style="padding: none;"></img></a>
+                        @endif
                         <a class="fa-regular fa-bell fa-2xl" href="{{ url('/notifications') }}" ></a>
                     @endif
                     <div class="dropdown">

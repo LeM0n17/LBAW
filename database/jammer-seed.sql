@@ -32,7 +32,7 @@ DROP FUNCTION IF EXISTS event_manage_FTS CASCADE;
 
 CREATE TYPE event_type AS ENUM ('public', 'private', 'protected');
 CREATE TYPE comment_notification_type AS ENUM ('reply', 'like');
-CREATE TYPE event_notification_type AS ENUM ('start', 'results', 'invitation');
+CREATE TYPE event_notification_type AS ENUM ('start', 'results', 'invitation', 'request', 'cancellation');
 
 -----------------------------------------
 -- Tables
@@ -43,6 +43,7 @@ CREATE TABLE users (
   name VARCHAR NOT NULL,
   password VARCHAR NOT NULL,
   email VARCHAR UNIQUE NOT NULL,
+  image VARCHAR, 
   remember_token VARCHAR
 );
 
@@ -123,7 +124,6 @@ CREATE TABLE likes(
     id_comment INT,
     id_developer INT,
     likes BOOLEAN NOT NULL,
-    PRIMARY KEY (id_comment, id_developer),
     FOREIGN KEY(id_comment) REFERENCES comment(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY(id_developer) REFERENCES game_developer(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -238,6 +238,7 @@ EXECUTE PROCEDURE verify_participation_presence();
 CREATE FUNCTION delete_likes() RETURNS TRIGGER AS $BODY$
 BEGIN
     DELETE FROM likes WHERE likes.id_developer = NEW.id_developer AND likes.id_comment = NEW.id_developer;
+    RETURN NEW;
 END $BODY$
     LANGUAGE plpgsql;
 

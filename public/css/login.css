@@ -1,0 +1,11 @@
+#password-labels {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#forgot-password {
+    font-size: 80%;
+    padding: 0.5em;
+    margin: auto 0 0 auto;
+    color: cadetblue;
+}

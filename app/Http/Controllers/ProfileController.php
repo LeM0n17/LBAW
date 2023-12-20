@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -44,8 +45,7 @@ class ProfileController extends Controller
 
     public function saveEditProfileChanges(Request $request)
     {
-        $userId = Auth::id();
-        $user = User::findOrFail($userId);
+        $user = Auth::user();
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:250',
@@ -56,6 +56,16 @@ class ProfileController extends Controller
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
+        }
+
+        if (!is_null($request->image))
+        {
+            $path = Storage::put("public/pfps", $request->file('image'));
+            $whatIWant = substr($path, strpos($path, "/") + 1);
+
+            $user->fill([
+                'image' => $whatIWant
+            ]);
         }
 
         $user->fill([

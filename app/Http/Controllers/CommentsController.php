@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use App\Models\Comment;
-use App\Models\Participant;
 use Exception;
 
 class CommentsController extends Controller
@@ -69,4 +68,5 @@ class CommentsController extends Controller
 
         return redirect()->to("/events/{$comment->event->id}");
     }
+    
 }

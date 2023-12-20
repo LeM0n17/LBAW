@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\RecoverPasswordController;
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\StaticController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +58,8 @@ Route::controller(EventController::class)->group(function () {
     Route::post('/tagconfig/connect', 'connectTag')->name('connectTag');
     Route::get('/notifications', 'showNotificationsPage')->name('showNotificationsPage');
     Route::get('/myevents', 'showUserEvents')->name('showMyEvents');
+    Route::post('/requesttojoin/{event_id}/{user_id}', 'requestToJoin')->name('requestToJoin');
+    Route::post('/cancelevent/{event_id}', 'cancelEvent')->name('cancelevent');
 });
 
 // Participants
@@ -62,7 +67,10 @@ Route::controller(ParticipantController::class)->group(function () {
     Route::get('/participants/{id}','showManageParticipants')->name('showManageParticipants');
     Route::post('/home/{id}','addParticipants')->name('addHomeParticipant');
     Route::post('/events/{id}','addParticipants')->name('addParticipant');
+    Route::post('/notifications/accept/{id_event}/{id_user}','addParticipantFromRequest')->name('addParticipantFromRequest');
+    Route::post('notifications/refuse/{id_notification}','refuseParticipantFromRequest')->name('refuseParticipantFromRequest');
     Route::post('/participants/remove/{id_participant}','removeParticipant')->name('removeParticipant');
+    Route::delete('/event/{id}/leave', 'leaveEvent')->name('leaveEvent');
 });
 
 // Authentication
@@ -75,6 +83,17 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'showRegistrationForm')->name('register');
     Route::post('/register', 'register');
+});
+
+Route::controller(RecoverPasswordController::class)->group(function () {
+    Route::get('/recover-password', 'showRecoverPasswordForm')->name('showRecoverPassword');
+    Route::get('/reset-password/{token}', 'showResetPasswordForm')->name('showResetPassword');
+    Route::post('/reset-password/{token}', 'resetPassword')->name('resetPassword');
+});
+
+// Emails
+Route::controller(MailController::class)->group(function () {
+    Route::post('/recover-password/send', 'sendPasswordRecoveryEmail')->name('sendPasswordRecoveryEmail');
 });
 
 // Static
@@ -96,4 +115,11 @@ Route::controller(ProfileController::class)->group(function () {
 Route::controller(CommentsController::class)->group(function () {
     Route::post('/events/{id}/comments', "createComment")->name("createcomment");
     Route::delete('/events/{id}/deletecomment', "deleteComment")->name("deletecomment");
+});
+
+//likes
+Route::controller(LikeController::class)->group(function () {
+    Route::post('/events/comments/{id_comment}/like', "addLike")->name("addLike");
+    Route::post('/events/comments/{id_comment}/dislike', "addDislike")->name("addDislike");
+    Route::delete('/events/comments/{id_comment}/removelike', "deleteLike")->name("removeLike");
 });
