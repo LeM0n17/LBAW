@@ -1,4 +1,4 @@
-<div class="eventcard" id="{{ $event->id }}">
+<div class="eventcard" id="event">
     <h3><a href="/events/{{ $event->id }}">{{ $event->name }}</a></h3>
     <label>By <b>{{ $event->host->name }}</b></label>
     <label>{{ $event->start }} - {{ $event->end_ }}</label>
