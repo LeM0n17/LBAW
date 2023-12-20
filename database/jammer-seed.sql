@@ -193,6 +193,18 @@ CREATE INDEX event_FTS_index ON events USING GIN(tsvectors);
 -- TRIGGERS
 -----------------------------------------
 
+CREATE FUNCTION delete_event_notifications() RETURNS TRIGGER AS $BODY$
+BEGIN
+    DELETE FROM notifications WHERE notifications.id_event = OLD.id;
+    RETURN OLD;
+END $BODY$
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_event_notifications
+    BEFORE DELETE ON events
+    FOR EACH ROW
+EXECUTE PROCEDURE delete_event_notifications();
+
 CREATE FUNCTION verify_participation_limit() RETURNS TRIGGER AS $BODY$
 BEGIN
     IF EXISTS (SELECT ParticipantCount FROM (SELECT count(*) AS ParticipantCount FROM participants WHERE participants.id_event = NEW.id_event) as pPC WHERE ParticipantCount >= 100) THEN
