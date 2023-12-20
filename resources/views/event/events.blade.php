@@ -25,7 +25,7 @@
             </form>
         </div>
     @endif
-    @if ($event->notifications->where('type', 'invite')->contains('id_developer', Auth::user()->id))
+    @if ($event->notifications->where('type', 'invitation')->contains('id_developer', Auth::user()->id))
         <form method="POST" action="{{ route('addHomeParticipant', ['id' => $event->id]) }}">
             {{ csrf_field() }}
             <button type="submit"> Accept Invite </button>

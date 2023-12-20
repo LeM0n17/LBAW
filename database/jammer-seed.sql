@@ -286,6 +286,19 @@ CREATE TRIGGER add_game_dev
     FOR EACH ROW
 EXECUTE PROCEDURE add_game_dev();
 
+CREATE OR REPLACE FUNCTION delete_notifications() RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM notifications
+    WHERE (type = 'invitation' OR type = 'request') AND id_developer = NEW.id_participant AND id_event = NEW.id_event;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_notifications_trigger
+AFTER INSERT ON participants
+FOR EACH ROW
+EXECUTE FUNCTION delete_notifications();
+
 -----------------------------------------
 -- TRANSACTIONS
 -----------------------------------------
