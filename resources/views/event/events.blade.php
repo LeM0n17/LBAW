@@ -48,6 +48,7 @@
             <button type="submit"> Leave Event </button>
         </form>
     @endif
+    <hr>
     <p id="description">{{ $event->description }}</p>
 </div>
 <div class="commentsection">

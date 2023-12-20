@@ -81,10 +81,9 @@ div.commentsection textarea {
     margin-top: 10px;
 }
 
-#deleteform, 
-#joinform {
+.buttoncontainer form {
     margin-bottom: 5px;
-    margin-top: 5px;
+    height: auto;
 }
 
 #deletebutton {
@@ -99,7 +98,7 @@ hr {
     margin-top: 5px;
     margin-bottom: 5px;
     background-color: #3e3e3e;
-    height: 2px;
+    height: 1px;
     border: none;
 }
 
@@ -112,12 +111,17 @@ hr {
     overflow: auto;
     display: inline-block;
     width: 100%;
+    margin-top: 10px;
 }
 
-.buttoncontainer button {
+.buttoncontainer button, .buttoncontainer form {
     display: block; 
     float:left;
     margin-right: 10px;
+}
+
+.buttoncontainer form button {
+    margin: 0;
 }
 
 .spread {
