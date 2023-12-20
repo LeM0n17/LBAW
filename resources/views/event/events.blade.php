@@ -26,6 +26,10 @@
                 {{ csrf_field() }}
                 <button type="submit" id="deletebutton"> Delete </button>
             </form>
+            <form method="POST" action="{{ route('cancelevent', ['event_id' => $event->id]) }}">
+                {{ csrf_field() }}
+                <button type="submit"> Cancel </button>
+            </form>
         </div>
     @endif
     <hr>
@@ -51,4 +55,3 @@
         <button type="submit">Add Comment</button>
     </form>
 </div>
-@endsection

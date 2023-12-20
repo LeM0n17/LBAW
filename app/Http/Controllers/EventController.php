@@ -231,12 +231,23 @@ class EventController extends Controller
             $this->authorize('list', Notifications::class);
 
             // Retrieve notifications for the user ordered by ID.
-            $notifications = Auth::user()->notification()->orderBy('id')->get();
+            $cancellednotifications = Notifications::where('id_developer', Auth::user()->id)
+            ->where('type', 'cancellation')
+            ->get();
+
+            $requestnotifications = Auth::user()
+            ->notification()
+            ->where('type', 'request')
+            ->whereHas('event', function ($query) {
+                $query->where('id_host', Auth::id());
+            })
+            ->orderBy('id')
+            ->get();
 
             // The current user is authorized to list notifications.
 
             // Use the pages.events template to display all notifications.
-            return view("pages.notifications", ['notifications' => $notifications]);
+            return view("pages.notifications", ['requestnotifications' => $requestnotifications, 'cancellednotifications' => $cancellednotifications]);
         }
     }
 
@@ -270,6 +281,31 @@ class EventController extends Controller
         return redirect()->to("/participants/{$id}")
             ->withSuccess('User invited!')
             ->withErrors('Error');
+    }
+
+    public function requestToJoin(Request $request)
+    {
+        $notification = new Notifications();
+
+        $user_id = $request->route('user_id');
+        $event_id = $request->route('event_id');
+
+        Log::info("User ID: $user_id, Event ID: $event_id");
+
+        $user = User::where('id', $user_id)->first();
+
+        $notification->fill([
+            'id_developer' => $user->id,
+            'id_event' => $event_id,
+            'type' => 'request',
+            'content' => 'asking to join',
+            'time' => date("Y-m-d H:i:s")
+        ]);
+
+        $notification->save();
+
+        return redirect()->to("/events/{$event_id}")
+            ->withSuccess('Request Successfull!');
     }
 
     public function showUserEvents()
@@ -341,5 +377,46 @@ class EventController extends Controller
         return redirect()->to("/tagconfig/{$event_id}")
             ->withSuccess('Tag disconnected!')
             ->withErrors('Error');
+    }
+
+        public function createCancelledNotificationsForEvent($event_id)
+    {
+        $event = Events::find($event_id);
+        $participants = $event->participants;
+
+        if ($participants->isEmpty()) {
+            return false;
+        }
+
+        foreach ($participants as $participant) {
+            $notification = new Notifications();
+
+            $notification->fill([
+                'id_developer' => $participant->id_participant,
+                'id_event' => $event->id,
+                'type' => 'cancellation',
+                'content' => 'Event has been cancelled',
+                'time' => date("Y-m-d H:i:s")
+            ]);
+
+            $notification->save();
+        }
+
+        return true;
+}
+ 
+    public function cancelEvent($eventId)
+    {
+        $event = Events::find($eventId);
+
+        if ($this->createCancelledNotificationsForEvent($event->id)) {
+            $event->name .= " - Cancelled";
+            $event->save();
+            return redirect()->to("/events/{$eventId}")
+                ->withSuccess('Event title updated!');
+        } else {
+            return redirect()->to("home")
+                ->withSuccess('Error cancelling event!');
+        }
     }
 }
