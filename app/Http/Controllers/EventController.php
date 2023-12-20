@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\Events;
+use App\Models\Tag;
 use App\Models\Notifications;
 use App\Models\User;
+use App\Models\TagConnection;
 
 class EventController extends Controller
 {
@@ -39,7 +41,7 @@ class EventController extends Controller
         $this->authorize('show', $event);  
 
         // Use the pages.card template to display the card.
-        return view('pages.events', [
+        return view('event.events', [
             'event' => $event
         ]);
     }
@@ -50,14 +52,14 @@ class EventController extends Controller
         $event = Events::findOrFail($id);
 
         // Use the pages.card template to display the card.
-        return view('pages.editevents', [
+        return view('event.editevents', [
             'event' => $event
         ]);
     }
 
     public function showCreateEvents(): View
     {
-        return view('pages.createevents');
+        return view('event.createevents');
     }
 
     /**
@@ -324,7 +326,60 @@ class EventController extends Controller
         ]);
     }
 
-    public function createCancelledNotificationsForEvent($event_id)
+    public function showTagConfigurationPage(Request $request)
+    {
+        $id = $request->route('id');
+        $event = Events::findorFail($id);
+
+        $this->authorize('editEvents', $event);
+
+        $tags = $event->tags;
+        $alltags = Tag::all();
+        $filteredtags = $alltags->reject(function($element) use ($id){
+            return TagConnection::where('id_event', $id)->where('id_tag', $element->id)->count() > 0;
+        });
+
+        return view("event.configuretag", ['tags' => $tags, 'event' => $event, 'alltags' => $filteredtags]);
+    }
+
+    public function connectTag(Request $request)
+    {
+        $tag_id = $request->tag_id;
+        $event_id = $request->event_id;
+
+        $tag = Tag::findorFail($tag_id);
+        $event = Events::findorFail($event_id);
+
+        if (TagConnection::where('id_event', $event_id)->where('id_tag', $tag_id)->count() <= 0) {
+            $this->authorize('editEvents', $event);
+
+            TagConnection::create([
+                'id_event' => $event_id,
+                'id_tag' => $tag_id,
+            ]);
+        }
+
+        return redirect()->to("/tagconfig/{$event_id}")
+            ->withSuccess('Tag connected!')
+            ->withErrors('Error');
+    }
+
+    public function disconnectTag(Request $request)
+    {
+        $tag_id = $request->tag_id;
+        $event_id = $request->event_id;
+
+        $event = Events::findorFail($event_id);
+
+        $this->authorize('editEvents', $event);
+
+        TagConnection::where('id_tag', $tag_id)->where('id_event', $event_id)->delete();
+        return redirect()->to("/tagconfig/{$event_id}")
+            ->withSuccess('Tag disconnected!')
+            ->withErrors('Error');
+    }
+
+        public function createCancelledNotificationsForEvent($event_id)
     {
         $event = Events::find($event_id);
         $participants = $event->participants;

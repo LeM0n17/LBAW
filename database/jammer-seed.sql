@@ -305,9 +305,13 @@ INSERT INTO users VALUES (DEFAULT, 'JaneDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAc
 INSERT INTO users VALUES (DEFAULT, 'JorgeDoe', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'example2@example.com');
 
 INSERT INTO tag VALUES (DEFAULT, 'Indie');
+INSERT INTO tag VALUES (DEFAULT, 'FPS');
 
 INSERT INTO events VALUES (DEFAULT, 1, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event', 'Description', 'public');
 INSERT INTO events VALUES (DEFAULT, 2, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event2', 'Description2', 'public');
+
+INSERT INTO event_tag VALUES (1, 1);
+INSERT INTO event_tag VALUES (2, 2);
 
 INSERT INTO notifications VALUES (DEFAULT, 2, 2, 'invitation', 'join please', '2020-01-01 00:00:00');
 INSERT INTO notifications VALUES (DEFAULT, 2, 1, 'invitation', 'join please', '2020-01-01 00:00:00');
