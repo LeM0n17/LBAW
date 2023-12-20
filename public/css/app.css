@@ -94,6 +94,30 @@ main>header span {
     }
 }
 
+main>header>div {
+    display: flex;
+    align-items: center;
+}
+
+main>header>div a {
+    display: block;
+    float: right;
+    margin-left: 10px;
+}
+
+main>header>div #pfp {
+    margin-top: auto;
+    margin-bottom: auto;
+    position: relative;
+    top: 7px;
+}
+
+::before {
+    align-self: center;
+    width: 100%;
+    height: 100%;
+    top:44px;
+}
 
 /**
    * Override milligram colors
