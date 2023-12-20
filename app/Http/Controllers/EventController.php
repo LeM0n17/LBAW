@@ -338,8 +338,11 @@ class EventController extends Controller
         $filteredtags = $alltags->reject(function($element) use ($id){
             return TagConnection::where('id_event', $id)->where('id_tag', $element->id)->count() > 0;
         });
-
-        return view("event.configuretag", ['tags' => $tags, 'event' => $event, 'alltags' => $filteredtags]);
+        if ($request->ajax()) {
+            return view('partials.tagpagecontent', ['tags' => $tags, 'event' => $event, 'alltags' => $filteredtags]);
+        } else {
+            return view("event.configuretag", ['tags' => $tags, 'event' => $event, 'alltags' => $filteredtags]);
+        }
     }
 
     public function connectTag(Request $request)
