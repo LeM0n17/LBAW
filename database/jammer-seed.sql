@@ -93,6 +93,7 @@ CREATE TABLE event_tag(
 CREATE TABLE poll(
     id SERIAL PRIMARY KEY,
     id_event INT NOT NULL,
+    title VARCHAR(20) NOT NULL,
     FOREIGN KEY(id_event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -264,6 +265,7 @@ BEGIN
     DELETE FROM votes WHERE votes.id_developer = NEW.id_developer AND votes.id_option IN
             (SELECT id_option FROM option WHERE option.id_poll in
             (SELECT id_poll FROM option WHERE option.id = NEW.id_option));
+    RETURN NEW;
 END $BODY$
     LANGUAGE plpgsql;
 

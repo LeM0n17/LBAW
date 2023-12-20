@@ -42,6 +42,7 @@
         @endif
     @endif
     @if($event->participants->contains('id_participant', Auth::user()->id))
+        <button type="button"><a href="/polls/{{ $event->id }}"> Polls </a></button>
         <form method="POST" action="{{ route('leaveEvent', ['id' => $event->id]) }}">
             {{ csrf_field() }}
             @method('DELETE')

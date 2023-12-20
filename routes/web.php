@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\PollController;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,4 +123,15 @@ Route::controller(LikeController::class)->group(function () {
     Route::post('/events/comments/{id_comment}/like', "addLike")->name("addLike");
     Route::post('/events/comments/{id_comment}/dislike', "addDislike")->name("addDislike");
     Route::delete('/events/comments/{id_comment}/removelike', "deleteLike")->name("removeLike");
+});
+
+//polls
+Route::controller(PollController::class)->group(function () {
+    Route::get('polls/{id_event}', "showPolls")->name("showPolls");
+    Route::post('polls/{id_option}/vote', "addVote")->name("vote");
+    Route::post('polls/{id_poll}/addoption', "addOption")->name("addOption");
+    Route::post('polls/{id_option}/removeoption', "removeOption")->name("removeOption");
+    Route::post('polls/{id_poll}/removepoll', "removePoll")->name("deletePoll");
+    Route::post('polls/{id_event}/createpoll', "createPoll")->name("createPoll");
+    Route::post('polls/{id_option}/removevote', "removeVote")->name("removeVote");
 });
