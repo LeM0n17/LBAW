@@ -9,3 +9,7 @@
     margin: auto 0 0 auto;
     color: cadetblue;
 }
+
+#forgot-password:hover {
+    text-decoration: underline;
+}

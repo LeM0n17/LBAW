@@ -37,19 +37,19 @@ class RecoverPasswordController extends Controller
 
         if (!$user)
             return redirect()->route('login')
-                ->with('error', "Invalid email!");
+                ->withErrors("Invalid email!");
 
         // verify if the password has at least 8 characters
         if (strlen($request->password) < 8)
             return redirect()
                 ->route('showResetPassword', ['token' => $request->token, 'email' => $request->email])
-                ->with('error', "The password must have at least 8 characters!");
+                ->withErrors("The password must have at least 8 characters!");
 
         // verify if the passwords match
         if ($request->password != $request->confirmPassword)
             return redirect()
                 ->route('showResetPassword', ['token' => $request->token, 'email' => $request->email])
-                ->with('error', "The passwords do not match!");
+                ->withErrors("The passwords do not match!");
 
         $user->password = Hash::make($request->password);
         $user->save();
