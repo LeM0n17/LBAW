@@ -15,15 +15,22 @@
             <button type="button"><a href="/tagconfig/{{ $event->id }}"> Tags </a></button>
             <button type="button"><a href="/editevents/{{ $event->id }}"> Configure </a></button>
             <button type="button"><a href="/participants/{{ $event->id }}"> Participants </a></button>
-            <form method="POST" action="{{ route('deleteevents', ['id' => $event->id]) }}">
-                {{ csrf_field() }}
-                <button type="submit"> Delete </button>
-            </form>
+
             <form method="POST" action="{{ route('cancelevent', ['event_id' => $event->id]) }}">
                 {{ csrf_field() }}
                 <button type="submit"> Cancel </button>
             </form>
         </div>
+    @elseif (Auth::user()->isAdmin())
+    <div class="buttoncontainer">
+        <button type="button"><a href="/tagconfig/{{ $event->id }}"> Tags </a></button>
+        <button type="button"><a href="/editevents/{{ $event->id }}"> Configure </a></button>
+        <button type="button"><a href="/participants/{{ $event->id }}"> Participants </a></button>
+        <form method="POST" action="{{ route('deleteevents', ['id' => $event->id]) }}">
+            {{ csrf_field() }}
+            <button type="submit"> Delete </button>
+        </form>
+    </div>
     @endif
     @if ($event->notifications->where('type', 'invitation')->contains('id_developer', Auth::user()->id))
         <form method="POST" action="{{ route('addHomeParticipant', ['id' => $event->id]) }}">
