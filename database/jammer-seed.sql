@@ -260,7 +260,7 @@ EXECUTE PROCEDURE verify_participation_presence();
 
 CREATE FUNCTION delete_likes() RETURNS TRIGGER AS $BODY$
 BEGIN
-    DELETE FROM likes WHERE likes.id_developer = NEW.id_developer AND likes.id_file = NEW.id_developer;
+    DELETE FROM likes WHERE likes.id_developer = NEW.id_developer AND likes.id_file = NEW.id_file;
     RETURN NEW;
 END $BODY$
     LANGUAGE plpgsql;
