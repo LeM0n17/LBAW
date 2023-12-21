@@ -1,4 +1,4 @@
-#search-bar, form#dateForm {
+#search-bar, form#dateForm, form#tagForm {
     width: 1000px;
     max-width: calc(100% - 40px);
     margin-left: auto;
@@ -9,6 +9,22 @@
     display: flex;
     justify-content: center;
     gap: 4px;
+}
+
+form#tagForm .sidescroller {
+    display: inline-block;
+    width: 100%;
+}
+
+form#tagForm .sidescroller .tagoption {
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+form#tagForm .sidescroller button {
+    display: block;
+    float: right;
 }
 
 form#dateForm>input, form#dateForm>button {
@@ -79,4 +95,8 @@ button#createevent {
     text-align: center;
     bottom: 25px;
     right: 25px;
+}
+
+.tagoption {
+    display: inline-block;
 }
