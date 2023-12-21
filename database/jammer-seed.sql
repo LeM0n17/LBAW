@@ -347,7 +347,6 @@ INSERT INTO tag VALUES (DEFAULT, 'FPS');
 INSERT INTO events VALUES (DEFAULT, 1, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event', 'Description', 'public');
 INSERT INTO events VALUES (DEFAULT, 2, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event2', 'Description2', 'public');
 
-INSERT INTO file VALUES (DEFAULT, 1, 1, 'COC LOGO', 'files/coc-logo.xcf');
 INSERT INTO event_tag VALUES (1, 1);
 INSERT INTO event_tag VALUES (2, 2);
 
