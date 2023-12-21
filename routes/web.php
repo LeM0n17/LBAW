@@ -63,6 +63,7 @@ Route::controller(EventController::class)->group(function () {
     Route::post('/requesttojoin/{event_id}/{user_id}', 'requestToJoin')->name('requestToJoin');
     Route::post('/cancelevent/{event_id}', 'cancelEvent')->name('cancelevent');
     Route::get('/submissions/{id}', 'showSubmissions')->name('showSubmissions');
+    Route::get('/home/filterByDate', 'filterByDate')->name('filterByDate');
 });
 
 // Participants

@@ -435,4 +435,16 @@ class EventController extends Controller
             'event' => $event
         ]);
     }
+
+    public function filterByDate(Request $request)
+    {
+        $date = $request->input('date');
+
+        $events = Events::where('start', '>', $date)
+            ->get();
+
+        return view('pages.homefiltered', [
+            'events' => $events
+        ]);
+    }
 }
