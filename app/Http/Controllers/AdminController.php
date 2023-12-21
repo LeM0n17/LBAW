@@ -47,7 +47,7 @@ class AdminController extends Controller
 
     public function showAdminEventsPage():View
     {
-        $events = $this->publicEvents()->get();
+        $events = Events::all();
         $this->authorize('showAdminPage', Auth::user());
 
         return view('admin.events', [
@@ -61,7 +61,7 @@ class AdminController extends Controller
         $userId = $request->route('id');
         $userToDelete = User::findOrFail($userId);
 
-        $this->authorize('deleteUser');
+        $this->authorize('deleteUser', Auth::user());
 
         $userToDelete->fill([
             'name' => 'Deleted User',
@@ -71,18 +71,18 @@ class AdminController extends Controller
 
         $userToDelete->save();
 
-        return redirect()->to('/admin/user');
+        return redirect()->to('/admin/user')
+            ->withSuccess('User Banned with success!')
+            ->withErrors('Error');
     }
 
     public function deleteEvent(Request $request)
     {
-        // Find the card.
         $id = $request->route('id');
         $event = Events::find($id);
 
         $this->authorize('deleteEvent', Auth::user());
 
-        // Delete the card and return it as JSON.
         $event->delete();
         return redirect()->to("/admin/event")
             ->withSuccess('Event deleted!')

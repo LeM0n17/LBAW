@@ -24,6 +24,11 @@
                 <button type="submit"> Cancel </button>
             </form>
         </div>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     @elseif (Auth::user()->isAdmin())
     <div class="buttoncontainer">
         <button type="button"><a href="/tagconfig/{{ $event->id }}"> Tags </a></button>
@@ -68,13 +73,9 @@
     <form action="{{ route('createcomment', ['id' => $event->id]) }}" method="POST">
         {{ csrf_field() }}
         <div>
-            @if ($errors->any())
+            @if(session('error'))
                 <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                    {{ session('error') }}
                 </div>
             @endif
             <label for="content">New Comment(participants only):</label>

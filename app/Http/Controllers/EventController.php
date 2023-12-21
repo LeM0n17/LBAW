@@ -137,7 +137,7 @@ class EventController extends Controller
     }
 
     /**
-     * Delete a card.
+     * Delete an event.
      */
     public function delete(Request $request)
     {
@@ -147,7 +147,6 @@ class EventController extends Controller
 
         $this->authorize('delete', $event);  
 
-        // Delete the card and return it as JSON.
         $event->delete();
         return redirect()->to("/home")
             ->withSuccess('Event deleted!')
@@ -263,12 +262,19 @@ class EventController extends Controller
 
         if ($validator->fails()) {
             Log::info('Validation failed: ' . $validator->errors());
-            return redirect()->to("/events/{$id}")
+            return redirect()->to("/participants/{$id}")
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        $user = User::where('email', $request->input('email'))->first();
+        try {
+            $user = User::where('email', $request->input('email'))->firstOrFail();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->to("/participants/{$id}")
+                ->withErrors(['email' => 'No user found with this email'])
+                ->withInput();
+        }
+        
 
         $notification->fill([
             'id_developer' => $user->id,
@@ -281,8 +287,8 @@ class EventController extends Controller
         $notification->save();
 
         return redirect()->to("/participants/{$id}")
-            ->withSuccess('User invited!')
-            ->withErrors('Error');
+            ->withSuccess('User has been invited!')
+            ->withErrors('Participant doesnt exist!');
     }
 
     public function requestToJoin(Request $request)
@@ -307,7 +313,7 @@ class EventController extends Controller
         $notification->save();
 
         return redirect()->to("/events/{$event_id}")
-            ->withSuccess('Request Successfull!');
+            ->withSuccess('Request sent successfully!');
     }
 
     public function showUserEvents()
@@ -387,7 +393,7 @@ class EventController extends Controller
         $participants = $event->participants;
 
         if ($participants->isEmpty()) {
-            return false;
+            return true;
         }
 
         foreach ($participants as $participant) {
@@ -415,9 +421,9 @@ class EventController extends Controller
             $event->name .= " - Cancelled";
             $event->save();
             return redirect()->to("/events/{$eventId}")
-                ->withSuccess('Event title updated!');
+                ->withSuccess('Event has been cancelled!');
         } else {
-            return redirect()->to("home")
+            return redirect()->to("/events/{$eventId}")
                 ->withSuccess('Error cancelling event!');
         }
     }

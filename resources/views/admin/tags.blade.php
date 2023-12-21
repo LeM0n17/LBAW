@@ -8,6 +8,11 @@
     <button type="submit">Create</button>
 </form>
 <section id="admintags">
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <h2>Tags</h2>
     <div class="spread">
         @each('partials.admintag', $tags, 'tag')

@@ -16,9 +16,9 @@ class AdminPolicy
         return $user->isAdmin();
     }
 
-    public function deleteUser(): bool
+    public function deleteUser(User $user): bool
     {
-        return Auth::user()->isAdmin();
+        return $user->isAdmin();
     }
 
     public function deleteEvent(User $user): bool

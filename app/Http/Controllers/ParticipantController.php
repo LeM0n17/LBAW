@@ -88,7 +88,9 @@ class ParticipantController extends Controller
 
         $participant = Participant::where('id_participant', $participantId)->where('id_event', $eventId)->delete();
 
-        return redirect()->to("/events/{$eventId}");
+        return redirect()->to("/events/{$eventId}")
+            ->withSuccess('Participant removed successfully')
+            ->withError('Participant not removed');
     }
 
     public function leaveEvent(Request $request)
