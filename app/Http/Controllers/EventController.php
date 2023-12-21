@@ -346,10 +346,4 @@ class EventController extends Controller
             'event' => $event
         ]);
     }
-
-    public function downloadFile(string $id)
-    {
-        $file = File::findOrFail($id);
-        return Storage::download($file->path);
-    }
 }

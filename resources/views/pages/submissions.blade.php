@@ -13,7 +13,7 @@
 </div>
 <div class="commentsection">
     @each('partials.files', $event->files, 'file')
-    <form action="{{ route('createcomment', ['id' => $event->id]) }}" method="POST">
+    <form action="{{ route('createfile', ['id' => $event->id]) }}" method="POST" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div>
             @if ($errors->any())
@@ -25,10 +25,11 @@
                     </ul>
                 </div>
             @endif
-            <label for="content">New Comment(participants only):</label>
-            <textarea name="content" id="content" placeholder="Enter your comment here..."></textarea>
+            <label for="name">New Submission(participants only):</label>
+            <textarea name="name" id="name" placeholder="Enter your submission's name"></textarea>
+            <input id="file" type="file" enctype="multipart/form-data" name="file" src="" alt="Submit File" width="100%" height="48">
         </div>
-        <button type="submit">Add Comment</button>
+        <button type="submit">Submit</button>
     </form>
 </div>
 @endsection

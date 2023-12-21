@@ -14,6 +14,8 @@ class File extends Model
     protected $table = 'file';
     protected $guarded = [];
 
+    public $timestamps = false;
+
     public function user() : BelongsTo {
         return $this->belongsTo(User::class, 'id_developer');
     }
