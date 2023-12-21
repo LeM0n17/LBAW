@@ -41,7 +41,7 @@ class PollOption extends Model
         $totalVotes = $this->poll->getTotalVotes();
 
         if ($totalVotes == 0) {
-            return 999999;
+            return 0;
         }
 
         return ($this->votes->count() / $totalVotes) * 100;

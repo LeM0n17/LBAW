@@ -1,14 +1,43 @@
-#search-bar {
+#search-bar, form#dateForm, form#tagForm {
     width: 1000px;
     max-width: calc(100% - 40px);
     margin-left: auto;
     margin-right: auto;
 }
 
-#search-bar>form {
+#search-bar>form, form#dateForm {
     display: flex;
     justify-content: center;
     gap: 4px;
+}
+
+form#tagForm .sidescroller {
+    display: inline-block;
+    width: 100%;
+}
+
+form#tagForm .sidescroller .tagoption {
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+form#tagForm .sidescroller button {
+    display: block;
+    float: right;
+}
+
+form#dateForm>input, form#dateForm>button {
+    margin-bottom: 0;
+}
+
+form#dateForm>p {
+    width: 26%;
+    font-size: 17px;
+    vertical-align: middle;
+    margin-bottom: auto;
+    height: 20px;
+    margin-top: auto;
 }
 
 .homesection .title {
@@ -66,4 +95,8 @@ button#createevent {
     text-align: center;
     bottom: 25px;
     right: 25px;
+}
+
+.tagoption {
+    display: inline-block;
 }

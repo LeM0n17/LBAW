@@ -1,0 +1,80 @@
+section#polls {
+    max-width: calc(100% - 30px);
+    width: 70em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form#createPoll {
+    width: 50em;
+    max-width: 100%;
+    padding: 15px;
+    border: 1px black solid;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sidescroller {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 23em);
+}
+
+#deleteButton {
+    background-color: rgb(186, 92, 92);
+}
+
+.Poll {
+    background-color: #bebebe;
+    max-width: 22em;
+    width: auto;
+    padding: 15px;
+    border-radius: 10px;
+    display: block;
+}
+
+.Poll h3, .Poll>p {
+    margin-bottom: 5px;
+}
+
+form#addOption {
+    padding: 15px;
+    border: 1px black solid;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#topsection, .optionHead {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+
+#topsection h3 {
+    height: 35px;
+}
+
+#topsection h3, #topsection form {
+    margin-bottom: 0;
+}
+
+.optionHead form, .optionHead h4, .optionHead form button  {
+    margin-bottom: 0;
+}
+
+.optionHead h4 {
+    font-size: 30px;
+    height: 30px;
+}
+
+#Option>p {
+    margin-bottom: 0;
+}
+
+#Option {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.optionName {
+    vertical-align: middle;
+}
