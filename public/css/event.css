@@ -190,3 +190,13 @@ p#time {
 .commentcreator {
     margin-top: 20px;
 }
+
+.participant {
+    padding: 10px;
+    background-color: #bebebe;
+    width: 140px;
+}
+
+.participant form {
+    margin-bottom: 0;
+}

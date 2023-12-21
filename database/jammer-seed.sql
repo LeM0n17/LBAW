@@ -309,6 +309,18 @@ AFTER INSERT ON participants
 FOR EACH ROW
 EXECUTE FUNCTION delete_notifications();
 
+CREATE FUNCTION owner_to_participant() RETURNS TRIGGER AS $$
+BEGIN 
+    INSERT INTO participants VALUES (NEW.id_host, NEW.id);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER add_participant_creation
+AFTER INSERT ON events
+FOR EACH ROW
+EXECUTE FUNCTION owner_to_participant();
+
 -----------------------------------------
 -- TRANSACTIONS
 -----------------------------------------
@@ -350,7 +362,6 @@ INSERT INTO events VALUES (DEFAULT, 2, '2020-01-01 00:00:00', '2024-01-01 00:00:
 INSERT INTO event_tag VALUES (1, 1);
 INSERT INTO event_tag VALUES (2, 2);
 
-INSERT INTO notifications VALUES (DEFAULT, 2, 2, 'invitation', 'join please', '2020-01-01 00:00:00');
 INSERT INTO notifications VALUES (DEFAULT, 2, 1, 'invitation', 'join please', '2020-01-01 00:00:00');
 
 INSERT INTO admin VALUES (DEFAULT, 3);
