@@ -42,6 +42,11 @@ class Events extends Model
     {
         return $this->hasMany(TagConnection::class, 'id_event');
     }
+    
+    public function files(): HasMany
+    {
+        return $this->hasMany(File::class, 'id_event');
+    }
 
     public function polls(): HasMany
     {

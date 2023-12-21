@@ -4,6 +4,9 @@
 <link href="{{ url('css/event.css') }}" rel="stylesheet">
 <div class="eventinfo">
     <h2 id = "title">{{ $event->name }}</h2>
+    <a href="{{ url('/submissions/'.strval($event->id)) }}"><button>Submissions</button></a>
+    <br>
+
     <label id="creator">By <b>{{ $event->host->name }}</b></label>
     <label id="duration">{{ $event->start }} - {{ $event->end_ }}</label>
     <div class="tagcontainer">
@@ -48,6 +51,7 @@
             <p id="request">Request Sent waiting on answer from host</p>
         @endif
     @endif
+
     @if($event->participants->contains('id_participant', Auth::user()->id))
         <button type="button"><a href="/polls/{{ $event->id }}"> Polls </a></button>
         <form method="POST" action="{{ route('leaveEvent', ['id' => $event->id]) }}">

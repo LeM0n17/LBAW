@@ -121,6 +121,16 @@ CREATE TABLE comment(
     FOREIGN KEY(id_event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE file(
+    id SERIAL PRIMARY KEY,
+    id_developer INT,
+    id_event INT,
+    name TEXT NOT NULL,
+    path TEXT NOT NULL,
+    FOREIGN KEY(id_developer) REFERENCES game_developer(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(id_event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 CREATE TABLE likes(
     id_comment INT,
     id_developer INT,
@@ -337,6 +347,7 @@ INSERT INTO tag VALUES (DEFAULT, 'FPS');
 INSERT INTO events VALUES (DEFAULT, 1, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event', 'Description', 'public');
 INSERT INTO events VALUES (DEFAULT, 2, '2020-01-01 00:00:00', '2024-01-01 00:00:00', 'Event2', 'Description2', 'public');
 
+INSERT INTO file VALUES (DEFAULT, 1, 1, 'COC LOGO', 'files/coc-logo.xcf');
 INSERT INTO event_tag VALUES (1, 1);
 INSERT INTO event_tag VALUES (2, 2);
 

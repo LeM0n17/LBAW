@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +16,7 @@ use App\Models\Tag;
 use App\Models\Notifications;
 use App\Models\User;
 use App\Models\TagConnection;
+use App\Models\File;
 
 class EventController extends Controller
 {
@@ -418,5 +420,19 @@ class EventController extends Controller
             return redirect()->to("home")
                 ->withSuccess('Error cancelling event!');
         }
+    }
+    
+    public function showSubmissions(string $id): View 
+    {
+        // Get the card.
+        $event = Events::findOrFail($id);
+
+        // Check if the current user can see (show) the card.
+        $this->authorize('show', $event);  
+
+        // Use the pages.card template to display the card.
+        return view('pages.submissions', [
+            'event' => $event
+        ]);
     }
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\StaticController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\FilesController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PollController;
 
@@ -61,6 +62,7 @@ Route::controller(EventController::class)->group(function () {
     Route::get('/myevents', 'showUserEvents')->name('showMyEvents');
     Route::post('/requesttojoin/{event_id}/{user_id}', 'requestToJoin')->name('requestToJoin');
     Route::post('/cancelevent/{event_id}', 'cancelEvent')->name('cancelevent');
+    Route::get('/submissions/{id}', 'showSubmissions')->name('showSubmissions');
 });
 
 // Participants
@@ -116,6 +118,13 @@ Route::controller(ProfileController::class)->group(function () {
 Route::controller(CommentsController::class)->group(function () {
     Route::post('/events/{id}/comments', "createComment")->name("createcomment");
     Route::delete('/events/{id}/deletecomment', "deleteComment")->name("deletecomment");
+});
+
+//files
+Route::controller(FilesController::class)->group(function () {
+    Route::post('/events/{id}/createfile', "createFile")->name("createfile");
+    Route::delete('/events/{id}/deletefile', "deleteFile")->name("deletefile");
+    Route::post('/download/{id}', 'downloadFile')->name('downloadFile');
 });
 
 //likes
