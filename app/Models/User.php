@@ -71,4 +71,17 @@ class User extends Authenticatable
     public function comments(): HasMany{
         return $this->hasMany(Comment::class, 'id_writer');
     }
+
+    public function invitationNotifications()
+    {
+        return $this->hasManyThrough(
+            Notifications::class,
+            Events::class,
+            'id_host',
+            'id_event',
+            'id',
+            'id'
+        )->where('type', 'invitation');
+    }
+
 }
