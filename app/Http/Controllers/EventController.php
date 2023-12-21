@@ -446,8 +446,15 @@ class EventController extends Controller
     {
         $date = $request->input('date');
 
-        $events = Events::where('start', '>', $date)
+        if ($date != "")
+        {
+            $events = Events::where('start', '>', $date)
             ->get();
+        }
+        else
+        {
+            $events = Events::all();
+        }
 
         return view('pages.homefiltered', [
             'events' => $events, 'tags' => Tag::all()
@@ -459,7 +466,10 @@ class EventController extends Controller
         $tags = $request->input('tags');
 
         $events = Events::whereHas('tags', function ($query) use ($tags) {
-            $query->whereIn('id_tag', $tags);
+            if (!is_null($tags))
+            {
+                $query->whereIn('id_tag', $tags);
+            }
         })->get();
 
         return view('pages.homefiltered', [
