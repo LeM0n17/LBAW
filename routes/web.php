@@ -131,9 +131,9 @@ Route::controller(FilesController::class)->group(function () {
 
 //likes
 Route::controller(LikeController::class)->group(function () {
-    Route::post('/events/comments/{id_comment}/like', "addLike")->name("addLike");
-    Route::post('/events/comments/{id_comment}/dislike', "addDislike")->name("addDislike");
-    Route::delete('/events/comments/{id_comment}/removelike', "deleteLike")->name("removeLike");
+    Route::post('/file/{id_file}/like', "addLike")->name("addLike");
+    Route::post('/file/{id_file}/dislike', "addDislike")->name("addDislike");
+    Route::delete('/file/{id_file}/removelike', "deleteLike")->name("removeLike");
 });
 
 //polls

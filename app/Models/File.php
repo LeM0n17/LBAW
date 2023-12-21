@@ -25,28 +25,29 @@ class File extends Model
         return $this->belongsTo(Events::class, 'id_event');
     }
 
-    // public function likes(): HasMany
-    // {
-    //     return $this->hasMany(Like::class, 'id_comment');
-    // }
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class, 'id_file');
+    }
 
-    // public function isLikedBy(User $user)
-    // {
-    //     return $this->likes->where('likes', true)->contains('id_developer', $user->id);
-    // }
+    public function isLikedBy(User $user)
+    {
+        return $this->likes->where('likes', true)->contains('id_developer', $user->id);
+    }
 
-    // public function isDislikedBy(User $user)
-    // {
-    //     return $this->likes->where('likes', false)->contains('id_developer', $user->id);;
-    // }
+    public function isDislikedBy(User $user)
+    {
+        return $this->likes->where('likes', false)->contains('id_developer', $user->id);;
+    }
 
-    // public function likesCount(): int
-    // {
-    //     return $this->likes()->where('likes', true)->count();
-    // }
+    public function likesCount(): int
+    {
+        return $this->likes()->where('likes', true)->count();
+    }
 
-    // public function dislikesCount(): int
-    // {
-    //     return $this->likes()->where('likes', false)->count();
+    public function dislikesCount(): int
+    {
+        return $this->likes()->where('likes', false)->count();
+    }
     // }
 }
