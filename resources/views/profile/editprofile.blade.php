@@ -12,9 +12,9 @@
             </div>
             <br>
                 @if (Auth::user()->image == "")
-                    <img src="{{URL::asset('/images/default_pfp.png')}}" height="150" width="150" style="padding: none;">
+                    <img alt="Profile Picture" src="{{URL::asset('/images/default_pfp.png')}}" height="150" width="150" style="padding: none;">
                 @else
-                    <img src="{{URL::asset('storage/'.Auth::user()->image)}}" height="150" width="150" style="padding: none;">
+                    <img alt="Profile Picture" src="{{URL::asset('storage/'.Auth::user()->image)}}" height="150" width="150" style="padding: none;">
                 @endif
                 <br>
                 <label for="image">Profile Picture:</label>

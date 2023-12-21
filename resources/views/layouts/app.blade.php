@@ -29,9 +29,9 @@
                 <div>
                     @if (Auth::check())
                         @if (Auth::user()->image == "")
-                            <a href="{{ url('/profile') }}"><img src="{{URL::asset('/images/default_pfp.png')}}" height="50" width="50" style="padding: none;" class="pfp"></a>
+                            <a href="{{ url('/profile') }}"><img alt="Profile Picture" src="{{URL::asset('/images/default_pfp.png')}}" height="50" width="50" style="padding: none;" class="pfp"></a>
                         @else
-                            <a href="{{ url('/profile') }}"><img src="{{URL::asset('storage/'.Auth::user()->image)}}" height="50" width="50" style="padding: none;" class="pfp"></a>
+                            <a href="{{ url('/profile') }}"><img alt="Profile Picture" src="{{URL::asset('storage/'.Auth::user()->image)}}" height="50" width="50" style="padding: none;" class="pfp"></a>
                         @endif
                         <a class="fa-regular fa-bell fa-2xl" href="{{ url('/notifications') }}" id="bell"></a>
                     @endif

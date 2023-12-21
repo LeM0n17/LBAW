@@ -13,9 +13,9 @@
         </form>
         <br>
         @if (Auth::user()->image == "")
-            <img src="{{URL::asset('/images/default_pfp.png')}}" height="150" width="150" style="padding: none;">
+            <img alt="Profile Picture" src="{{URL::asset('/images/default_pfp.png')}}" height="150" width="150" style="padding: none;">
         @else
-            <img src="{{URL::asset('storage/'.Auth::user()->image)}}" height="150" width="150" style="padding: none;">
+            <img alt="Profile Picture" src="{{URL::asset('storage/'.Auth::user()->image)}}" height="150" width="150" style="padding: none;">
         @endif
         <h2> {{ Auth::user()->name }}</h2>
         <h3> {{ Auth::user()->email }}</h3>
