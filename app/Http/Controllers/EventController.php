@@ -10,6 +10,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\Events;
 use App\Models\Tag;
@@ -226,9 +227,6 @@ class EventController extends Controller
             return redirect('/login');
 
         } else {
-            // The user is logged in.
-
-            // Get notifications for user ordered by id.
             $this->authorize('list', Notifications::class);
 
             // Retrieve notifications for the user ordered by ID.
@@ -245,10 +243,13 @@ class EventController extends Controller
             ->orderBy('id')
             ->get();
 
+            $invitationnotifications = Auth::user()
+            ->invitationNotifications()->get();
+
             // The current user is authorized to list notifications.
 
             // Use the pages.events template to display all notifications.
-            return view("pages.notifications", ['requestnotifications' => $requestnotifications, 'cancellednotifications' => $cancellednotifications]);
+            return view("pages.notifications", ['requestnotifications' => $requestnotifications, 'cancellednotifications' => $cancellednotifications, 'invitationnotifications' => $invitationnotifications]);
         }
     }
 
@@ -269,7 +270,7 @@ class EventController extends Controller
 
         try {
             $user = User::where('email', $request->input('email'))->firstOrFail();
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return redirect()->to("/participants/{$id}")
                 ->withErrors(['email' => 'No user found with this email'])
                 ->withInput();

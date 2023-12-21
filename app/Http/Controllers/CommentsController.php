@@ -40,7 +40,7 @@ class CommentsController extends Controller
                 ->withSuccess('Comment created!');
         } catch (Exception $e) {
             return redirect()->to("/events/{$eventid}")
-                ->withErrors(['error' => 'You are not a participant in this event!']);
+                ->withErrors('You are not a participant in this event!');
         }
     }
 

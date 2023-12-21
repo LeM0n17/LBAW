@@ -73,9 +73,9 @@
     <form action="{{ route('createcomment', ['id' => $event->id]) }}" method="POST" class="commentcreator">
         {{ csrf_field() }}
         <div>
-            @if(session('error'))
+            @if ($errors->any())
                 <div class="alert alert-danger">
-                    {{ session('error') }}
+                    {{ $errors->first() }}
                 </div>
             @endif
             <label for="content">New Comment(participants only):</label>
