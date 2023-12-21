@@ -132,10 +132,10 @@ CREATE TABLE file(
 );
 
 CREATE TABLE likes(
-    id_comment INT,
+    id_file INT,
     id_developer INT,
     likes BOOLEAN NOT NULL,
-    FOREIGN KEY(id_comment) REFERENCES comment(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(id_file) REFERENCES file(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY(id_developer) REFERENCES game_developer(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -260,7 +260,7 @@ EXECUTE PROCEDURE verify_participation_presence();
 
 CREATE FUNCTION delete_likes() RETURNS TRIGGER AS $BODY$
 BEGIN
-    DELETE FROM likes WHERE likes.id_developer = NEW.id_developer AND likes.id_comment = NEW.id_developer;
+    DELETE FROM likes WHERE likes.id_developer = NEW.id_developer AND likes.id_file = NEW.id_developer;
     RETURN NEW;
 END $BODY$
     LANGUAGE plpgsql;

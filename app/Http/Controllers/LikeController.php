@@ -5,57 +5,57 @@ namespace App\Http\Controllers;
 use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Comment;
+use App\Models\File;
 
 class LikeController extends Controller
 {
     public function addLike(Request $request){
         $userId = Auth::user()->id;
-        $id_comment = $request->route('id_comment');
-        $comment = Comment::findOrFail($id_comment);
+        $id_file = $request->route('id_file');
+        $file = File::findOrFail($id_file);
 
         $like = New Like();
 
         $like->fill([
-            'id_comment' => $id_comment,
+            'id_file' => $id_file,
             'id_developer' => $userId,
             'likes' => true,
         ]);
 
         $like->save();
 
-        return redirect()->to("/events/{$comment->event->id}");
+        return redirect()->to("/submissions/{$file->event->id}");
     }
 
     public function addDislike(Request $request){
         $userId = Auth::user()->id;
-        $id_comment = $request->route('id_comment');
-        $comment = Comment::findOrFail($id_comment);
+        $id_file = $request->route('id_file');
+        $file = File::findOrFail($id_file);
 
         $like = New Like();
 
         $like->fill([
-            'id_comment' => $id_comment,
+            'id_file' => $id_file,
             'id_developer' => $userId,
             'likes' => false,
         ]);
 
         $like->save();
 
-        return redirect()->to("/events/{$comment->event->id}");
+        return redirect()->to("/submissions/{$file->event->id}");
     }
 
     public function deleteLike(Request $request)
     {
         $userId = Auth::user()->id;
-        $id_comment = $request->route('id_comment');
-        $comment = Comment::findOrFail($id_comment);
+        $id_file = $request->route('id_file');
+        $file = File::findOrFail($id_file);
 
         Like::where('id_developer', $userId)
-            ->where('id_comment', $id_comment)
+            ->where('id_file', $id_file)
             ->delete();
 
-        return redirect()->to("/events/{$comment->event->id}")
+        return redirect()->to("/submissions/{$file->event->id}")
             ->withSuccess('Like deleted!');
     }
 }
