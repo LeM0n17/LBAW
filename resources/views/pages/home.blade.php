@@ -35,3 +35,4 @@
 
     <a href="/createevents"><button id="createevent">+</button></a>
 @endsection
+

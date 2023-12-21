@@ -1,14 +1,27 @@
-#search-bar {
+#search-bar, form#dateForm {
     width: 1000px;
     max-width: calc(100% - 40px);
     margin-left: auto;
     margin-right: auto;
 }
 
-#search-bar>form {
+#search-bar>form, form#dateForm {
     display: flex;
     justify-content: center;
     gap: 4px;
+}
+
+form#dateForm>input, form#dateForm>button {
+    margin-bottom: 0;
+}
+
+form#dateForm>p {
+    width: 26%;
+    font-size: 17px;
+    vertical-align: middle;
+    margin-bottom: auto;
+    height: 20px;
+    margin-top: auto;
 }
 
 .homesection .title {
