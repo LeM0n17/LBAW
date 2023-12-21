@@ -19,7 +19,7 @@ class MailController extends Controller
         // verify if the user exists
         if ($username == NULL)
             return redirect()->route('showRecoverPassword')
-                ->withErrors('error', 'That email does not belong to any user!');
+                ->withErrors( 'That email does not belong to any user!');
 
         // generate a random token
         $token = Str::random();
