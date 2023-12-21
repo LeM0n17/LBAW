@@ -3,6 +3,7 @@
 @section('content')
     <link href="{{ url('css/home.css') }}" rel="stylesheet">
     @include('partials.search-bar')
+    @include('partials.filters', $tags)
     <div id="searchResults">
         @if(count($running_events) > 0)
             <section id="featured" class="homesection">
