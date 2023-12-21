@@ -91,7 +91,7 @@ class EventController extends Controller
             $finished_events = $events->where("end_","<", $mytime->toDateTimeString());
 
             // Use the pages.events template to display all events.
-            return view('pages.home', ['running_events' => $running_events, 'upcoming_events' => $upcoming_events, 'finished_events' => $finished_events]);
+            return view('pages.home', ['running_events' => $running_events, 'upcoming_events' => $upcoming_events, 'finished_events' => $finished_events, 'tags' => Tag::all()]);
         }
     }
 
@@ -444,7 +444,20 @@ class EventController extends Controller
             ->get();
 
         return view('pages.homefiltered', [
-            'events' => $events
+            'events' => $events, 'tags' => Tag::all()
+        ]);
+    }
+
+    public function filterByTags(Request $request)
+    {
+        $tags = $request->input('tags');
+
+        $events = Events::whereHas('tags', function ($query) use ($tags) {
+            $query->whereIn('id_tag', $tags);
+        })->get();
+
+        return view('pages.homefiltered', [
+            'events' => $events, 'tags' => Tag::all()
         ]);
     }
 }

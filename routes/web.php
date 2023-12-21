@@ -64,6 +64,7 @@ Route::controller(EventController::class)->group(function () {
     Route::post('/cancelevent/{event_id}', 'cancelEvent')->name('cancelevent');
     Route::get('/submissions/{id}', 'showSubmissions')->name('showSubmissions');
     Route::get('/home/filterByDate', 'filterByDate')->name('filterByDate');
+    Route::get('/home/filterByTag', 'filterByTags')->name('filterByTags');
 });
 
 // Participants
