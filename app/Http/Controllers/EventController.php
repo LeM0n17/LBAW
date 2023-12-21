@@ -272,7 +272,7 @@ class EventController extends Controller
             'id_developer' => $user->id,
             'id_event' => $id,
             'type' => 'invitation',
-            'content' => 'please join',
+            'content' => 'You received an invite to join',
             'time' => date("Y-m-d H:i:s")
         ]);
 
@@ -298,7 +298,7 @@ class EventController extends Controller
             'id_developer' => $user->id,
             'id_event' => $event_id,
             'type' => 'request',
-            'content' => 'asking to join',
+            'content' => 'wants to join',
             'time' => date("Y-m-d H:i:s")
         ]);
 
@@ -395,7 +395,7 @@ class EventController extends Controller
                 'id_developer' => $participant->id_participant,
                 'id_event' => $event->id,
                 'type' => 'cancellation',
-                'content' => 'Event has been cancelled',
+                'content' => 'has been cancelled',
                 'time' => date("Y-m-d H:i:s")
             ]);
 
