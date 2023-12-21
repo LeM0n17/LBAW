@@ -70,7 +70,7 @@
 </div>
 <div class="commentsection">
     @each('partials.comments', $event->comments, 'comment')
-    <form action="{{ route('createcomment', ['id' => $event->id]) }}" method="POST">
+    <form action="{{ route('createcomment', ['id' => $event->id]) }}" method="POST" class="commentcreator">
         {{ csrf_field() }}
         <div>
             @if ($errors->any())

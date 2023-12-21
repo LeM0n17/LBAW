@@ -149,3 +149,44 @@ hr {
 #currenttags h2 {
     margin-bottom: 0;
 }
+
+.sidecontainer {
+    display: inline-block;
+}
+
+.sidecontainer p, .sidecontainer form {
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+form#deletecom {
+    width: auto;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+form#deletecom button {
+    background-color: rgb(144, 37, 37);
+}
+
+.sidecontainer form {
+    margin-bottom: 0;
+}
+
+.comment {
+    background-color: #bebebe;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+p#time {
+    font-style: italic;
+    color: #2e2e2e;
+}
+
+.commentcreator {
+    margin-top: 20px;
+}
