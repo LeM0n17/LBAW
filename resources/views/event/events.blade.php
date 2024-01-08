@@ -75,11 +75,6 @@
     <form action="{{ route('createcomment', ['id' => $event->id]) }}" method="POST" class="commentcreator">
         {{ csrf_field() }}
         <div>
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    {{ $errors->first() }}
-                </div>
-            @endif
             <label for="content">New Comment(participants only):</label>
             <textarea name="content" id="content" placeholder="Enter your comment here..."></textarea>
         </div>

@@ -87,7 +87,7 @@ div.eventinfo #description {
 }
 
 button#createevent {
-    position: absolute;
+    position: fixed;
     border-radius: 100%;
     height: 75px;
     width: 75px;
