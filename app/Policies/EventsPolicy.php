@@ -56,7 +56,7 @@ class EventsPolicy
 
     public function editEvents(User $user, Events $event): bool
     {
-        return $user->id === $event->id_host;
+        return $user->id === $event->id_host || $user->isAdmin();
     }
 
 }
