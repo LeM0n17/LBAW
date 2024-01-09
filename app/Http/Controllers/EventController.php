@@ -312,6 +312,7 @@ class EventController extends Controller
         ]);
 
         $notification->save();
+        Log::info("notification type: $notification->type,");
 
         return redirect()->to("/events/{$event_id}")
             ->withSuccess('Request sent successfully!');
