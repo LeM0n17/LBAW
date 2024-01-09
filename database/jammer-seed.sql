@@ -371,32 +371,76 @@ INSERT INTO users VALUES (DEFAULT, 'Funky', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1
 INSERT INTO users VALUES (DEFAULT, 'CoconutMall', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'coconutmall@example.com');
 
 INSERT INTO tag VALUES (DEFAULT, 'Indie');
-INSERT INTO tag VALUES (DEFAULT, 'FPS');
+INSERT INTO tag VALUES (DEFAULT, 'Professional');
+INSERT INTO tag VALUES (DEFAULT, 'Halloween');
+INSERT INTO tag VALUES (DEFAULT, 'Christmas');
+INSERT INTO tag VALUES (DEFAULT, 'Beginner');
+INSERT INTO tag VALUES (DEFAULT, 'Easter');
+INSERT INTO tag VALUES (DEFAULT, 'English');
+INSERT INTO tag VALUES (DEFAULT, 'Mandarin');
+INSERT INTO tag VALUES (DEFAULT, 'Spanish');
+INSERT INTO tag VALUES (DEFAULT, 'Italian');
+INSERT INTO tag VALUES (DEFAULT, 'German');
+INSERT INTO tag VALUES (DEFAULT, 'Portuguese');
+INSERT INTO tag VALUES (DEFAULT, 'Japanese');
+INSERT INTO tag VALUES (DEFAULT, 'Russian');
 
 INSERT INTO events VALUES (DEFAULT, 1, '2024-01-15 10:00:00', '2024-01-30 23:59:59', 'Jam Fiesta', 'Join the ultimate game creation celebration!', 'public');
-INSERT INTO events VALUES (DEFAULT, 1, '2024-01-20 12:00:00', '2024-02-10 23:59:59', 'Pixel Quest', 'Embark on a journey to create pixel-perfect wonders!', 'public');
-INSERT INTO events VALUES (DEFAULT, 2, '2024-02-01 08:00:00', '2024-02-28 23:59:59', 'Infinite Ideas', 'Unleash your creativity in this ongoing game jam!', 'private');
-INSERT INTO events VALUES (DEFAULT, 2, '2024-02-15 15:30:00', '2024-03-01 00:00:00', 'VR Vortex', 'Dive into the virtual reality abyss of game development!', 'public');
+INSERT INTO events VALUES (DEFAULT, 2, '2024-01-20 12:00:00', '2024-02-10 23:59:59', 'Pixel Quest', 'Embark on a journey to create pixel-perfect wonders!', 'public');
+INSERT INTO events VALUES (DEFAULT, 6, '2024-02-01 08:00:00', '2024-02-28 23:59:59', 'Infinite Ideas', 'Unleash your creativity in this ongoing game jam!', 'private');
+INSERT INTO events VALUES (DEFAULT, 5, '2024-02-15 15:30:00', '2024-03-01 00:00:00', 'VR Vortex', 'Dive into the virtual reality abyss of game development!', 'public');
 INSERT INTO events VALUES (DEFAULT, 2, '2023-12-23 18:45:00', '2024-01-15 23:59:59', 'Time Warp Jam', 'Explore the fourth dimension in your game creations!', 'protected');
 INSERT INTO events VALUES (DEFAULT, 1, '2024-02-24 09:15:00', '2024-03-15 23:59:59', 'Dream Weaver', 'Craft your dreams into playable realities!', 'public');
-INSERT INTO events VALUES (DEFAULT, 1, '2024-01-05 14:00:00', '2024-01-20 23:59:59', 'Epic Saga Jam', 'Create epic tales that unfold in the world of gaming!', 'private');
-INSERT INTO events VALUES (DEFAULT, 2, '2024-01-10 16:45:00', '2024-02-01 00:00:00', 'Unity Unleashed', 'Ongoing jam for Unity enthusiasts - Unleash the power of Unity!', 'public');
-INSERT INTO events VALUES (DEFAULT, 2, '2024-01-05 20:30:00', '2024-01-15 23:59:59', 'Retro Revival', 'Revive the magic of retro games in a modern twist!', 'public');
-INSERT INTO events VALUES (DEFAULT, 1, '2024-01-15 22:00:00', '2024-02-10 23:59:59', 'Aetherial Adventures', 'Craft games that transport players to aetherial realms!', 'public');
-INSERT INTO events VALUES (DEFAULT, 1, '2024-02-01 11:30:00', '2024-02-28 23:59:59', 'Code Crafters', 'Crafting code, one game at a time!', 'protected');
-INSERT INTO events VALUES (DEFAULT, 2, '2024-01-20 17:00:00', '2024-02-10 23:59:59', 'Future Frontiers', 'Design games that explore uncharted territories of the future!', 'private');
-INSERT INTO events VALUES (DEFAULT, 1, '2023-06-15 14:30:00', '2023-06-30 23:59:59', 'Summer Game Fest', 'Celebrate the summer with a game creation extravaganza!', 'public');
-INSERT INTO events VALUES (DEFAULT, 1, '2023-09-20 10:00:00', '2023-09-30 23:59:59', 'Code Harvest', 'Harvest your coding skills in this autumn game development event!', 'public');
-INSERT INTO events VALUES (DEFAULT, 2, '2023-11-10 12:00:00', '2023-11-25 23:59:59', 'Pixel Fusion', 'Fuse pixels and creativity in this pre-winter game jam!', 'public');
+INSERT INTO events VALUES (DEFAULT, 18, '2024-01-05 14:00:00', '2024-01-20 23:59:59', 'Epic Saga Jam', 'Create epic tales that unfold in the world of gaming!', 'private');
+INSERT INTO events VALUES (DEFAULT, 7, '2024-01-10 16:45:00', '2024-02-01 00:00:00', 'Unity Unleashed', 'Ongoing jam for Unity enthusiasts - Unleash the power of Unity!', 'public');
+INSERT INTO events VALUES (DEFAULT, 4, '2024-01-05 20:30:00', '2024-01-15 23:59:59', 'Retro Revival', 'Revive the magic of retro games in a modern twist!', 'public');
+INSERT INTO events VALUES (DEFAULT, 16, '2024-01-15 22:00:00', '2024-02-10 23:59:59', 'Aetherial Adventures', 'Craft games that transport players to aetherial realms!', 'public');
+INSERT INTO events VALUES (DEFAULT, 14, '2024-02-01 11:30:00', '2024-02-28 23:59:59', 'Code Crafters', 'Crafting code, one game at a time!', 'protected');
+INSERT INTO events VALUES (DEFAULT, 13, '2024-01-20 17:00:00', '2024-02-10 23:59:59', 'Future Frontiers', 'Design games that explore uncharted territories of the future!', 'private');
+INSERT INTO events VALUES (DEFAULT, 17, '2023-06-15 14:30:00', '2023-06-30 23:59:59', 'Summer Game Fest', 'Celebrate the summer with a game creation extravaganza!', 'public');
+INSERT INTO events VALUES (DEFAULT, 8, '2023-09-20 10:00:00', '2023-09-30 23:59:59', 'Code Harvest', 'Harvest your coding skills in this autumn game development event!', 'public');
+INSERT INTO events VALUES (DEFAULT, 10, '2023-11-10 12:00:00', '2023-11-25 23:59:59', 'Pixel Fusion', 'Fuse pixels and creativity in this pre-winter game jam!', 'public');
 INSERT INTO events VALUES (DEFAULT, 2, '2023-12-05 08:00:00', '2023-12-20 23:59:59', 'Winter Wonderland Game Jam', 'Create games that capture the magic of winter!', 'public');
-INSERT INTO events VALUES (DEFAULT, 1, '2023-12-31 14:30:00', '2024-01-30 23:59:59', 'New Year Game Fest', 'Join the ongoing New Year game creation extravaganza!', 'public');
-INSERT INTO events VALUES (DEFAULT, 1, '2024-01-05 10:00:00', '2024-02-29 23:59:59', 'Code Harvest', 'Ongoing harvest of coding skills in this autumn game development event!', 'public');
-INSERT INTO events VALUES (DEFAULT, 2, '2024-01-02 12:00:00', '2024-01-31 23:59:59', 'Pixel Fusion', 'Ongoing fusion of pixels and creativity in this pre-winter game jam!', 'public');
-INSERT INTO events VALUES (DEFAULT, 2, '2024-01-06 08:00:00', '2024-01-15 23:59:59', 'Winter Wonderland Game Jam', 'Ongoing creation of games that capture the magic of winter!', 'public');
+INSERT INTO events VALUES (DEFAULT, 11, '2023-12-31 14:30:00', '2024-01-30 23:59:59', 'New Year Game Fest', 'Join the ongoing New Year game creation extravaganza!', 'public');
+INSERT INTO events VALUES (DEFAULT, 15, '2024-01-05 10:00:00', '2024-02-29 23:59:59', 'Code Harvest', 'Ongoing harvest of coding skills in this autumn game development event!', 'public');
+INSERT INTO events VALUES (DEFAULT, 4, '2024-01-02 12:00:00', '2024-01-31 23:59:59', 'Pixel Fusion', 'Ongoing fusion of pixels and creativity in this pre-winter game jam!', 'public');
+INSERT INTO events VALUES (DEFAULT, 9, '2024-01-06 08:00:00', '2024-01-15 23:59:59', 'Winter Wonderland Game Jam', 'Ongoing creation of games that capture the magic of winter!', 'public');
 
-INSERT INTO event_tag VALUES (1, 1);
-INSERT INTO event_tag VALUES (2, 2);
-
-INSERT INTO notifications VALUES (DEFAULT, 2, 1, 'invitation', 'join please', '2020-01-01 00:00:00');
+INSERT INTO event_tag (id_event, id_tag) VALUES
+(1, 2),
+(1, 9),
+(2, 13),
+(3, 4),
+(3, 8),
+(4, 1),
+(4, 12),
+(5, 10),
+(6, 14),
+(7, 7),
+(7, 1),
+(8, 11),
+(9, 9),
+(9, 3),
+(10, 13),
+(11, 10),
+(11, 1),
+(12, 7),
+(12, 6),
+(13, 14),
+(13, 1),
+(14, 8),
+(14, 3),
+(15, 12),
+(15, 1),
+(16, 11),
+(16, 4),
+(17, 9),
+(17, 6),
+(18, 13),
+(18, 1),
+(19, 7),
+(19, 3),
+(20, 8),
+(20, 2);
 
 INSERT INTO admin VALUES (DEFAULT, 3);
