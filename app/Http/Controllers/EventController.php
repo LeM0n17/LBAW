@@ -235,12 +235,7 @@ class EventController extends Controller
             ->get();
 
             $requestnotifications = Auth::user()
-            ->notification()
-            ->where('type', 'request')
-            ->whereHas('event', function ($query) {
-                $query->where('id_host', Auth::id());
-            })
-            ->orderBy('id')
+            ->requestNotifications()
             ->get();
 
             $invitationnotifications = Auth::user()

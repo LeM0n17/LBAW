@@ -84,4 +84,16 @@ class User extends Authenticatable
         )->where('type', 'invitation');
     }
 
+    public function requestNotifications()
+    {
+        return $this->hasManyThrough(
+            Notifications::class,
+            Events::class,
+            'id_host',
+            'id_event',
+            'id',
+            'id'
+        )->where('type', 'request');
+    }
+
 }

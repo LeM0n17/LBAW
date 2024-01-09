@@ -60,7 +60,9 @@ class ParticipantController extends Controller
             ->where('id_event', $eventId)
             ->first();
 
-        $notification->delete();
+        if ($notification) {
+            $notification->delete();
+        }
 
         return redirect()->to("/notifications");
     }
